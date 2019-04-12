@@ -339,6 +339,10 @@ function buildDocsetFiles(members, templatePath) {
         break;
     }
 
+    if (item.isEnum) {
+      type = 'Enum';
+    }
+
     db.run(
       'INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (?, ?, ?)',
       [name, type, url],
@@ -354,7 +358,7 @@ function buildDocsetFiles(members, templatePath) {
     if (item.interface !== true) {
       addIndex(item);
       find({
-        kind: ['member', 'function', 'typedef', 'event'],
+        kind: ['member', 'function', 'typedef', 'event', 'enum'],
         memberof: item.longname
       }).forEach(function (child) {
         addIndex(child, item);
@@ -457,8 +461,8 @@ exports.publish = function (taffyData, opts, tutorials) {
   let staticFileScanner;
   if (conf['default'].staticFiles) {
     staticFilePaths = conf['default'].staticFiles.paths || [];
-    staticFileFilter = new (require('jsdoc/lib/jsdoc/src/filter')).Filter(conf['default'].staticFiles);
-    staticFileScanner = new (require('jsdoc/lib/jsdoc/src/scanner')).Scanner();
+    staticFileFilter = new(require('jsdoc/lib/jsdoc/src/filter')).Filter(conf['default'].staticFiles);
+    staticFileScanner = new(require('jsdoc/lib/jsdoc/src/scanner')).Scanner();
 
     staticFilePaths.forEach(function (filePath) {
       const extraStaticFiles = staticFileScanner.scan([filePath], 10, staticFileFilter);
@@ -530,16 +534,17 @@ exports.publish = function (taffyData, opts, tutorials) {
   view.tutoriallink = tutoriallink;
   view.htmlsafe = htmlsafe;
   view.members = members; //@davidshimjs: To make navigation for customizing
+  view.encodeUriComponent = encodeURIComponent;
 
   // once for all
   view.nav = buildNav(members);
   buildDocsetFiles(members, templatePath);
   attachModuleSymbols(find({
-    kind: ['class', 'function'],
-    longname: {
-      left: 'module:'
-    }
-  }),
+      kind: ['class', 'function'],
+      longname: {
+        left: 'module:'
+      }
+    }),
     members.modules);
 
   // only output pretty-printed source files if requested; do this before generating any other

@@ -112,6 +112,11 @@ exports.handlers = {
     }
   },
 
+  beforeParse: function (e) {
+    // Enums has undefined properties when exported
+    e.source = e.source.replace('export const', 'const');
+  },
+
   parseComplete: function (e) {
     const doclets = e.doclets;
     for (let i = doclets.length - 1; i >= 0; --i) {

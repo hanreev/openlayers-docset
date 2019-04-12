@@ -5,6 +5,7 @@ var self = this;
 <dt class="<?js= (data.stability && data.stability !== 'stable') ? 'unstable' : '' ?>">
     <div class="nameContainer<?js if (data.inherited) { ?> inherited<?js } ?>">
         <?js if (data.stability || kind !== 'class') { ?>
+        <a class="dashAnchor" name="//apple_ref/Method/<?js= self.encodeUriComponent(name) ?>"></a>
         <div class="anchor" id="<?js= id ?>">
         </div>
         <h4 class="name">
