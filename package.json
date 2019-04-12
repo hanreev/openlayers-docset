@@ -1,0 +1,15 @@
+{
+  "name": "openlayers-docset",
+  "version": "1.0.0",
+  "description": "OpenLayers docset generator",
+  "author": "Rifa'i M. Hanif <hanreev@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "jsdoc jsdoc/index.md -c jsdoc/conf.json -P openlayers/package.json -d OpenLayers.docset"
+  },
+  "dependencies": {
+    "jsdoc": "^3.5.5",
+    "jsdoc-plugin-typescript": "^1.0.7",
+    "sqlite3": "^4.0.6"
+  }
+}

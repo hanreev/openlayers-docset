@@ -1,0 +1,7 @@
+node_modules
+OpenLayers.docset
+
+yarn-error.log
+
+Thumbs.db
+.DS_Store
