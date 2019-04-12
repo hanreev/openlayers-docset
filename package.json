@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "OpenLayers docset generator",
   "author": "Rifa'i M. Hanif <hanreev@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hanreev/openlayers-docset.git"
+  },
   "license": "MIT",
   "scripts": {
     "build": "jsdoc jsdoc/index.md -c jsdoc/conf.json -P openlayers/package.json -d OpenLayers.docset"
