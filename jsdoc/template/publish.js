@@ -47,9 +47,8 @@ function getAncestorLinks(doclet) {
 }
 
 function hashToLink(doclet, hash) {
-  if (!/^(#.+)/.test(hash)) {
+  if (!/^(#.+)/.test(hash))
     return hash;
-  }
 
   let url = helper.createLink(doclet);
 
@@ -61,18 +60,16 @@ function needsSignature(doclet) {
   let needsSig = false;
 
   // function and class definitions always get a signature
-  if (doclet.kind === 'function' || doclet.kind === 'class') {
+  if (doclet.kind === 'function' || doclet.kind === 'class')
     needsSig = true;
-  } else if (doclet.kind === 'typedef' && doclet.type && doclet.type.names &&
-    doclet.type.names.length) {
+  else if (doclet.kind === 'typedef' && doclet.type && doclet.type.names &&
+    doclet.type.names.length)
     // typedefs that contain functions get a signature, too
-    for (let i = 0, l = doclet.type.names.length; i < l; i++) {
+    for (let i = 0, l = doclet.type.names.length; i < l; i++)
       if (doclet.type.names[i].toLowerCase() === 'function') {
         needsSig = true;
         break;
       }
-    }
-  }
 
   return needsSig;
 }
@@ -88,9 +85,8 @@ function addSignatureReturns(f) {
 
   f.signature = '<span class="signature">' + (f.signature || '') + '</span>';
 
-  if (returnTypes.length) {
+  if (returnTypes.length)
     f.signature += '<span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">' + (returnTypes.length ? '{' + returnTypes.join('|') + '}' : '') + '</span>';
-  }
 }
 
 function addSignatureTypes(f) {
@@ -103,7 +99,7 @@ function shortenPaths(files, commonPrefix) {
   // always use forward slashes
   const regexp = new RegExp('\\\\', 'g');
 
-  Object.keys(files).forEach(function (file) {
+  Object.keys(files).forEach(file => {
     files[file].shortened = files[file].resolved.replace(commonPrefix, '')
       .replace(regexp, '/');
   });
@@ -116,15 +112,28 @@ function resolveSourcePath(filepath) {
 }
 
 function getPathFromDoclet(doclet) {
-  if (!doclet.meta) {
+  if (!doclet.meta)
     return;
-  }
 
   const filepath = doclet.meta.path && doclet.meta.path !== 'null' ?
-    doclet.meta.path + '/' + doclet.meta.filename.split(/[\/\\]/).pop() :
+    doclet.meta.path + '/' + doclet.meta.filename.split(/[/\\]/).pop() :
     doclet.meta.filename;
 
   return filepath;
+}
+
+function rmdirRecursive(dirpath) {
+  dirpath = path.resolve(dirpath);
+  if (fs.existsSync(dirpath) && fs.statSync(dirpath).isDirectory()) {
+    fs.readdirSync(dirpath).forEach(filename => {
+      const fullpath = path.resolve(dirpath, filename);
+      if (fs.statSync(fullpath).isDirectory())
+        rmdirRecursive(fullpath);
+      else
+        fs.unlinkSync(fullpath);
+    });
+    fs.rmdirSync(dirpath);
+  }
 }
 
 function generate(title, docs, filename, resolveLinks) {
@@ -142,9 +151,8 @@ function generate(title, docs, filename, resolveLinks) {
   const outpath = path.join(outdir, filename);
   let html = view.render('container.tmpl', docData);
 
-  if (resolveLinks) {
+  if (resolveLinks)
     html = helper.resolveLinks(html); // turn {@link foo} into <a href="foodoc.html">foo</a>
-  }
 
   fs.writeFileSync(outpath, html, 'utf8');
 }
@@ -185,11 +193,11 @@ function attachModuleSymbols(doclets, modules) {
   const symbols = {};
 
   // build a lookup table
-  doclets.forEach(function (symbol) {
+  doclets.forEach(symbol => {
     symbols[symbol.longname] = symbol;
   });
 
-  modules.forEach(function (module) {
+  modules.forEach(module => {
     if (symbols[module.longname]) {
       module.module = symbols[module.longname];
       module.module.name = module.module.name.replace('module:', 'require("') + '")';
@@ -214,19 +222,12 @@ function buildNav(members) {
   const nav = [];
   // merge namespaces and classes, then sort
   const merged = members.modules.concat(members.classes);
-  merged.sort(function (a, b) {
-    if (a.longname > b.longname) {
-      return 1;
-    }
-    if (a.longname < b.longname) {
-      return -1;
-    }
-    return 0;
-  });
+  merged.sort((a, b) => (a.longname > b.longname) ? 1 : (a.longname < b.longname) ? -1 : 0);
+
   _.each(merged, function (v) {
     // exclude interfaces from sidebar
     if (v.interface !== true) {
-      if (v.kind == 'module') {
+      if (v.kind == 'module')
         nav.push({
           type: 'module',
           longname: v.longname,
@@ -248,8 +249,8 @@ function buildNav(members) {
             memberof: v.longname
           })
         });
-      }
-      if (v.kind == 'class') {
+
+      if (v.kind == 'class')
         nav.push({
           type: 'class',
           longname: v.longname,
@@ -272,7 +273,6 @@ function buildNav(members) {
             memberof: v.longname
           })
         });
-      }
     }
   });
 
@@ -280,22 +280,30 @@ function buildNav(members) {
 }
 
 
-function toShortName(name) {
-  return name.indexOf('module:') === 0 ? name.split('/').pop() : name;
-}
-
+/**
+ * Add dash docset requirements
+ * @param {object} members The members that will be used to create the sidebar.
+ * @param {Array<Object>} members.classes Classes.
+ * @param {Array<Object>} members.externals Externals.
+ * @param {Array<Object>} members.globals Globals.
+ * @param {Array<Object>} members.mixins Mixins.
+ * @param {Array<Object>} members.modules Modules.
+ * @param {Array<Object>} members.namespaces Namespaces.
+ * @param {Array<Object>} members.tutorials Tutorials.
+ * @param {Array<Object>} members.events Events.
+ * @param {string} templatePath
+ */
 function buildDocsetFiles(members, templatePath) {
   // Copy Info.plist and icons
   fs.copyFileSync(path.resolve(templatePath, 'Info.plist'), path.resolve(baseOutdir, 'Contents'));
-  ['icon@2x.png', 'icon.png'].forEach(function (iconName) {
-    fs.copyFileSync(path.resolve(templatePath, 'icons', iconName), path.resolve(baseOutdir));
-  });
+  fs.copyFileSync(path.resolve(templatePath, 'icons', 'icon.png'), path.resolve(baseOutdir));
+  fs.copyFileSync(path.resolve(templatePath, 'icons', 'icon@2x.png'), path.resolve(baseOutdir));
 
   // Create index database
   const dbPath = path.resolve(baseOutdir, 'Contents', 'Resources', 'docSet.dsidx');
-  if (fs.existsSync(dbPath)) {
+  if (fs.existsSync(dbPath))
     fs.unlinkSync(dbPath);
-  }
+
   const sqlite3v = sqlite3.verbose();
   const db = new sqlite3v.Database(dbPath);
   db.serialize();
@@ -304,17 +312,9 @@ function buildDocsetFiles(members, templatePath) {
 
   // Indexing
   const merged = members.modules.concat(members.classes);
-  merged.sort(function (a, b) {
-    if (a.longname > b.longname) {
-      return 1;
-    }
-    if (a.longname < b.longname) {
-      return -1;
-    }
-    return 0;
-  });
+  merged.sort((a, b) => (a.longname > b.longname) ? 1 : (a.longname < b.longname) ? -1 : 0);
 
-  function addIndex(item, parent) {
+  const addIndex = (item, parent) => {
     const name = parent ? [parent.name, item.name].join('.') : item.name;
     let type;
     const url = helper.longnameToUrl[item.longname];
@@ -325,7 +325,7 @@ function buildDocsetFiles(members, templatePath) {
         break;
 
       case 'function':
-        type = 'Method';
+        type = parent && parent.kind === 'module' ? 'Function' : 'Method';
         break;
 
       case 'typedef':
@@ -333,34 +333,30 @@ function buildDocsetFiles(members, templatePath) {
         break;
 
       default:
-        type = item.kind.replace(/\b(.)/g, function (m) {
-          return m.toUpperCase();
-        });
+        type = item.kind.replace(/\b(.)/g, m => m.toUpperCase());
         break;
     }
 
-    if (item.isEnum) {
+    if (item.isEnum)
       type = 'Enum';
-    }
 
     db.run(
       'INSERT OR IGNORE INTO searchIndex(name, type, path) VALUES (?, ?, ?)',
       [name, type, url],
-      function (result, err) {
-        if (err) {
+      (_, err) => {
+        if (err)
           logger.error(err);
-        }
       }
     );
-  }
+  };
 
-  merged.forEach(function (item) {
+  merged.forEach(item => {
     if (item.interface !== true) {
       addIndex(item);
       find({
         kind: ['member', 'function', 'typedef', 'event', 'enum'],
         memberof: item.longname
-      }).forEach(function (child) {
+      }).forEach(child => {
         addIndex(child, item);
       });
     }
@@ -405,11 +401,11 @@ exports.publish = function (taffyData, opts, tutorials) {
 
   let sourceFiles = {};
   const sourceFilePaths = [];
-  data().each(function (doclet) {
+  data().each(doclet => {
     doclet.attribs = '';
 
-    if (doclet.examples) {
-      doclet.examples = doclet.examples.map(function (example) {
+    if (doclet.examples)
+      doclet.examples = doclet.examples.map(example => {
         let caption, code;
 
         if (example.match(/^\s*<caption>([\s\S]+?)<\/caption>(\s*[\n\r])([\s\S]+)$/i)) {
@@ -422,12 +418,11 @@ exports.publish = function (taffyData, opts, tutorials) {
           code: code || example
         };
       });
-    }
-    if (doclet.see) {
-      doclet.see.forEach(function (seeItem, i) {
+
+    if (doclet.see)
+      doclet.see.forEach((seeItem, i) => {
         doclet.see[i] = hashToLink(doclet, seeItem);
       });
-    }
 
     // build a list of source files
     let sourcePath;
@@ -443,13 +438,14 @@ exports.publish = function (taffyData, opts, tutorials) {
     }
   });
 
+  rmdirRecursive(baseOutdir);
   fs.mkPath(outdir);
 
   // copy the template's static files to outdir
   const fromDir = path.join(templatePath, 'static');
   const staticFiles = fs.ls(fromDir, 3);
 
-  staticFiles.forEach(function (fileName) {
+  staticFiles.forEach(fileName => {
     const toDir = fs.toDir(fileName.replace(fromDir, outdir));
     fs.mkPath(toDir);
     fs.copyFileSync(fileName, toDir);
@@ -461,13 +457,13 @@ exports.publish = function (taffyData, opts, tutorials) {
   let staticFileScanner;
   if (conf['default'].staticFiles) {
     staticFilePaths = conf['default'].staticFiles.paths || [];
-    staticFileFilter = new(require('jsdoc/lib/jsdoc/src/filter')).Filter(conf['default'].staticFiles);
-    staticFileScanner = new(require('jsdoc/lib/jsdoc/src/scanner')).Scanner();
+    staticFileFilter = new (require('jsdoc/lib/jsdoc/src/filter')).Filter(conf['default'].staticFiles);
+    staticFileScanner = new (require('jsdoc/lib/jsdoc/src/scanner')).Scanner();
 
-    staticFilePaths.forEach(function (filePath) {
+    staticFilePaths.forEach(filePath => {
       const extraStaticFiles = staticFileScanner.scan([filePath], 10, staticFileFilter);
 
-      extraStaticFiles.forEach(function (fileName) {
+      extraStaticFiles.forEach(fileName => {
         const sourcePath = fs.statSync(filePath).isDirectory() ? filePath :
           path.dirname(filePath);
         const toDir = fs.toDir(fileName.replace(sourcePath, outdir));
@@ -477,10 +473,10 @@ exports.publish = function (taffyData, opts, tutorials) {
     });
   }
 
-  if (sourceFilePaths.length) {
+  if (sourceFilePaths.length)
     sourceFiles = shortenPaths(sourceFiles, path.commonPrefix(sourceFilePaths));
-  }
-  data().each(function (doclet) {
+
+  data().each(doclet => {
     const url = helper.createLink(doclet);
     helper.registerLink(doclet.longname, url);
 
@@ -489,20 +485,18 @@ exports.publish = function (taffyData, opts, tutorials) {
     if (doclet.meta) {
       docletPath = getPathFromDoclet(doclet);
       docletPath = sourceFiles[docletPath].shortened;
-      if (docletPath) {
+      if (docletPath)
         doclet.meta.filename = docletPath;
-      }
     }
   });
 
-  data().each(function (doclet) {
+  data().each(doclet => {
     const url = helper.longnameToUrl[doclet.longname];
 
-    if (url.indexOf('#') > -1) {
+    if (url.indexOf('#') > -1)
       doclet.id = helper.longnameToUrl[doclet.longname].split(/#/).pop();
-    } else {
+    else
       doclet.id = doclet.name;
-    }
 
     if (needsSignature(doclet)) {
       addSignatureParams(doclet);
@@ -511,12 +505,11 @@ exports.publish = function (taffyData, opts, tutorials) {
   });
 
   // do this after the urls have all been generated
-  data().each(function (doclet) {
+  data().each(doclet => {
     doclet.ancestors = getAncestorLinks(doclet);
 
-    if (doclet.kind === 'member') {
+    if (doclet.kind === 'member')
       addSignatureTypes(doclet);
-    }
 
     if (doclet.kind === 'constant') {
       addSignatureTypes(doclet);
@@ -540,24 +533,21 @@ exports.publish = function (taffyData, opts, tutorials) {
   view.nav = buildNav(members);
   buildDocsetFiles(members, templatePath);
   attachModuleSymbols(find({
-      kind: ['class', 'function'],
-      longname: {
-        left: 'module:'
-      }
-    }),
-    members.modules);
+    kind: ['class', 'function'],
+    longname: {
+      left: 'module:'
+    }
+  }), members.modules);
 
   // only output pretty-printed source files if requested; do this before generating any other
   // pages, so the other pages can link to the source files
-  if (conf['default'].outputSourceFiles) {
+  if (conf['default'].outputSourceFiles)
     generateSourceFiles(sourceFiles);
-  }
 
-  if (members.globals.length) {
+  if (members.globals.length)
     generate('Global', [{
       kind: 'globalobj'
     }], globalUrl);
-  }
 
   // index page displays information from package.json and lists files
   const files = find({
@@ -579,44 +569,38 @@ exports.publish = function (taffyData, opts, tutorials) {
   const mixins = taffy(members.mixins);
   const externals = taffy(members.externals);
 
-  for (const longname in helper.longnameToUrl) {
+  for (const longname in helper.longnameToUrl)
     if (hasOwnProp.call(helper.longnameToUrl, longname)) {
       const myClasses = helper.find(classes, {
         longname: longname
       });
-      if (myClasses.length) {
+      if (myClasses.length)
         generate('Class: ' + myClasses[0].name, myClasses, helper.longnameToUrl[longname]);
-      }
 
       const myModules = helper.find(modules, {
         longname: longname
       });
-      if (myModules.length) {
+      if (myModules.length)
         generate('Module: ' + myModules[0].name, myModules, helper.longnameToUrl[longname]);
-      }
 
       const myNamespaces = helper.find(namespaces, {
         longname: longname
       });
-      if (myNamespaces.length) {
+      if (myNamespaces.length)
         generate('Namespace: ' + myNamespaces[0].name, myNamespaces, helper.longnameToUrl[longname]);
-      }
 
       const myMixins = helper.find(mixins, {
         longname: longname
       });
-      if (myMixins.length) {
+      if (myMixins.length)
         generate('Mixin: ' + myMixins[0].name, myMixins, helper.longnameToUrl[longname]);
-      }
 
       const myExternals = helper.find(externals, {
         longname: longname
       });
-      if (myExternals.length) {
+      if (myExternals.length)
         generate('External: ' + myExternals[0].name, myExternals, helper.longnameToUrl[longname]);
-      }
     }
-  }
 
   // TODO: move the tutorial functions to templateHelper.js
   function generateTutorial(title, tutorial, filename) {
@@ -637,7 +621,7 @@ exports.publish = function (taffyData, opts, tutorials) {
 
   // tutorials can have only one parent so there is no risk for loops
   function saveChildren(node) {
-    node.children.forEach(function (child) {
+    node.children.forEach(child => {
       generateTutorial('Tutorial: ' + child.title, child, helper.tutorialToUrl(child.name));
       saveChildren(child);
     });

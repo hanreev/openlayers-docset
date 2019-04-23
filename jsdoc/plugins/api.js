@@ -2,12 +2,12 @@
  * Define an @api tag
  * @param {Object} dictionary The tag dictionary.
  */
-exports.defineTags = function (dictionary) {
+exports.defineTags = dictionary => {
   dictionary.defineTag('api', {
     mustHaveValue: false,
     canHaveType: false,
     canHaveName: false,
-    onTagged: function (doclet, tag) {
+    onTagged: doclet => {
       includeTypes(doclet);
       doclet.stability = 'stable';
     }
@@ -39,23 +39,21 @@ function includeAugments(doclet) {
       if (cls) {
         includeAugments(cls);
         if (cls.fires) {
-          if (!doclet.fires) {
+          if (!doclet.fires)
             doclet.fires = [];
-          }
-          cls.fires.forEach(function (f) {
-            if (doclet.fires.indexOf(f) == -1) {
+
+          cls.fires.forEach(f => {
+            if (doclet.fires.indexOf(f) == -1)
               doclet.fires.push(f);
-            }
           });
         }
         if (cls.observables) {
-          if (!doclet.observables) {
+          if (!doclet.observables)
             doclet.observables = [];
-          }
-          cls.observables.forEach(function (f) {
-            if (doclet.observables.indexOf(f) == -1) {
+
+          cls.observables.forEach(f => {
+            if (doclet.observables.indexOf(f) == -1)
               doclet.observables.push(f);
-            }
           });
         }
         cls._hideConstructor = true;
@@ -66,7 +64,7 @@ function includeAugments(doclet) {
 }
 
 function extractTypes(item) {
-  item.type.names.forEach(function (type) {
+  item.type.names.forEach(type => {
     const match = type.match(/^(.*<)?([^>]*)>?$/);
     if (match) {
       modules[match[2]] = true;
@@ -76,75 +74,67 @@ function extractTypes(item) {
 }
 
 function includeTypes(doclet) {
-  if (doclet.params) {
+  if (doclet.params)
     doclet.params.forEach(extractTypes);
-  }
-  if (doclet.returns) {
+
+  if (doclet.returns)
     doclet.returns.forEach(extractTypes);
-  }
-  if (doclet.properties) {
+
+  if (doclet.properties)
     doclet.properties.forEach(extractTypes);
-  }
-  if (doclet.type && doclet.meta.code.type == 'MemberExpression') {
+
+  if (doclet.type && doclet.meta.code.type == 'MemberExpression')
     extractTypes(doclet);
-  }
 }
 
 exports.handlers = {
 
-  newDoclet: function (e) {
+  newDoclet: e => {
     const doclet = e.doclet;
     if (doclet.stability) {
-      modules[doclet.longname.split(/[~\.]/).shift()] = true;
+      modules[doclet.longname.split(/[~.]/).shift()] = true;
       api.push(doclet);
     }
     if (doclet.kind == 'class') {
-      modules[doclet.longname.split(/[~\.]/).shift()] = true;
-      if (!(doclet.longname in classes)) {
+      modules[doclet.longname.split(/[~.]/).shift()] = true;
+      if (!(doclet.longname in classes))
         classes[doclet.longname] = doclet;
-      } else if ('augments' in doclet) {
+      else if ('augments' in doclet)
         classes[doclet.longname].augments = doclet.augments;
-      }
     }
-    if (doclet.name === doclet.longname && !doclet.memberof) {
+    if (doclet.name === doclet.longname && !doclet.memberof)
       // Make sure anonymous default exports are documented
       doclet.setMemberof(doclet.longname);
-    }
   },
 
-  beforeParse: function (e) {
+  beforeParse: e => {
     // Enums has undefined properties when exported
     e.source = e.source.replace('export const', 'const');
   },
 
-  parseComplete: function (e) {
+  parseComplete: e => {
     const doclets = e.doclets;
     for (let i = doclets.length - 1; i >= 0; --i) {
       const doclet = doclets[i];
       if (doclet.stability) {
-        if (doclet.kind == 'class') {
+        if (doclet.kind == 'class')
           includeAugments(doclet);
-        }
-        if (doclet.fires) {
-          doclet.fires.sort(function (a, b) {
-            return a.split(/#?event:/)[1] < b.split(/#?event:/)[1] ? -1 : 1;
-          });
-        }
-        if (doclet.observables) {
-          doclet.observables.sort(function (a, b) {
-            return a.name < b.name ? -1 : 1;
-          });
-        }
+
+        if (doclet.fires)
+          doclet.fires.sort((a, b) => a.split(/#?event:/)[1] < b.split(/#?event:/)[1] ? -1 : 1);
+
+        if (doclet.observables)
+          doclet.observables.sort((a, b) => a.name < b.name ? -1 : 1);
         // Always document namespaces and items with stability annotation
         continue;
       }
-      if (doclet.kind == 'module' && doclet.longname in modules) {
+      if (doclet.kind == 'module' && doclet.longname in modules)
         // Document all modules that are referenced by the API
         continue;
-      }
-      if (doclet.isEnum || doclet.kind == 'typedef') {
+
+      if (doclet.isEnum || doclet.kind == 'typedef')
         continue;
-      }
+
       if (doclet.kind == 'class' && api.some(hasApiMembers, doclet)) {
         // Mark undocumented classes with documented members as unexported.
         // This is used in ../template/tmpl/container.tmpl to hide the

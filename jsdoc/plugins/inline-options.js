@@ -11,10 +11,9 @@ exports.handlers = {
    * Collects all typedefs, keyed by longname
    * @param {Object} e Event object.
    */
-  newDoclet: function(e) {
-    if (e.doclet.kind == 'typedef' && e.doclet.properties) {
+  newDoclet: e => {
+    if (e.doclet.kind == 'typedef' && e.doclet.properties)
       properties[e.doclet.longname] = e.doclet.properties;
-    }
   },
 
   /**
@@ -22,7 +21,7 @@ exports.handlers = {
    * collected typedefs.
    * @param {Object} e Event object.
    */
-  parseComplete: function(e) {
+  parseComplete: e => {
     const doclets = e.doclets;
     for (let i = 0, ii = doclets.length; i < ii; ++i) {
       const doclet = doclets[i];

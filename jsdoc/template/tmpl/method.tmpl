@@ -1,11 +1,18 @@
 <?js
 var data = obj;
 var self = this;
+var parent;
+var parents = self.find({longname: data.memberof});
+if (parents.length)
+    parent = parents[0];
 ?>
 <dt class="<?js= (data.stability && data.stability !== 'stable') ? 'unstable' : '' ?>">
     <div class="nameContainer<?js if (data.inherited) { ?> inherited<?js } ?>">
-        <?js if (data.stability || kind !== 'class') { ?>
-        <a class="dashAnchor" name="//apple_ref/Method/<?js= self.encodeUriComponent(name) ?>"></a>
+        <?js
+        var dashKind = kind === 'class' ? 'Class' : parent && parent.kind === 'module' ? 'Function' : 'Method';
+        if (data.stability || kind !== 'class') {
+        ?>
+        <a class="dashAnchor" name="//apple_ref/<?js= dashKind ?>/<?js= self.encodeUriComponent(name) ?>"></a>
         <div class="anchor" id="<?js= id ?>">
         </div>
         <h4 class="name">
