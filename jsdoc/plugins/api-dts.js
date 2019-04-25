@@ -26,6 +26,16 @@ const classes = {};
 const types = {};
 const modules = {};
 
+const force_include_members = {
+  'module:ol/css': [],
+  'module:ol/util': ['VERSION'],
+  'module:ol/reproj/common': [],
+  'module:ol/source/common': [],
+  'module:ol/tilegrid/common': [],
+  'module:ol/format/IGC': ['IGCZ'],
+  'module:ol/render/replay': [],
+};
+
 function includeAugments(doclet) {
   const augments = doclet.augments;
   if (augments) {
@@ -107,6 +117,24 @@ exports.handlers = {
     for (let i = doclets.length - 1; i >= 0; --i) {
       const doclet = doclets[i];
 
+      if (doclet.longname in force_include_members)
+        doclet.force_include_members = force_include_members[doclet.longname];
+
+      if (doclet.memberof == 'module:ol/render/replay' && doclet.name == 'TEXT_ALIGN')
+        doclet.properties = [
+          { name: 'left', defaultvalue: '0', kind: 'member', memberof: doclet.longname },
+          { name: 'end', defaultvalue: '0', kind: 'member', memberof: doclet.longname },
+          { name: 'center', defaultvalue: '0.5', kind: 'member', memberof: doclet.longname },
+          { name: 'right', defaultvalue: '1', kind: 'member', memberof: doclet.longname },
+          { name: 'start', defaultvalue: '1', kind: 'member', memberof: doclet.longname },
+          { name: 'top', defaultvalue: '0', kind: 'member', memberof: doclet.longname },
+          { name: 'middle', defaultvalue: '0.5', kind: 'member', memberof: doclet.longname },
+          { name: 'hanging', defaultvalue: '0.2', kind: 'member', memberof: doclet.longname },
+          { name: 'alphabetic', defaultvalue: '0.8', kind: 'member', memberof: doclet.longname },
+          { name: 'ideographic', defaultvalue: '0.8', kind: 'member', memberof: doclet.longname },
+          { name: 'bottom', defaultvalue: '1', kind: 'member', memberof: doclet.longname },
+        ];
+
       if (doclet.stability) {
         if (doclet.kind == 'class')
           includeAugments(doclet);
@@ -126,6 +154,15 @@ exports.handlers = {
 
       if (doclet.isEnum || doclet.kind == 'typedef' || doclet.kind == 'function')
         continue;
+
+      // FIXME: PATCHES
+      if (doclet.memberof in force_include_members)
+        if (force_include_members[doclet.memberof].length) {
+          if (force_include_members[doclet.memberof].indexOf(doclet.name) != -1)
+            continue;
+        } else {
+          continue;
+        }
 
       if (doclet.kind == 'class')
         includeAugments(doclet);

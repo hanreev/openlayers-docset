@@ -20,10 +20,8 @@ function remapExports(doclet) {
       return reExport.replace(/^(export\s{)(.+?)(}\sfrom\s['"])(.+?)(['"];)$/, (_, p1, p2, p3, p4, p5) => {
         p4 = path.normalize(path.join(doclet.meta.path, p4));
         // @ts-ignore
-        env.conf.source.include.forEach(include => {
-          include = path.resolve(include.replace(/ol$/, ''));
-          p4 = path.relative(include, p4);
-        });
+        const moduleRoot = path.resolve(env.conf.typescript.moduleRoot);
+        p4 = path.relative(moduleRoot, p4);
         p2.split(/,\s?/).forEach(e => {
           if (e.indexOf(' as ') == -1)
             doclet.exports.exports.push(e);
@@ -60,6 +58,7 @@ exports.handlers = {
 
   newDoclet: e => {
     const doclet = e.doclet;
+
     if (doclet.kind == 'module')
       remapExports(doclet);
 
@@ -109,8 +108,18 @@ exports.handlers = {
         MODULE_EXPORTS[e.filename].reExports.push(match[0].replace('.js', ''));
     } while (match);
 
-    // Enums has undefined properties when exported
-    e.source = e.source.replace('export const', 'const');
+    // Fix multiple typedef in a comment
+    e.source = e.source.replace(/\/\*\*.+?\*\//gs, m => {
+      if (m.split('@typedef').length > 2)
+        m = m.replace(/\s*?\*\s*?@typedef\s{.+}/g, tm => `\n*/\n\n/**${tm}`);
+      return m;
+    });
+
+    // Fix optional parameter with multiple types
+    e.source = e.source.replace(/{(.+?)=}/g, (_, p1) => `{(${p1})=}`);
+
+    // Fix enums has undefined properties
+    e.source = e.source.replace(/export const/g, 'const');
   }
 
 };

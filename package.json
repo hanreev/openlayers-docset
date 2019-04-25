@@ -17,5 +17,9 @@
     "jsdoc-plugin-typescript": "^1.0.7",
     "sqlite3": "^4.0.6"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/arcgis-rest-api": "^10.4.4",
+    "@types/geojson": "^7946.0.7",
+    "@types/topojson-specification": "^1.0.1"
+  }
 }

@@ -13,6 +13,16 @@ const MODULE_IMPORTS = {};
 const MODULE_EXPORTS = {};
 const MODULE_CHILDREN = {};
 
+const TYPE_PATCHES = {
+  'module:ol/format/GML~GML': 'module:ol/format/GML3~GML3',
+  'module:ol/events/condition~always': 'typeof:module:ol/functions.TRUE',
+  'module:ol/events/condition~never': 'typeof:module:ol/functions.FALSE',
+  'module:ol/style/IconImageCache~shared': 'module:ol/style/IconImageCache~IconImageCache',
+  'module:ol/css~getFontFamilies': 'function(string): (Object<string, *>|null)',
+};
+
+const MEMBER_PATCHES = {};
+
 function find(spec) {
   return helper.find(data, spec);
 }
@@ -28,10 +38,19 @@ function registerImport(_module, val) {
   _imports.imported = _imports.imported || {};
   _imports.expressions = _imports.expressions || [];
 
-  let splits = value.indexOf('~') != -1 ? value.split('~') : value.split('.');
+  let isDefault;
+  let splits;
   let moduleName;
   let importName;
   let temp;
+
+  if (value.indexOf('.') != -1) {
+    isDefault = false;
+    splits = value.split('.');
+  } else {
+    isDefault = true;
+    splits = value.split('~');
+  }
 
   if (splits.length == 2) {
     moduleName = splits[0];
@@ -40,6 +59,9 @@ function registerImport(_module, val) {
     moduleName = value;
     importName = value.split('/').pop();
   }
+
+  if (!moduleName.startsWith('ol'))
+    isDefault = false;
 
   if (_module.name == value || _module.name == moduleName || importName == 'EventTarget')
     return importName;
@@ -67,7 +89,7 @@ function registerImport(_module, val) {
   }
 
   if (!doclet)
-    console.log('WARNING: Invalid import or external:', val, 'in', _module.name);
+    console.log('WARNING: Invalid import or external --', val, 'in', _module.name);
 
   let counter = 1;
   let availableImportName = importName;
@@ -80,7 +102,7 @@ function registerImport(_module, val) {
   _imports.names.push(availableImportName);
   let expression = availableImportName;
   const _exports = MODULE_EXPORTS[moduleName];
-  if (_exports && _exports.default != importName && _exports.default != `module:${moduleName}`)
+  if ((_exports && _exports.default != importName && _exports.default != `module:${moduleName}`) || !isDefault)
     expression = importName == availableImportName ? `{ ${importName} }` : `{ ${importName} as ${availableImportName} }`;
   _imports.expressions.push(`import ${expression} from '${moduleName}';`);
   MODULE_IMPORTS[_module.name] = _imports;
@@ -105,7 +127,11 @@ function stringifyType(parsedType, _module) {
         break;
 
       case 'Object':
-        typeStr = `{ [key: ${applications[0]}]: ${applications[1]} }`;
+        // FIXME: Patch enum as object key
+        if (_module.name == 'ol/proj/Units' && applications[0] == 'Units')
+          typeStr = `{ [key in ${applications[0]}]: ${applications[1]} }`;
+        else
+          typeStr = `{ [key: ${applications[0]}]: ${applications[1]} }`;
         break;
 
       case 'Class':
@@ -160,8 +186,9 @@ function parseFunctionType(type, _module) {
       const parsedType = catharsis.parse(t, { jsdoc: true });
       t = stringifyType(parsedType, _module);
     } catch (error) {
-      console.error('ERROR: parse', t);
+      console.error('ERROR: parseFunctionType --', t);
     }
+
     return t;
   };
 
@@ -180,27 +207,49 @@ function parseFunctionType(type, _module) {
       returnType = match[3].split(/\s?\|\s?/).map(parse).join(' | ');
   }
 
-  return `(${params}) => ${returnType}`;
+  // Wrap arrow function in braces
+  return `((${params}) => ${returnType})`;
+}
+
+function parseConstFunctionType(doclet, _module) {
+  const params = getParams(doclet, _module);
+  const returnType = getReturnType(doclet, _module);
+
+  // Wrap arrow function in braces
+  return `((${params}) => ${returnType})`;
 }
 
 function getType(doclet, _module) {
-  if (!doclet.type)
-    return [];
+  if (doclet.longname in TYPE_PATCHES)
+    doclet.type = { names: [TYPE_PATCHES[doclet.longname]] };
+  else if (!doclet.type)
+    if (doclet.params || doclet.yields || doclet.returns) {
+      return parseConstFunctionType(doclet, _module);
+    } else {
+      console.log('WARNING: Undefined type --', doclet.longname, 'in', _module.name);
+      return 'any';
+    }
 
   return doclet.type.names.map(type => {
     let parsedType;
+    let prefix = '';
 
-    if (type.startsWith('function'))
-      return parseFunctionType(type, _module);
-
-    try {
-      parsedType = catharsis.parse(type, { jsdoc: true });
-      type = stringifyType(parsedType, _module);
-    } catch (error) {
-      console.error('ERROR: getType', doclet.longname, type);
+    if (type.startsWith('typeof:')) {
+      prefix = 'typeof ';
+      type = type.replace(/^typeof:/, '');
     }
 
-    return type;
+    if (type.startsWith('function'))
+      type = parseFunctionType(type, _module);
+    else
+      try {
+        parsedType = catharsis.parse(type, { jsdoc: true });
+        type = stringifyType(parsedType, _module);
+      } catch (error) {
+        console.error('ERROR: getType --', doclet.longname, type);
+      }
+
+    return prefix + type;
   }).join(' | ');
 }
 
@@ -231,17 +280,18 @@ function getParams(doclet, _module) {
 
 function declaration(doclet, decl, _module) {
   let prefix = '';
+  let suffix = '';
 
   if (_module && _module.exports)
     if (doclet.name == _module.exports.default)
-      if (doclet.isEnum)
-        prefix = `export default ${registerImport(_module, doclet.name)};\n`;
+      if (doclet.isEnum || doclet.kind == 'constant')
+        suffix = `\n\nexport default ${registerImport(_module, doclet.name)};`;
       else
         prefix = 'export default ';
     else if (_module.exports.exports.indexOf(doclet.name) != -1)
       prefix = 'export ';
 
-  return prefix + decl;
+  return prefix + decl + suffix;
 }
 
 const PROCESSORS = {
@@ -341,25 +391,33 @@ const PROCESSORS = {
         return `  ${prop.name} = ${value},`;
       });
     else
-      console.log('ENUM', doclet.longname);
+      console.log('WARNING: Empty enum --', doclet.longname);
     const decl = `enum ${name}{\n${children.join('\n')}\n}`;
     return declaration(doclet, decl, _module);
   },
 };
 
 function processModule(doclet) {
-  const children = [];
+  let children = [];
+
+  if (doclet.name == 'ol/control')
+    registerImport(doclet, 'module:ol/control/util~DefaultsOptions');
 
   find({
     kind: ['class', 'member', 'function', 'typedef', 'enum', 'constant'],
     memberof: doclet.longname
   }).forEach(item => {
     const processorName = item.isEnum ? 'enum' : item.kind;
-    let child = PROCESSORS[processorName].call(null, item, doclet);
+    let child = PROCESSORS[processorName](item, doclet);
+    if (child.indexOf('export') == -1)
+      return;
     if (processorName == 'member')
       child = declaration(item, `const ${child}`, doclet);
     children.push(child);
   });
+
+  if (MEMBER_PATCHES[doclet.longname])
+    children = children.concat(MEMBER_PATCHES[doclet.longname]);
 
   MODULE_CHILDREN[doclet.name] = children;
 }
@@ -384,8 +442,13 @@ function generateDeclaration(doclet) {
           name = name.trim();
           const isDuplicate = find({ name: name, memberof: doclet.longname }).length > 0;
           const isInvalid = !find({ name: name, memberof: `module:${match[4]}` }).length;
+
+          if (!isDuplicate && isInvalid)
+            console.log('WARNING: Removed export --', name, 'in', doclet.longname, '--', x);
+
           if (isDuplicate || isInvalid)
             return undefined;
+
           return name;
         }).filter(x => x != undefined).join(', ');
 
@@ -399,11 +462,13 @@ function generateDeclaration(doclet) {
   }
 
   if (!content && !children.length) {
-    console.log('WARNING: Empty module', doclet.name);
+    console.log('WARNING: Empty module --', doclet.name);
     return;
   }
 
-  content += children.join('\n\n') + '\n\n';
+  if (children.length)
+    content += children.join('\n\n') + '\n\n';
+
   content = `declare module '${doclet.name}' {\n\n${content}}`;
 
   fs.mkPath(moduleOutDir);
@@ -421,6 +486,8 @@ exports.publish = (taffyData) => {
 
   const members = helper.getMembers(data);
   members.modules.forEach(doclet => {
+    if (doclet.force_include_members)
+      doclet.exports.exports = doclet.exports.exports.concat(doclet.force_include_members);
     MODULE_EXPORTS[doclet.name] = doclet.exports;
   });
   members.modules.forEach(processModule);

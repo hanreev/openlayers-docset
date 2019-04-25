@@ -5,6 +5,7 @@ typings
 test.ts
 
 yarn-error.log
+report.*.json
 
 Thumbs.db
 .DS_Store

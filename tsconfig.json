@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
     "emitDecoratorMetadata": true,
@@ -16,11 +17,12 @@
     "strict": true,
     "target": "es5",
     "typeRoots": [
-      "typings/"
+      "node_modules/@types",
+      "typings"
     ]
   },
   "include": [
     "test.ts",
-    "typings/**/*"
+    "typings/**/*.d.ts"
   ]
 }
