@@ -16,6 +16,7 @@ const handle = require('jsdoc/lib/jsdoc/util/error').handle;
 const helper = require('jsdoc/lib/jsdoc/util/templateHelper');
 const logger = require('jsdoc/lib/jsdoc/util/logger');
 const _ = require('underscore');
+const rimraf = require('rimraf');
 const sqlite3 = require('sqlite3');
 const htmlsafe = helper.htmlsafe;
 const linkto = helper.linkto;
@@ -120,20 +121,6 @@ function getPathFromDoclet(doclet) {
     doclet.meta.filename;
 
   return filepath;
-}
-
-function rmdirRecursive(dirpath) {
-  dirpath = path.resolve(dirpath);
-  if (fs.existsSync(dirpath) && fs.statSync(dirpath).isDirectory()) {
-    fs.readdirSync(dirpath).forEach(filename => {
-      const fullpath = path.resolve(dirpath, filename);
-      if (fs.statSync(fullpath).isDirectory())
-        rmdirRecursive(fullpath);
-      else
-        fs.unlinkSync(fullpath);
-    });
-    fs.rmdirSync(dirpath);
-  }
 }
 
 function generate(title, docs, filename, resolveLinks) {
@@ -438,7 +425,7 @@ exports.publish = function (taffyData, opts, tutorials) {
     }
   });
 
-  rmdirRecursive(baseOutdir);
+  rimraf.sync(outdir);
   fs.mkPath(outdir);
 
   // copy the template's static files to outdir

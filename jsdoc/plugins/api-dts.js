@@ -26,10 +26,6 @@ const classes = {};
 const types = {};
 const modules = {};
 
-function hasApiMembers(doclet) {
-  return doclet.longname.split('#')[0] == this.longname;
-}
-
 function includeAugments(doclet) {
   const augments = doclet.augments;
   if (augments) {
@@ -56,8 +52,6 @@ function includeAugments(doclet) {
               doclet.observables.push(f);
           });
         }
-        cls._hideConstructor = true;
-        delete cls.undocumented;
       }
     }
   }
@@ -105,7 +99,6 @@ exports.handlers = {
     }
 
     if (doclet.name === doclet.longname && !doclet.memberof)
-      // Make sure anonymous default exports are documented
       doclet.setMemberof(doclet.longname);
   },
 
@@ -127,23 +120,17 @@ exports.handlers = {
         continue;
       }
 
-      if (doclet.kind == 'module' && doclet.longname in modules)
+      if (doclet.kind == 'module')
         // Document all modules that are referenced by the API
         continue;
 
-      if (doclet.isEnum || doclet.kind == 'typedef')
+      if (doclet.isEnum || doclet.kind == 'typedef' || doclet.kind == 'function')
         continue;
 
-      if (doclet.kind == 'class' && api.some(hasApiMembers, doclet)) {
-        // Mark undocumented classes with documented members as unexported.
-        // This is used in ../template/tmpl/container.tmpl to hide the
-        // constructor from the docs.
-        doclet._hideConstructor = true;
+      if (doclet.kind == 'class')
         includeAugments(doclet);
-      } else if (doclet.undocumented !== false && !doclet._hideConstructor && !(doclet.kind == 'typedef' && doclet.longname in types)) {
-        // Remove all other undocumented symbols
+      else if (doclet.undocumented !== false && !doclet._hideConstructor && !(doclet.kind == 'typedef' && doclet.longname in types))
         doclet.undocumented = true;
-      }
     }
   }
 
