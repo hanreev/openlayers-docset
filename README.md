@@ -47,8 +47,8 @@ OpenLayers Docset
 
 I have included TypeScript declaration for `v5.3.2` in `typings` directory. If you need another version, just follow the above steps then run
 ```bash
-# NPX
-npx run build-format-dts
+# NPM
+npm run build-format-dts
 
 # Yarn
 yarn build-format-dts
