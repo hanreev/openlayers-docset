@@ -16,13 +16,15 @@
     "noImplicitAny": true,
     "strict": true,
     "target": "es5",
-    "typeRoots": [
-      "node_modules/@types",
-      "typings"
-    ]
+    "paths": {
+      "*": [
+        "node_modules/@types/*",
+        "typings/*"
+      ]
+    }
   },
   "include": [
-    "test.ts",
-    "typings/**/*.d.ts"
+    "declaration-test.ts",
+    "typings/**/*"
   ]
 }

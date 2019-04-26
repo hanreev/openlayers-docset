@@ -1,0 +1,48 @@
+declare module 'ol/layer/Vector' {
+
+  import { Extent } from 'ol/extent';
+  import { OrderFunction } from 'ol/render';
+  import VectorRenderType from 'ol/layer/VectorRenderType';
+  import VectorSource from 'ol/source/Vector';
+  import PluggableMap from 'ol/PluggableMap';
+  import { StyleLike } from 'ol/style/Style';
+  import Layer from 'ol/layer/Layer';
+  import Feature from 'ol/Feature';
+  import { StyleFunction } from 'ol/style/Style';
+  import Style from 'ol/style/Style';
+
+  export type Options = {
+    opacity?: number;
+    visible?: boolean;
+    extent?: Extent;
+    zIndex?: number;
+    minResolution?: number;
+    maxResolution?: number;
+    renderOrder?: OrderFunction;
+    renderBuffer?: number;
+    renderMode?: VectorRenderType | string;
+    source?: VectorSource;
+    map?: PluggableMap;
+    declutter?: boolean;
+    style?: StyleLike;
+    updateWhileAnimating?: boolean;
+    updateWhileInteracting?: boolean;
+  }
+
+  export default class VectorLayer extends Layer {
+    constructor(opt_options?: Options);
+    getDeclutter: () => boolean;
+    getRenderBuffer: () => number | undefined;
+    getRenderMode: () => VectorRenderType | string;
+    getRenderOrder: () => ((param0: Feature, param1: Feature) => number | null | undefined);
+    getSource: () => VectorSource;
+    getStyle: () => StyleLike;
+    getStyleFunction: () => StyleFunction | undefined;
+    getUpdateWhileAnimating: () => boolean;
+    getUpdateWhileInteracting: () => boolean;
+    setDeclutter: (declutter: boolean) => void;
+    setRenderOrder: (renderOrder: OrderFunction | null | undefined) => void;
+    setStyle: (style: Style | Style[] | StyleFunction | null | undefined) => void;
+  }
+
+}

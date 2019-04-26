@@ -28,12 +28,13 @@ const modules = {};
 
 const force_include_members = {
   'module:ol/css': [],
-  'module:ol/util': ['VERSION'],
+  'module:ol/format/GMLBase': ['GMLNS'],
+  'module:ol/format/IGC': ['IGCZ'],
+  'module:ol/render/replay': [],
   'module:ol/reproj/common': [],
   'module:ol/source/common': [],
   'module:ol/tilegrid/common': [],
-  'module:ol/format/IGC': ['IGCZ'],
-  'module:ol/render/replay': [],
+  'module:ol/util': ['VERSION'],
 };
 
 function includeAugments(doclet) {

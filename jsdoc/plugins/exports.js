@@ -77,36 +77,38 @@ exports.handlers = {
   },
 
   beforeParse: e => {
-    MODULE_EXPORTS[e.filename] = {
+    const _exports = {
       default: null,
       exports: [],
       reExports: []
     };
-    const exportRegex = /export\s([^{]+?)\s(.+?)[(\s;]/g;
-    const multipleExportRegex = /export\s{(.+?)};/g;
-    const reExportRegex = /export\s{.+?}\sfrom.+;/g;
+    const exportRegex = /^export\s([^{]+?)\s(.+?)[(\s;]/gm;
+    const multipleExportRegex = /^export\s{(.+?)};/gm;
+    const reExportRegex = /^export\s{.+?}\sfrom.+;/gm;
     let match;
 
     do {
       match = exportRegex.exec(e.source);
       if (match)
         if (match[1] == 'default')
-          MODULE_EXPORTS[e.filename].default = match[2];
+          _exports.default = match[2];
         else
-          MODULE_EXPORTS[e.filename].exports.push(match[2]);
+          _exports.exports.push(match[2]);
     } while (match);
 
     do {
       match = multipleExportRegex.exec(e.source);
       if (match)
-        MODULE_EXPORTS[e.filename].exports = MODULE_EXPORTS[e.filename].exports.concat(match[1].split(/,\s?/));
+        _exports.exports = _exports.exports.concat(match[1].split(/,\s?/));
     } while (match);
 
     do {
       match = reExportRegex.exec(e.source);
       if (match)
-        MODULE_EXPORTS[e.filename].reExports.push(match[0].replace('.js', ''));
+        _exports.reExports.push(match[0].replace('.js', ''));
     } while (match);
+
+    MODULE_EXPORTS[e.filename] = _exports;
 
     // Fix multiple typedef in a comment
     e.source = e.source.replace(/\/\*\*.+?\*\//gs, m => {

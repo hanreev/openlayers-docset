@@ -23,6 +23,12 @@ const TYPE_PATCHES = {
 
 const MEMBER_PATCHES = {};
 
+const EXTERNAL_MODULE_WHITELIST = [
+  'arcgis-rest-api',
+  'geojson',
+  'topojson-specification',
+];
+
 function find(spec) {
   return helper.find(data, spec);
 }
@@ -88,7 +94,7 @@ function registerImport(_module, val) {
     }
   }
 
-  if (!doclet)
+  if (!doclet && EXTERNAL_MODULE_WHITELIST.indexOf(moduleName) == -1)
     console.log('WARNING: Invalid import or external --', val, 'in', _module.name);
 
   let counter = 1;
@@ -317,7 +323,7 @@ const PROCESSORS = {
       name += ` extends ${inherits.join(', ')}`;
 
     if (!doclet._hideConstructor)
-      children.push(`  constructor(${getParams(doclet, _module)});`);
+      children.push(`constructor(${getParams(doclet, _module)});`);
 
     find({
       kind: ['member', 'function'],
@@ -325,7 +331,7 @@ const PROCESSORS = {
       memberof: doclet.longname
     }).forEach(child => {
       const kind = child.kind == 'function' ? 'method' : child.kind;
-      children.push('  ' + PROCESSORS[kind].call(null, child, _module, false));
+      children.push(PROCESSORS[kind].call(null, child, _module, false));
     });
 
     const decl = `class ${name} {\n${children.join('\n')}\n}`;
@@ -368,7 +374,7 @@ const PROCESSORS = {
         let name = prop.name;
         if (prop.optional)
           name += '?';
-        return `  ${name}: ${getType(prop, _module)};`;
+        return `${name}: ${getType(prop, _module)};`;
       });
 
       decl = `type ${doclet.name} = {\n${children.join('\n')}\n}`;
@@ -388,7 +394,7 @@ const PROCESSORS = {
         let value = prop.defaultvalue;
         if (type == 'string')
           value = `'${value}'`;
-        return `  ${prop.name} = ${value},`;
+        return `${prop.name} = ${value},`;
       });
     else
       console.log('WARNING: Empty enum --', doclet.longname);
@@ -409,10 +415,13 @@ function processModule(doclet) {
   }).forEach(item => {
     const processorName = item.isEnum ? 'enum' : item.kind;
     let child = PROCESSORS[processorName](item, doclet);
-    if (child.indexOf('export') == -1)
-      return;
+
     if (processorName == 'member')
       child = declaration(item, `const ${child}`, doclet);
+
+    if (child.indexOf('export') == -1)
+      return;
+
     children.push(child);
   });
 
@@ -458,6 +467,7 @@ function generateDeclaration(doclet) {
         reExports.push(x);
       }
     });
+    MODULE_EXPORTS[doclet.name].reExports = reExports;
     content += reExports.join('\n') + '\n\n';
   }
 
@@ -486,10 +496,66 @@ exports.publish = (taffyData) => {
 
   const members = helper.getMembers(data);
   members.modules.forEach(doclet => {
+    doclet.exports.exports = doclet.exports.exports.filter(exportName => {
+      return find({ name: exportName, memberof: doclet.longname }).length > 0;
+    });
+
     if (doclet.force_include_members)
-      doclet.exports.exports = doclet.exports.exports.concat(doclet.force_include_members);
+      doclet.force_include_members.forEach(memberName => {
+        if (doclet.exports.exports.indexOf(memberName) == -1)
+          doclet.exports.exports.push(memberName);
+      });
+
     MODULE_EXPORTS[doclet.name] = doclet.exports;
   });
   members.modules.forEach(processModule);
   members.modules.forEach(generateDeclaration);
+
+  let testContent = '';
+  let usedImportNames = [];
+
+  const getAvailableImportName = name => {
+    let counter = 1;
+    let availableImportName = name;
+    while (usedImportNames.indexOf(availableImportName) != -1) {
+      availableImportName = `${name}_${counter}`;
+      counter++;
+    }
+    usedImportNames.push(availableImportName);
+    return availableImportName;
+  };
+
+  members.modules.forEach(_module => {
+    const _exports = MODULE_EXPORTS[_module.name];
+    let availableImportName;
+
+    if (_exports.default) {
+      availableImportName = getAvailableImportName(_module.name.split('/').pop());
+      testContent += `import ${availableImportName} from '${_module.name}';\n`;
+    }
+
+    let mergedExports = _exports.exports.map(name => {
+      availableImportName = getAvailableImportName(name);
+      if (name == availableImportName)
+        return name;
+      return `${name} as ${availableImportName}`;
+    });
+
+    _exports.reExports.forEach(reExport => {
+      const match = reExport.match(/^export\s{\s?(.+?)\s?}.+$/);
+      match[1].split(/,\s?/).forEach(n => {
+        const splits = n.split(' as ');
+        n = splits.length == 1 ? n : splits[1];
+        availableImportName = getAvailableImportName(n);
+        mergedExports.push(n == availableImportName ? n : `${n} as ${availableImportName}`);
+      });
+    });
+
+    if (mergedExports.length)
+      testContent += `import { ${mergedExports.join(', ')} } from '${_module.name}';\n`;
+  });
+
+  if (testContent)
+    // @ts-ignore
+    fs.writeFileSync(path.resolve('declaration-test.ts'), testContent);
 };
