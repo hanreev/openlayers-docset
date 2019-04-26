@@ -1,8 +1,8 @@
-/*global env: true */
+// @ts-nocheck
+/* global env */
 
 const path = require('path');
 
-// @ts-ignore
 const moduleRoot = path.resolve(env.conf.typescript.moduleRoot);
 
 const MODULE_EXPORTS = {};
@@ -55,7 +55,6 @@ function remapExports(doclet) {
     doclet.exports.reExports = doclet.exports.reExports.map(reExport => {
       return reExport.replace(/^(export\s{)(.+?)(}\sfrom\s['"])(.+?)(['"];)$/, (_, p1, p2, p3, p4, p5) => {
         p4 = path.normalize(path.join(doclet.meta.path, p4));
-        // @ts-ignore
         p4 = path.relative(moduleRoot, p4);
         p2.split(/,\s?/).forEach(e => {
           if (e.indexOf(' as ') == -1)

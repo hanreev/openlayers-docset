@@ -1,26 +1,154 @@
-/* global env: true */
+// @ts-nocheck
+/* global env */
+
+/**
+ * @typedef DocletType
+ * @prop {string[]} names
+ *
+ * @typedef DocletProp
+ * @prop {string} name
+ * @prop {DocletType} [type]
+ * @prop {string} [description]
+ * @prop {boolean} [optional]
+ * @prop {*} [defaultvalue]
+ *
+ * @typedef DocletParam
+ * @prop {string} name
+ * @prop {string} [description]
+ * @prop {DocletType} [type]
+ * @prop {boolean} [optional]
+ *
+ * @typedef DocletReturns
+ * @prop {string} [description]
+ * @prop {DocletType} [type]
+ *
+ * @typedef DocletMetaCode
+ * @prop {string} id
+ * @prop {string} name
+ * @prop {string} type
+ * @prop {string} [value]
+ * @prop {string[]} [paramnames]
+ *
+ * @typedef DocletMeta
+ * @prop {string} filename
+ * @prop {number} lineno
+ * @prop {number} columnno
+ * @prop {string} path
+ * @prop {DocletMetaCode} code
+ * @prop {number[]} [range]
+ * @prop {Object<string, *>} [vars]
+ *
+ * @typedef Doclet
+ * @prop {string} ___id
+ * @prop {string} name
+ * @prop {string} longname
+ * @prop {string} kind
+ * @prop {string} [description]
+ * @prop {DocletMeta} [meta]
+ * @prop {string} [memberof]
+ * @prop {DocletType} [type]
+ * @prop {string[]} [augments]
+ * @prop {DocletProp[]} [properties]
+ * @prop {DocletParam]} [params]
+ * @prop {DocletReturns[]} [yields]
+ * @prop {DocletReturns[]} [returns]
+ * @prop {string} [comment]
+ * @prop {boolean} [inherited]
+ * @prop {boolean} [inheritDoc]
+ * @prop {boolean} [undocumented]
+ * @prop {boolean} [isEnum]
+ * @prop {string} [scope]
+ * @prop {string} [stability]
+ * @prop {string} [classdesc]
+ * @prop {string[]} [fires]
+ * @prop {ModuleExports} [exports]
+ * @prop {string[]} [force_include_members]
+ */
+
+/**
+ * @typedef TypeNameExpression
+ * @prop {string} [type="NameExpression"]
+ * @prop {string} name
+ *
+ * @typedef TypeAllLiteral
+ * @prop {string} [type="AllLiteral"]
+ *
+ * @typedef TypeNullLiteral
+ * @prop {string} [type="NullLiteral"]
+ *
+ * @typedef TypeUndefinedLiteral
+ * @prop {string} [type="UndefinedLiteral"]
+ *
+ * @typedef TypeFunctionLiteral
+ * @prop {string} [type="FunctionLiteral"]
+ *
+ * @typedef TypeApplication
+ * @prop {string} [type="TypeApplication"]
+ * @prop {TypeNameExpression} expression
+ * @prop {ParsedType[]} applications
+ *
+ * @typedef {(TypeNameExpression|TypeAllLiteral|TypeNullLiteral|TypeUndefinedLiteral|TypeFunctionLiteral|TypeApplication)}ParsedType
+ */
+
+/**
+ * @typedef DeclarationConfig
+ * @prop {string} [mode]
+ * @prop {boolean} [emitTestFile]
+ */
+
+/**
+ * @typedef ModuleImports
+ * @prop {string[]} names
+ * @prop {string[]} imported
+ * @prop {string[]} expressions
+ *
+ * @typedef ModuleExports
+ * @prop {string[]} exports
+ * @prop {string[]} reExport
+ * @prop {string} [default]
+ */
+
+/**
+ * @typedef {function(Doclet, Doclet): string} DocletParser
+ */
 
 const path = require('path');
 const catharsis = require('catharsis');
+
+/** @type {import('jsdoc/lib/jsdoc/fs') & import('fs')} */
 const fs = require('jsdoc/lib/jsdoc/fs');
 const helper = require('jsdoc/lib/jsdoc/util/templateHelper');
+const logger = require('jsdoc/lib/jsdoc/util/logger');
 const rimraf = require('rimraf');
-// @ts-ignore
+
 const outDir = path.resolve(env.opts.destination);
 
+/** @type {DeclarationConfig} */
+const declarationConfig = env.conf.typescript.declaration;
+
+/** @type {*} */
 let data;
+
+/** @type {Object<string, ModuleImports>} */
 const MODULE_IMPORTS = {};
+
+/** @type {Object<string, ModuleExports>} */
 const MODULE_EXPORTS = {};
+
+/** @type {Object<string, Doclet>} */
 const MODULE_CHILDREN = {};
 
+/** @type {string[]} */
 const EXTERNAL_MODULE_WHITELIST = [
   'arcgis-rest-api',
   'geojson',
   'topojson-specification',
 ];
 
+/** @type {Object<string, string>} */
 const GENERIC_TYPES = {};
 
+/** @type {Object<string, string>} */
 const TYPE_PATCHES = {
   'module:ol/css~getFontFamilies': 'function(string): (Object<string, *>|null)',
   'module:ol/events/condition~always': 'typeof:module:ol/functions.TRUE',
@@ -29,6 +157,7 @@ const TYPE_PATCHES = {
   'module:ol/style/IconImageCache~shared': 'module:ol/style/IconImageCache~IconImageCache',
 };
 
+/** @type {Object<string, string[]>} */
 const IMPORT_PATCHES = {
   'module:ol/control': [
     'module:ol/control/util~DefaultsOptions',
@@ -59,26 +188,41 @@ const IMPORT_PATCHES = {
   ],
 };
 
+/** @type {Object<string, string[]>} */
 const MEMBER_PATCHES = {};
 
+/**
+ * @param {Object<string, *>} spec
+ * @returns {Doclet[]}
+ */
 function find(spec) {
   return helper.find(data, spec);
 }
 
+/**
+ * @param {Doclet} _module
+ * @param {string} val
+ * @returns {string}
+ */
 function registerImport(_module, val) {
   if (!val.startsWith('module:'))
     return val;
 
   const value = val.replace(/^module:/, '');
 
+  /** @type {ModuleImports} */
   const _imports = MODULE_IMPORTS[_module.name] || {};
   _imports.names = _imports.names || [];
   _imports.imported = _imports.imported || {};
   _imports.expressions = _imports.expressions || [];
 
+  /** @type {boolean} */
   let isDefault;
+  /** @type {string[]} */
   let splits;
+  /** @type {string} */
   let moduleName;
+  /** @type {string} */
   let importName;
   let temp;
 
@@ -127,7 +271,7 @@ function registerImport(_module, val) {
   }
 
   if (!doclet && EXTERNAL_MODULE_WHITELIST.indexOf(moduleName) == -1)
-    console.log('WARNING: Invalid import or external --', val, 'in', _module.name);
+    logger.warn('Invalid import or external module --', val, 'in', _module.name);
 
   let counter = 1;
   let availableImportName = importName;
@@ -154,6 +298,11 @@ function registerImport(_module, val) {
   return availableImportName;
 }
 
+/**
+ * @param {ParsedType} parsedType
+ * @param {Doclet} _module
+ * @returns {string}
+ */
 function stringifyType(parsedType, _module) {
   let typeStr = parsedType.expression ? parsedType.expression.name : parsedType.name;
   let suffix = '';
@@ -218,6 +367,11 @@ function stringifyType(parsedType, _module) {
   return typeStr;
 }
 
+/**
+ * @param {string} type
+ * @param {Doclet} _module
+ * @returns {string}
+ */
 function parseFunctionType(type, _module) {
   if (!type.startsWith('function'))
     return;
@@ -233,6 +387,7 @@ function parseFunctionType(type, _module) {
       return parseFunctionType(t, _module);
 
     try {
+      /** @type {ParsedType} */
       let parsedType = catharsis.parse(t, { jsdoc: true });
 
       // FIXME: Patch
@@ -245,8 +400,8 @@ function parseFunctionType(type, _module) {
 
       t = stringifyType(parsedType, _module);
     } catch (error) {
-      console.error('ERROR: parseFunctionType --', t);
-      console.error(error);
+      logger.error('parseFunctionType --', t);
+      logger.error(error);
     }
 
     return t;
@@ -276,6 +431,7 @@ function parseFunctionType(type, _module) {
   return `(${expression})`;
 }
 
+/** @type {DocletParser} */
 function parseConstFunctionType(doclet, _module) {
   const params = getParams(doclet, _module);
   const returnType = getReturnType(doclet, _module);
@@ -284,6 +440,7 @@ function parseConstFunctionType(doclet, _module) {
   return `((${params}) => ${returnType})`;
 }
 
+/** @type {DocletParser} */
 function getType(doclet, _module) {
   if (doclet.longname in TYPE_PATCHES)
     doclet.type = { names: [TYPE_PATCHES[doclet.longname]] };
@@ -291,11 +448,12 @@ function getType(doclet, _module) {
     if (doclet.params || doclet.yields || doclet.returns) {
       return parseConstFunctionType(doclet, _module);
     } else {
-      console.log('WARNING: Undefined type --', doclet.longname, 'in', _module.name);
+      logger.warn('Undefined type --', doclet.longname, 'in', _module.name);
       return 'any';
     }
 
   return doclet.type.names.map(type => {
+    /** @type {ParsedType} */
     let parsedType;
     let prefix = '';
 
@@ -311,14 +469,15 @@ function getType(doclet, _module) {
         parsedType = catharsis.parse(type, { jsdoc: true });
         type = stringifyType(parsedType, _module);
       } catch (error) {
-        console.error('ERROR: getType --', doclet.longname, type);
-        console.error(error);
+        logger.error('getType --', doclet.longname, type);
+        logger.error(error);
       }
 
     return prefix + type;
   }).filter(t => t != 'undefined').join(' | ') || 'any';
 }
 
+/** @type {DocletParser} */
 function getReturnType(doclet, _module) {
   const returnTypes = [];
 
@@ -330,6 +489,7 @@ function getReturnType(doclet, _module) {
   return returnTypes.join(' | ') || 'void';
 }
 
+/** @type {DocletParser} */
 function getParams(doclet, _module) {
   if (!doclet.params)
     return '';
@@ -344,6 +504,12 @@ function getParams(doclet, _module) {
     }).join(', ');
 }
 
+/**
+ * @param {Doclet} doclet
+ * @param {string} decl
+ * @param {Doclet} _module
+ * @returns {string}
+ */
 function declaration(doclet, decl, _module) {
   let prefix = '';
   let suffix = '';
@@ -482,12 +648,15 @@ const PROCESSORS = {
         return `${prop.name} = ${value},`;
       });
     else
-      console.log('WARNING: Empty enum --', doclet.longname);
+      logger.warn('Empty enum --', doclet.longname);
     const decl = `enum ${name}{\n${children.join('\n')}\n}`;
     return declaration(doclet, decl, _module);
   },
 };
 
+/**
+ * @param {Doclet} doclet
+ */
 function processModule(doclet) {
   let children = [];
 
@@ -527,11 +696,15 @@ function processModule(doclet) {
   MODULE_CHILDREN[doclet.name] = children;
 }
 
-function generateDeclaration(doclet) {
+/**
+ * @param {Doclet} doclet
+ * @param {boolean} emitOutput
+ * @returns {string}
+ */
+function generateDeclaration(doclet, emitOutput = true) {
   const children = MODULE_CHILDREN[doclet.name];
   const _imports = MODULE_IMPORTS[doclet.name];
   const _exports = MODULE_EXPORTS[doclet.name];
-  const moduleOutDir = path.resolve(outDir, doclet.name);
 
   let content = '';
 
@@ -549,7 +722,7 @@ function generateDeclaration(doclet) {
           const isInvalid = !find({ name: name, memberof: `module:${match[4]}` }).length;
 
           if (!isDuplicate && isInvalid)
-            console.log('WARNING: Removed export --', name, 'in', doclet.longname, '--', x);
+            logger.warn('Removed export --', name, 'in', doclet.longname, '--', x);
 
           if (isDuplicate || isInvalid)
             return undefined;
@@ -568,7 +741,7 @@ function generateDeclaration(doclet) {
   }
 
   if (!content && !children.length) {
-    console.log('WARNING: Empty module --', doclet.name);
+    logger.warn('Empty module --', doclet.name);
     return;
   }
 
@@ -577,9 +750,13 @@ function generateDeclaration(doclet) {
 
   content = `declare module '${doclet.name}' {\n\n${content}}`;
 
-  fs.mkPath(moduleOutDir);
-  // @ts-ignore
-  fs.writeFileSync(path.resolve(moduleOutDir, 'index.d.ts'), content);
+  if (emitOutput) {
+    const moduleOutDir = path.resolve(outDir, doclet.name);
+    fs.mkPath(moduleOutDir);
+    fs.writeFileSync(path.resolve(moduleOutDir, 'index.d.ts'), content);
+  }
+
+  return content;
 }
 
 function extractGenericTypes(initial = true) {
@@ -727,24 +904,26 @@ function generateTestFile() {
   });
 
   if (testContent)
-    // @ts-ignore
     fs.writeFileSync(path.resolve('declaration-test.ts'), testContent);
 }
 
 exports.publish = (taffyData) => {
   data = taffyData;
-
   data = helper.prune(data);
   data.sort('longname, version, since');
-
-  rimraf.sync(outDir);
-
   const members = helper.getMembers(data);
 
+  /**
+   * Extract generic types
+   * Repetation is needed because some generic types are added from parameters and members
+   */
   extractGenericTypes();
   extractGenericTypes(false);
   extractGenericTypes(false);
 
+  /**
+   * Update module exports
+   */
   members.modules.forEach(doclet => {
     doclet.exports.exports = doclet.exports.exports.filter(exportName => {
       return find({ name: exportName, memberof: doclet.longname }).length > 0;
@@ -758,9 +937,32 @@ exports.publish = (taffyData) => {
 
     MODULE_EXPORTS[doclet.name] = doclet.exports;
   });
-  members.modules.forEach(processModule);
-  members.modules.forEach(generateDeclaration);
 
-  // @ts-ignore
-  generateTestFile();
+  // Parse module
+  members.modules.forEach(processModule);
+
+  // Clean output directory
+  rimraf.sync(outDir);
+
+  /**
+   * Emit declaration files
+   */
+  if (declarationConfig.mode == 'single') {
+    /**
+     * Generate single declaration file
+     */
+    const content = members.modules.map(doclet => generateDeclaration(doclet, false)).join('\n\n');
+    const outputPath = path.resolve(outDir, 'ol', 'index.d.ts');
+    fs.mkPath(path.dirname(outputPath));
+    fs.writeFileSync(outputPath, content);
+  } else {
+    /**
+     * Generate multiple declaration files
+     */
+    members.modules.forEach(doclet => generateDeclaration(doclet));
+  }
+
+  // Emit test file
+  if (declarationConfig.emitTestFile)
+    generateTestFile();
 };

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "checkJs": true,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "target": "es6"
+  },
+  "include": [
+    "jsdoc/**/*"
+  ]
+}
