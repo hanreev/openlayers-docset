@@ -11,10 +11,10 @@ declare module 'ol/renderer/canvas/VectorTileLayer' {
 
   export default class CanvasVectorTileLayerRenderer extends CanvasTileLayerRenderer {
     constructor(layer: VectorTileLayer);
-    'create']: (mapRenderer: MapRenderer, layer: Layer) => CanvasVectorTileLayerRenderer;
-  'handles']: (layer: Layer) => boolean;
-  handleFontsChanged_: (event: Event) => void;
-  renderFeature: (feature: FeatureLike, squaredTolerance: number, styles: Style | Style[], replayGroup: CanvasReplayGroup) => boolean;
-}
+    create(mapRenderer: MapRenderer, layer: Layer): CanvasVectorTileLayerRenderer;
+    handles(layer: Layer): boolean;
+    handleFontsChanged_(event: Event): void;
+    renderFeature(feature: FeatureLike, squaredTolerance: number, styles: Style | Style[], replayGroup: CanvasReplayGroup): boolean;
+  }
 
 }

@@ -6,8 +6,8 @@ declare module 'ol/renderer/canvas/IntermediateCanvas' {
 
   export default class IntermediateCanvasRenderer extends CanvasLayerRenderer {
     constructor(layer: Layer);
-    getImage: () => HTMLCanvasElement | HTMLVideoElement | HTMLImageElement;
-    getImageTransform: () => Transform;
+    getImage(): HTMLCanvasElement | HTMLVideoElement | HTMLImageElement;
+    getImageTransform(): Transform;
   }
 
 }

@@ -3,7 +3,7 @@ declare module 'ol/control/ZoomToExtent' {
   import { Extent } from 'ol/extent';
   import Control from 'ol/control/Control';
 
-  export type Options = {
+  export interface Options {
     className?: string;
     target?: HTMLElement | string;
     label?: string | HTMLElement;
@@ -13,7 +13,7 @@ declare module 'ol/control/ZoomToExtent' {
 
   export default class ZoomToExtent extends Control {
     constructor(opt_options?: Options);
-    handleZoomToExtent: () => void;
+    handleZoomToExtent(): void;
   }
 
 }

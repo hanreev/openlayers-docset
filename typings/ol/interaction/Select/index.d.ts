@@ -14,7 +14,7 @@ declare module 'ol/interaction/Select' {
 
   export type FilterFunction = ((param0: FeatureLike, param1: Layer) => boolean);
 
-  export type Options = {
+  export interface Options {
     addCondition?: Condition;
     condition?: Condition;
     layers?: Layer[] | (() => void);
@@ -30,11 +30,11 @@ declare module 'ol/interaction/Select' {
 
   export default class Select extends Interaction {
     constructor(opt_options?: Options);
-    getFeatures: () => Collection<Feature>;
-    getHitTolerance: () => number;
-    getLayer: (feature: FeatureLike) => VectorLayer;
-    getOverlay: () => VectorLayer;
-    setHitTolerance: (hitTolerance: number) => void;
+    getFeatures(): Collection<Feature>;
+    getHitTolerance(): number;
+    getLayer(feature: FeatureLike): VectorLayer;
+    getOverlay(): VectorLayer;
+    setHitTolerance(hitTolerance: number): void;
   }
 
 }

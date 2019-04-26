@@ -10,11 +10,11 @@ declare module 'ol/render/webgl/ReplayGroup' {
 
   export default class WebGLReplayGroup extends ReplayGroup {
     constructor(tolerance: number, maxExtent: Extent, opt_renderBuffer?: number);
-    finish: (context: WebGLContext) => void;
-    forEachFeatureAtCoordinate: (coordinate: Coordinate, context: WebGLContext, center: Coordinate, resolution: number, rotation: number, size: Size, pixelRatio: number, opacity: number, skippedFeaturesHash: { [key: string]: boolean }, callback: ((param0: Feature | RenderFeature) => T | undefined)) => T | undefined;
-    getDeleteResourcesFunction: (context: WebGLContext) => (() => void);
-    hasFeatureAtCoordinate: (coordinate: Coordinate, context: WebGLContext, center: Coordinate, resolution: number, rotation: number, size: Size, pixelRatio: number, opacity: number, skippedFeaturesHash: { [key: string]: boolean }) => boolean;
-    replay: (context: WebGLContext, center: Coordinate, resolution: number, rotation: number, size: Size, pixelRatio: number, opacity: number, skippedFeaturesHash: { [key: string]: boolean }) => void;
+    finish(context: WebGLContext): void;
+    forEachFeatureAtCoordinate<T>(coordinate: Coordinate, context: WebGLContext, center: Coordinate, resolution: number, rotation: number, size: Size, pixelRatio: number, opacity: number, skippedFeaturesHash: { [key in string]: boolean }, callback: ((param0: Feature | RenderFeature) => T)): T;
+    getDeleteResourcesFunction(context: WebGLContext): (() => void);
+    hasFeatureAtCoordinate(coordinate: Coordinate, context: WebGLContext, center: Coordinate, resolution: number, rotation: number, size: Size, pixelRatio: number, opacity: number, skippedFeaturesHash: { [key in string]: boolean }): boolean;
+    replay(context: WebGLContext, center: Coordinate, resolution: number, rotation: number, size: Size, pixelRatio: number, opacity: number, skippedFeaturesHash: { [key in string]: boolean }): void;
   }
 
 }

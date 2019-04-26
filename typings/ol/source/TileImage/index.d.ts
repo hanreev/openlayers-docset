@@ -11,11 +11,11 @@ declare module 'ol/source/TileImage' {
   import Projection from 'ol/proj/Projection';
   import Tile from 'ol/Tile';
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     attributionsCollapsible?: boolean;
     cacheSize?: number;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     opaque?: boolean;
     projection: ProjectionLike;
     reprojectionErrorThreshold?: number;
@@ -34,10 +34,10 @@ declare module 'ol/source/TileImage' {
 
   export default class TileImage extends UrlTile {
     constructor(options: Options);
-    getGutter: () => number;
-    getTileInternal: (z: number, x: number, y: number, pixelRatio: number, projection: Projection) => Tile;
-    setRenderReprojectionEdges: (render: boolean) => void;
-    setTileGridForProjection: (projection: ProjectionLike, tilegrid: TileGrid) => void;
+    getGutter(): number;
+    getTileInternal(z: number, x: number, y: number, pixelRatio: number, projection: Projection): Tile;
+    setRenderReprojectionEdges(render: boolean): void;
+    setTileGridForProjection(projection: ProjectionLike, tilegrid: TileGrid): void;
   }
 
 }

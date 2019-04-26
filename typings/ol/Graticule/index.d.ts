@@ -8,18 +8,18 @@ declare module 'ol/Graticule' {
 
   export default class Graticule {
     constructor(opt_options?: Options);
-    getMap: () => PluggableMap;
-    getMeridians: () => LineString[];
-    getParallels: () => LineString[];
-    setMap: (map: PluggableMap) => void;
+    getMap(): PluggableMap;
+    getMeridians(): LineString[];
+    getParallels(): LineString[];
+    setMap(map: PluggableMap): void;
   }
 
-  export type GraticuleLabelDataType = {
+  export interface GraticuleLabelDataType {
     geom: Point;
     text: string;
   }
 
-  export type Options = {
+  export interface Options {
     map?: PluggableMap;
     maxLines?: number;
     strokeStyle?: Stroke;

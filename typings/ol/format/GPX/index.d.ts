@@ -10,12 +10,12 @@ declare module 'ol/format/GPX' {
     constructor(opt_options?: Options);
   }
 
-  export type LayoutOptions = {
+  export interface LayoutOptions {
     hasZ?: boolean;
     hasM?: boolean;
   }
 
-  export type Options = {
+  export interface Options {
     readExtensions?: ((param0: Feature, param1: Node) => void);
   }
 

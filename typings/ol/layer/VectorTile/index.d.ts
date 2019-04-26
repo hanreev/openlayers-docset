@@ -7,8 +7,9 @@ declare module 'ol/layer/VectorTile' {
   import PluggableMap from 'ol/PluggableMap';
   import { StyleLike } from 'ol/style/Style';
   import VectorLayer from 'ol/layer/Vector';
+  import VectorSource from 'ol/source/Vector';
 
-  export type Options = {
+  export interface Options {
     opacity?: number;
     visible?: boolean;
     extent?: Extent;
@@ -25,18 +26,17 @@ declare module 'ol/layer/VectorTile' {
     updateWhileAnimating?: boolean;
     updateWhileInteracting?: boolean;
     preload?: number;
-    renderOrder?: OrderFunction;
-    style?: StyleLike;
     useInterimTilesOnError?: boolean;
   }
 
   export default class VectorTileLayer extends VectorLayer {
     constructor(opt_options?: Options);
-    getPreload: () => number;
-    getSource: () => VectorTile;
-    getUseInterimTilesOnError: () => boolean;
-    setPreload: (preload: number) => void;
-    setUseInterimTilesOnError: (useInterimTilesOnError: boolean) => void;
+    getPreload(): number;
+    getSource(): VectorTile;
+    getSource(): VectorSource;
+    getUseInterimTilesOnError(): boolean;
+    setPreload(preload: number): void;
+    setUseInterimTilesOnError(useInterimTilesOnError: boolean): void;
   }
 
 }

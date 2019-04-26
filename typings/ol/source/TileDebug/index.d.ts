@@ -7,7 +7,7 @@ declare module 'ol/source/TileDebug' {
   import TileGrid from 'ol/tilegrid/TileGrid';
   import TileSource from 'ol/source/Tile';
 
-  export type Options = {
+  export interface Options {
     projection: ProjectionLike;
     tileGrid?: TileGrid;
     wrapX?: boolean;

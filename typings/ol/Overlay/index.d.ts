@@ -8,7 +8,7 @@ declare module 'ol/Overlay' {
   import { Extent } from 'ol/extent';
   import { Pixel } from 'ol/pixel';
 
-  export type Options = {
+  export interface Options {
     id?: number | string;
     element?: HTMLElement;
     offset?: number[];
@@ -24,32 +24,32 @@ declare module 'ol/Overlay' {
 
   export default class Overlay extends BaseObject {
     constructor(options: Options);
-    getElement: () => HTMLElement | undefined;
-    getId: () => number | string | undefined;
-    getMap: () => PluggableMap | undefined;
-    getOffset: () => number[];
-    getOptions: () => Options;
-    getPosition: () => Coordinate | undefined;
-    getPositioning: () => OverlayPositioning;
-    getRect: (element: HTMLElement | undefined, size: Size | undefined) => Extent;
-    handleElementChanged: () => void;
-    handleMapChanged: () => void;
-    handleOffsetChanged: () => void;
-    handlePositionChanged: () => void;
-    handlePositioningChanged: () => void;
-    panIntoView: () => void;
-    render: () => void;
-    setElement: (element: HTMLElement | undefined) => void;
-    setMap: (map: PluggableMap | undefined) => void;
-    setOffset: (offset: number[]) => void;
-    setPosition: (position: Coordinate | undefined) => void;
-    setPositioning: (positioning: OverlayPositioning) => void;
-    setVisible: (visible: boolean) => void;
-    updatePixelPosition: () => void;
-    updateRenderedPosition: (pixel: Pixel, mapSize: Size | undefined) => void;
+    getElement(): HTMLElement;
+    getId(): number | string;
+    getMap(): PluggableMap;
+    getOffset(): number[];
+    getOptions(): Options;
+    getPosition(): Coordinate;
+    getPositioning(): OverlayPositioning;
+    getRect(element: HTMLElement, size: Size): Extent;
+    handleElementChanged(): void;
+    handleMapChanged(): void;
+    handleOffsetChanged(): void;
+    handlePositionChanged(): void;
+    handlePositioningChanged(): void;
+    panIntoView(): void;
+    render(): void;
+    setElement(element: HTMLElement): void;
+    setMap(map: PluggableMap): void;
+    setOffset(offset: number[]): void;
+    setPosition(position: Coordinate): void;
+    setPositioning(positioning: OverlayPositioning): void;
+    setVisible(visible: boolean): void;
+    updatePixelPosition(): void;
+    updateRenderedPosition(pixel: Pixel, mapSize: Size): void;
   }
 
-  export type PanOptions = {
+  export interface PanOptions {
     duration?: number;
     easing?: ((param0: number) => number);
   }

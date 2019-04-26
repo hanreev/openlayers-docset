@@ -3,20 +3,20 @@ declare module 'ol/control/ScaleLine' {
   import MapEvent from 'ol/MapEvent';
   import Control from 'ol/control/Control';
 
-  export function render(mapEvent: MapEvent): void;
+  export function render<T>(mapEvent: MapEvent<T>): void;
 
-  export type Options = {
+  export interface Options {
     className?: string;
     minWidth?: number;
-    render?: ((param0: MapEvent) => void);
+    render?: (<T>(param0: MapEvent<T>) => void);
     target?: HTMLElement | string;
     units?: Units | string;
   }
 
   export default class ScaleLine extends Control {
     constructor(opt_options?: Options);
-    getUnits: () => Units;
-    setUnits: (units: Units) => void;
+    getUnits(): Units;
+    setUnits(units: Units): void;
   }
 
   export enum Units {

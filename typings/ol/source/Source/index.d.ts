@@ -6,11 +6,11 @@ declare module 'ol/source/Source' {
   import BaseObject from 'ol/Object';
   import Projection from 'ol/proj/Projection';
 
-  export type Attribution = ((param0: FrameState) => string | string[]);
+  export type Attribution = (<T>(param0: FrameState<T>) => string | string[]);
 
   export type AttributionLike = string | string[] | Attribution;
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     attributionsCollapsible?: boolean;
     projection: ProjectionLike;
@@ -20,15 +20,15 @@ declare module 'ol/source/Source' {
 
   export default class Source extends BaseObject {
     constructor(options: Options);
-    getAttributions: () => Attribution;
-    getAttributionsCollapsible: () => boolean;
-    getProjection: () => Projection;
-    getResolutions: () => number[] | undefined;
-    getState: () => State;
-    getWrapX: () => boolean | undefined;
-    refresh: () => void;
-    setAttributions: (attributions: AttributionLike | undefined) => void;
-    setState: (state: State) => void;
+    getAttributions(): Attribution;
+    getAttributionsCollapsible(): boolean;
+    getProjection(): Projection;
+    getResolutions(): number[];
+    getState(): State;
+    getWrapX(): boolean;
+    refresh(): void;
+    setAttributions(attributions: AttributionLike): void;
+    setState(state: State): void;
   }
 
 }

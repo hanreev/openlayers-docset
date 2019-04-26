@@ -6,11 +6,11 @@ declare module 'ol/layer/Group' {
 
   export default class LayerGroup extends BaseLayer {
     constructor(opt_options?: Options);
-    getLayers: () => Collection<BaseLayer>;
-    setLayers: (layers: Collection<BaseLayer>) => void;
+    getLayers(): Collection<BaseLayer>;
+    setLayers(layers: Collection<BaseLayer>): void;
   }
 
-  export type Options = {
+  export interface Options {
     opacity?: number;
     visible?: boolean;
     extent?: Extent;

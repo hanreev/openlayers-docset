@@ -8,12 +8,19 @@ Object.prototype.hasOwnProperty = function (property) {
   return property in this;
 };
 
+// @ts-ignore
 const template = require('jsdoc/lib/jsdoc/template');
+// @ts-ignore
 const fs = require('jsdoc/lib/jsdoc/fs');
+// @ts-ignore
 const path = require('jsdoc/lib/jsdoc/path');
+// @ts-ignore
 const taffy = require('taffydb').taffy;
+// @ts-ignore
 const handle = require('jsdoc/lib/jsdoc/util/error').handle;
+// @ts-ignore
 const helper = require('jsdoc/lib/jsdoc/util/templateHelper');
+// @ts-ignore
 const logger = require('jsdoc/lib/jsdoc/util/logger');
 const _ = require('underscore');
 const rimraf = require('rimraf');
@@ -21,7 +28,9 @@ const sqlite3 = require('sqlite3');
 const htmlsafe = helper.htmlsafe;
 const linkto = helper.linkto;
 const resolveAuthorLinks = helper.resolveAuthorLinks;
+// @ts-ignore
 const baseOutdir = env.opts.destination;
+// @ts-ignore
 const outdir = path.join(baseOutdir, 'Contents', 'Resources', 'Documents');
 
 // Work around an issue with hasOwnProperty in JSDoc's templateHelper.js.
@@ -109,6 +118,7 @@ function shortenPaths(files, commonPrefix) {
 }
 
 function resolveSourcePath(filepath) {
+  // @ts-ignore
   return path.resolve(process.cwd(), filepath);
 }
 
@@ -135,12 +145,14 @@ function generate(title, docs, filename, resolveLinks) {
     }) || [])[0]
   };
 
+  // @ts-ignore
   const outpath = path.join(outdir, filename);
   let html = view.render('container.tmpl', docData);
 
   if (resolveLinks)
     html = helper.resolveLinks(html); // turn {@link foo} into <a href="foodoc.html">foo</a>
 
+  // @ts-ignore
   fs.writeFileSync(outpath, html, 'utf8');
 }
 
@@ -154,6 +166,7 @@ function generateSourceFiles(sourceFiles) {
     try {
       source = {
         kind: 'source',
+        // @ts-ignore
         code: helper.htmlsafe(fs.readFileSync(sourceFiles[file].resolved, 'utf8'))
       };
     } catch (e) {
@@ -263,6 +276,7 @@ function buildNav(members) {
     }
   });
 
+  // @ts-ignore
   return nav;
 }
 
@@ -282,13 +296,19 @@ function buildNav(members) {
  */
 function buildDocsetFiles(members, templatePath) {
   // Copy Info.plist and icons
+  // @ts-ignore
   fs.copyFileSync(path.resolve(templatePath, 'Info.plist'), path.resolve(baseOutdir, 'Contents'));
+  // @ts-ignore
   fs.copyFileSync(path.resolve(templatePath, 'icons', 'icon.png'), path.resolve(baseOutdir));
+  // @ts-ignore
   fs.copyFileSync(path.resolve(templatePath, 'icons', 'icon@2x.png'), path.resolve(baseOutdir));
 
   // Create index database
+  // @ts-ignore
   const dbPath = path.resolve(baseOutdir, 'Contents', 'Resources', 'docSet.dsidx');
+  // @ts-ignore
   if (fs.existsSync(dbPath))
+    // @ts-ignore
     fs.unlinkSync(dbPath);
 
   const sqlite3v = sqlite3.verbose();
@@ -359,9 +379,10 @@ function buildDocsetFiles(members, templatePath) {
  * @param {Object} opts Options.
  * @param {Object} tutorials Tutorials.
  */
-exports.publish = function (taffyData, opts, tutorials) {
+exports.publish = (taffyData, opts, tutorials) => {
   data = taffyData;
 
+  // @ts-ignore
   const conf = env.conf.templates || {};
   conf['default'] = conf['default'] || {};
 
@@ -429,6 +450,7 @@ exports.publish = function (taffyData, opts, tutorials) {
   fs.mkPath(outdir);
 
   // copy the template's static files to outdir
+  // @ts-ignore
   const fromDir = path.join(templatePath, 'static');
   const staticFiles = fs.ls(fromDir, 3);
 
@@ -444,14 +466,18 @@ exports.publish = function (taffyData, opts, tutorials) {
   let staticFileScanner;
   if (conf['default'].staticFiles) {
     staticFilePaths = conf['default'].staticFiles.paths || [];
+    // @ts-ignore
     staticFileFilter = new (require('jsdoc/lib/jsdoc/src/filter')).Filter(conf['default'].staticFiles);
+    // @ts-ignore
     staticFileScanner = new (require('jsdoc/lib/jsdoc/src/scanner')).Scanner();
 
     staticFilePaths.forEach(filePath => {
       const extraStaticFiles = staticFileScanner.scan([filePath], 10, staticFileFilter);
 
       extraStaticFiles.forEach(fileName => {
+        // @ts-ignore
         const sourcePath = fs.statSync(filePath).isDirectory() ? filePath :
+          // @ts-ignore
           path.dirname(filePath);
         const toDir = fs.toDir(fileName.replace(sourcePath, outdir));
         fs.mkPath(toDir);
@@ -508,15 +534,23 @@ exports.publish = function (taffyData, opts, tutorials) {
   members.tutorials = tutorials.children;
 
   // add template helpers
+  // @ts-ignore
   view.find = find;
+  // @ts-ignore
   view.linkto = linkto;
+  // @ts-ignore
   view.resolveAuthorLinks = resolveAuthorLinks;
+  // @ts-ignore
   view.tutoriallink = tutoriallink;
+  // @ts-ignore
   view.htmlsafe = htmlsafe;
+  // @ts-ignore
   view.members = members; //@davidshimjs: To make navigation for customizing
+  // @ts-ignore
   view.encodeUriComponent = encodeURIComponent;
 
   // once for all
+  // @ts-ignore
   view.nav = buildNav(members);
   buildDocsetFiles(members, templatePath);
   attachModuleSymbols(find({
@@ -602,7 +636,9 @@ exports.publish = function (taffyData, opts, tutorials) {
     // yes, you can use {@link} in tutorials too!
     html = helper.resolveLinks(html); // turn {@link foo} into <a href="foodoc.html">foo</a>
 
+    // @ts-ignore
     const tutorialPath = path.join(outdir, filename);
+    // @ts-ignore
     fs.writeFileSync(tutorialPath, html, 'utf8');
   }
 

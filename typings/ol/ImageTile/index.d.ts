@@ -8,7 +8,7 @@ declare module 'ol/ImageTile' {
 
   export default class ImageTile extends Tile {
     constructor(tileCoord: TileCoord, state: TileState, src: string, crossOrigin: string, tileLoadFunction: LoadFunction, opt_options?: Options);
-    getImage: () => HTMLCanvasElement | HTMLImageElement | HTMLVideoElement;
+    getImage(): HTMLCanvasElement | HTMLImageElement | HTMLVideoElement;
   }
 
 }

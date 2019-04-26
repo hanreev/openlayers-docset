@@ -10,9 +10,10 @@
   "license": "MIT",
   "scripts": {
     "build": "jsdoc jsdoc/index.md -c jsdoc/conf.json -P openlayers/package.json -d OpenLayers.docset",
-    "build-dts": "jsdoc -c jsdoc/conf-dts.json -P openlayers/package.json -d typings && tsfmt -r",
-    "lint-dts": "tslint --project tsconfig.json",
-    "format-dts": "tsfmt -r"
+    "build-dts": "jsdoc -c jsdoc/conf-dts.json -P openlayers/package.json -d typings",
+    "lint-dts": "tsc --pretty",
+    "format-dts": "tsfmt -r",
+    "build-format-dts": "yarn build-dts && yarn format-dts"
   },
   "dependencies": {
     "jsdoc": "^3.5.5",

@@ -2,7 +2,7 @@ declare module 'ol/interaction/PinchRotate' {
 
   import PointerInteraction from 'ol/interaction/Pointer';
 
-  export type Options = {
+  export interface Options {
     duration?: number;
     threshold?: number;
   }

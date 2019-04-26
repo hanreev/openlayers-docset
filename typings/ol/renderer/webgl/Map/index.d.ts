@@ -10,7 +10,7 @@ declare module 'ol/renderer/webgl/Map' {
   import PriorityQueue from 'ol/structs/PriorityQueue';
   import Event from 'ol/events/Event';
 
-  export type TextureCacheEntry = {
+  export interface TextureCacheEntry {
     magFilter: number;
     minFilter: number;
     texture: WebGLTexture;
@@ -18,14 +18,15 @@ declare module 'ol/renderer/webgl/Map' {
 
   export default class WebGLMapRenderer extends MapRenderer {
     constructor(map: PluggableMap);
-    bindTileTexture: (tile: Tile, tileSize: Size, tileGutter: number, magFilter: number, minFilter: number) => void;
-    dispatchRenderEvent: (type: EventType, frameState: FrameState) => void;
-    getContext: () => WebGLContext;
-    getGL: () => WebGLRenderingContext;
-    getTileTextureQueue: () => PriorityQueue<any[]>;
-    handleWebGLContextLost: (event: Event) => void;
-    handleWebGLContextRestored: () => void;
-    isTileTextureLoaded: (tile: Tile) => boolean;
+    bindTileTexture(tile: Tile, tileSize: Size, tileGutter: number, magFilter: number, minFilter: number): void;
+    dispatchRenderEvent<T>(type: EventType, frameState: FrameState<T>): void;
+    dispatchRenderEvent<T>(type: EventType, frameState: FrameState<T>): void;
+    getContext(): WebGLContext;
+    getGL(): WebGLRenderingContext;
+    getTileTextureQueue(): PriorityQueue<any[]>;
+    handleWebGLContextLost(event: Event): void;
+    handleWebGLContextRestored(): void;
+    isTileTextureLoaded(tile: Tile): boolean;
   }
 
 }

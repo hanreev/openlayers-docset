@@ -8,8 +8,8 @@ declare module 'ol/renderer/webgl/ImageLayer' {
 
   export default class WebGLImageLayerRenderer extends WebGLLayerRenderer {
     constructor(mapRenderer: WebGLMapRenderer, imageLayer: ImageLayer);
-    'create']: (mapRenderer: MapRenderer, layer: Layer) => WebGLImageLayerRenderer;
-  'handles']: (layer: Layer) => boolean;
-}
+    create(mapRenderer: MapRenderer, layer: Layer): WebGLImageLayerRenderer;
+    handles(layer: Layer): boolean;
+  }
 
 }

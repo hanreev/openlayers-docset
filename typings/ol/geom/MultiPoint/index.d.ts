@@ -7,9 +7,9 @@ declare module 'ol/geom/MultiPoint' {
 
   export default class MultiPoint extends SimpleGeometry {
     constructor(coordinates: Coordinate[] | number[], opt_layout?: GeometryLayout);
-    appendPoint: (point: Point) => void;
-    getPoint: (index: number) => Point;
-    getPoints: () => Point[];
+    appendPoint(point: Point): void;
+    getPoint(index: number): Point;
+    getPoints(): Point[];
   }
 
 }

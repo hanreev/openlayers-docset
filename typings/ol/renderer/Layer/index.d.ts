@@ -15,15 +15,15 @@ declare module 'ol/renderer/Layer' {
 
   export default class LayerRenderer extends Observable {
     constructor(layer: Layer);
-    createLoadedTileFinder: (source: TileSource, projection: Projection, tiles: { [key: number]: { [key: string]: Tile } }) => ((param0: number, param1: TileRange) => boolean);
-    forEachFeatureAtCoordinate: (coordinate: Coordinate, frameState: FrameState, hitTolerance: number, callback: ((param0: FeatureLike, param1: Layer) => T)) => T | void;
-    getLayer: () => Layer;
-    hasFeatureAtCoordinate: (coordinate: Coordinate, frameState: FrameState) => boolean;
-    loadImage: (image: ImageBase) => boolean;
-    manageTilePyramid: (frameState: FrameState, tileSource: TileSource, tileGrid: TileGrid, pixelRatio: number, projection: Projection, extent: Extent, currentZ: number, preload: number, opt_tileCallback?: (() => void), opt_this?: T) => void;
-    renderIfReadyAndVisible: () => void;
-    scheduleExpireCache: (frameState: FrameState, tileSource: TileSource) => void;
-    updateUsedTiles: (usedTiles: { [key: string]: { [key: string]: TileRange } }, tileSource: TileSource, z: number, tileRange: TileRange) => void;
+    createLoadedTileFinder(source: TileSource, projection: Projection, tiles: { [key in number]: { [key in string]: Tile } }): ((param0: number, param1: TileRange) => boolean);
+    forEachFeatureAtCoordinate<T>(coordinate: Coordinate, frameState: FrameState<T>, hitTolerance: number, callback: ((param0: FeatureLike, param1: Layer) => T)): T | void;
+    getLayer(): Layer;
+    hasFeatureAtCoordinate<T>(coordinate: Coordinate, frameState: FrameState<T>): boolean;
+    loadImage(image: ImageBase): boolean;
+    manageTilePyramid<T>(frameState: FrameState<T>, tileSource: TileSource, tileGrid: TileGrid, pixelRatio: number, projection: Projection, extent: Extent, currentZ: number, preload: number, opt_tileCallback?: (() => void), opt_this?: T): void;
+    renderIfReadyAndVisible(): void;
+    scheduleExpireCache<T>(frameState: FrameState<T>, tileSource: TileSource): void;
+    updateUsedTiles(usedTiles: { [key in string]: { [key in string]: TileRange } }, tileSource: TileSource, z: number, tileRange: TileRange): void;
   }
 
 }

@@ -11,7 +11,7 @@ declare module 'ol/interaction/Translate' {
     features: Collection<Feature>;
   }
 
-  export type Options = {
+  export interface Options {
     features?: Collection<Feature>;
     layers?: Layer[] | (() => void);
     hitTolerance?: number;
@@ -19,8 +19,8 @@ declare module 'ol/interaction/Translate' {
 
   export default class Translate extends PointerInteraction {
     constructor(opt_options?: Options);
-    getHitTolerance: () => number;
-    setHitTolerance: (hitTolerance: number) => void;
+    getHitTolerance(): number;
+    setHitTolerance(hitTolerance: number): void;
   }
 
 }

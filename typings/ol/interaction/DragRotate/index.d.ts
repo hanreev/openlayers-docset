@@ -7,7 +7,7 @@ declare module 'ol/interaction/DragRotate' {
     constructor(opt_options?: Options);
   }
 
-  export type Options = {
+  export interface Options {
     condition?: Condition;
     duration?: number;
   }

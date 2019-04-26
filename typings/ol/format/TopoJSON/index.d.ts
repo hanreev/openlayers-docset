@@ -21,7 +21,7 @@ declare module 'ol/format/TopoJSON' {
   import { Polygon as Polygon_1 } from 'topojson-specification';
   import { Topology } from 'topojson-specification';
 
-  export type Options = {
+  export interface Options {
     dataProjection?: ProjectionLike;
     layerName?: string;
     layers?: string[];

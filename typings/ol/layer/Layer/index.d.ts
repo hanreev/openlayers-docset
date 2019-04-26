@@ -4,18 +4,18 @@ declare module 'ol/layer/Layer' {
   import Source from 'ol/source/Source';
   import PluggableMap from 'ol/PluggableMap';
   import { Extent } from 'ol/extent';
-  import State from 'ol/source/State';
+  import State_1 from 'ol/source/State';
 
   export function visibleAtResolution(layerState: State, resolution: number): boolean;
 
   export default class Layer extends BaseLayer {
     constructor(options: Options);
-    getSource: () => Source;
-    setMap: (map: PluggableMap) => void;
-    setSource: (source: Source) => void;
+    getSource(): Source;
+    setMap(map: PluggableMap): void;
+    setSource(source: Source): void;
   }
 
-  export type Options = {
+  export interface Options {
     opacity?: number;
     visible?: boolean;
     extent?: Extent;
@@ -26,10 +26,10 @@ declare module 'ol/layer/Layer' {
     map?: PluggableMap;
   }
 
-  export type State = {
+  export interface State {
     layer: BaseLayer;
     opacity: number;
-    sourceState: State;
+    sourceState: State_1;
     visible: boolean;
     managed: boolean;
     extent?: Extent;

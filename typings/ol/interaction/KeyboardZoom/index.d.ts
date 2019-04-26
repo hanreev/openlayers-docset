@@ -8,7 +8,7 @@ declare module 'ol/interaction/KeyboardZoom' {
     constructor(opt_options?: Options);
   }
 
-  export type Options = {
+  export interface Options {
     duration?: number;
     condition?: Condition;
     delta?: number;

@@ -5,14 +5,14 @@ declare module 'ol/ImageBase' {
   import ImageState from 'ol/ImageState';
 
   export default class ImageBase extends Target {
-    constructor(extent: Extent, resolution: number | undefined, pixelRatio: number, state: ImageState);
-    changed: () => void;
-    getExtent: () => Extent;
-    getImage: () => HTMLCanvasElement | HTMLImageElement | HTMLVideoElement;
-    getPixelRatio: () => number;
-    getResolution: () => number;
-    getState: () => ImageState;
-    load: () => void;
+    constructor(extent: Extent, resolution: number, pixelRatio: number, state: ImageState);
+    changed(): void;
+    getExtent(): Extent;
+    getImage(): HTMLCanvasElement | HTMLImageElement | HTMLVideoElement;
+    getPixelRatio(): number;
+    getResolution(): number;
+    getState(): ImageState;
+    load(): void;
   }
 
 }

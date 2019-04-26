@@ -6,7 +6,7 @@ declare module 'ol/array' {
 
   export function extend<VALUE>(arr: VALUE[], data: VALUE[] | VALUE): void;
 
-  export function find<VALUE>(arr: VALUE[], func: (() => void)): VALUE | null;
+  export function find<VALUE>(arr: VALUE[], func: (() => void)): VALUE;
 
   export function findIndex(arr: any[], func: (() => void)): number;
 

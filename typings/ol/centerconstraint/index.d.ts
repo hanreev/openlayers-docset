@@ -5,8 +5,8 @@ declare module 'ol/centerconstraint' {
 
   export function createExtent(extent: Extent): Type;
 
-  export function none(center?: Coordinate): Coordinate | undefined;
+  export function none(center?: Coordinate): Coordinate;
 
-  export type Type = ((param0: Coordinate | undefined) => Coordinate | undefined);
+  export type Type = ((param0: Coordinate) => Coordinate);
 
 }

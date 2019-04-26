@@ -6,20 +6,20 @@ declare module 'ol/source/CartoDB' {
 
   export default class CartoDB extends XYZ {
     constructor(options: Options);
-    getConfig: () => Object;
-    setConfig: (config: Object) => void;
-    updateConfig: (config: Object) => void;
+    getConfig(): Object;
+    setConfig(config: Object): void;
+    updateConfig(config: Object): void;
   }
 
-  export type CartoDBLayerInfo = {
+  export interface CartoDBLayerInfo {
     layergroupid: string;
     cdn_url: Object;
   }
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     cacheSize?: number;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     projection?: ProjectionLike;
     maxZoom?: number;
     minZoom?: number;

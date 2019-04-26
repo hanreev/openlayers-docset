@@ -12,7 +12,7 @@ declare module 'ol/source/Raster' {
 
   export type Operation = ((param0: number[][] | ImageData[], param1: Object) => number[] | ImageData);
 
-  export type Options = {
+  export interface Options {
     sources: any[];
     operation?: Operation;
     lib?: Object;
@@ -20,9 +20,14 @@ declare module 'ol/source/Raster' {
     operationType?: RasterOperationType;
   }
 
+  export enum RasterOperationType {
+    PIXEL = 'pixel',
+    IMAGE = 'image',
+  }
+
   export default class RasterSource extends ImageSource {
     constructor(options: Options);
-    setOperation: (operation: Operation, opt_lib?: Object) => void;
+    setOperation(operation: Operation, opt_lib?: Object): void;
   }
 
 }

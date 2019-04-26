@@ -5,13 +5,13 @@ declare module 'ol/style/Fill' {
 
   export default class Fill {
     constructor(opt_options?: Options);
-    clone: () => Fill;
-    getChecksum: () => string;
-    getColor: () => Color | ColorLike;
-    setColor: (color: Color | ColorLike) => void;
+    clone(): Fill;
+    getChecksum(): string;
+    getColor(): Color | ColorLike;
+    setColor(color: Color | ColorLike): void;
   }
 
-  export type Options = {
+  export interface Options {
     color?: Color | ColorLike;
   }
 

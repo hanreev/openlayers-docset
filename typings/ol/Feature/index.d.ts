@@ -10,17 +10,17 @@ declare module 'ol/Feature' {
   export function createStyleFunction(obj: StyleFunction | Style[] | Style): StyleFunction;
 
   export default class Feature extends BaseObject {
-    constructor(opt_geometryOrProperties?: Geometry | { [key: string]: any });
-    clone: () => Feature;
-    getGeometry: () => Geometry | undefined;
-    getGeometryName: () => string;
-    getId: () => number | string | undefined;
-    getStyle: () => StyleLike;
-    getStyleFunction: () => StyleFunction | undefined;
-    setGeometry: (geometry: Geometry | undefined) => void;
-    setGeometryName: (name: string) => void;
-    setId: (id: number | string | undefined) => void;
-    setStyle: (style: StyleLike) => void;
+    constructor(opt_geometryOrProperties?: Geometry | { [key in string]: any });
+    clone(): Feature;
+    getGeometry(): Geometry;
+    getGeometryName(): string;
+    getId(): number | string;
+    getStyle(): StyleLike;
+    getStyleFunction(): StyleFunction;
+    setGeometry(geometry: Geometry): void;
+    setGeometryName(name: string): void;
+    setId(id: number | string): void;
+    setStyle(style: StyleLike): void;
   }
 
   export type FeatureClass = Feature | RenderFeature;

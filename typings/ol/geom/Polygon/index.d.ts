@@ -1,5 +1,6 @@
 declare module 'ol/geom/Polygon' {
 
+  import GeometryLayout from 'ol/geom/GeometryLayout';
   import { Coordinate } from 'ol/coordinate';
   import Circle from 'ol/geom/Circle';
   import { Extent } from 'ol/extent';
@@ -17,15 +18,15 @@ declare module 'ol/geom/Polygon' {
 
   export default class Polygon extends SimpleGeometry {
     constructor(coordinates: Coordinate[][] | number[], opt_layout?: GeometryLayout, opt_ends?: number[]);
-    appendLinearRing: (linearRing: LinearRing) => void;
-    getArea: () => number;
-    getEnds: () => number[];
-    getFlatInteriorPoint: () => number[];
-    getInteriorPoint: () => Point;
-    getLinearRing: (index: number) => LinearRing;
-    getLinearRingCount: () => number;
-    getLinearRings: () => LinearRing[];
-    getOrientedFlatCoordinates: () => number[];
+    appendLinearRing(linearRing: LinearRing): void;
+    getArea(): number;
+    getEnds(): number[];
+    getFlatInteriorPoint(): number[];
+    getInteriorPoint(): Point;
+    getLinearRing(index: number): LinearRing;
+    getLinearRingCount(): number;
+    getLinearRings(): LinearRing[];
+    getOrientedFlatCoordinates(): number[];
   }
 
 }

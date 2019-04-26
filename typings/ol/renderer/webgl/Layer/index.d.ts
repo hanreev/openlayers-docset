@@ -11,14 +11,14 @@ declare module 'ol/renderer/webgl/Layer' {
 
   export default class WebGLLayerRenderer extends LayerRenderer {
     constructor(mapRenderer: WebGLMapRenderer, layer: Layer);
-    bindFramebuffer: (frameState: FrameState, framebufferDimension: number) => void;
-    composeFrame: (frameState: FrameState, layerState: State, context: WebGLContext) => void;
-    forEachLayerAtPixel: (pixel: Pixel, frameState: FrameState, callback: ((this: S, param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S) => T | undefined;
-    getProjectionMatrix: () => Transform;
-    getTexCoordMatrix: () => Transform;
-    getTexture: () => WebGLTexture;
-    handleWebGLContextLost: () => void;
-    prepareFrame: (frameState: FrameState, layerState: State, context: WebGLContext) => boolean;
+    bindFramebuffer<T>(frameState: FrameState<T>, framebufferDimension: number): void;
+    composeFrame<T>(frameState: FrameState<T>, layerState: State, context: WebGLContext): void;
+    forEachLayerAtPixel<S, T, U>(pixel: Pixel, frameState: FrameState<T>, callback: ((this: S, param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S): T;
+    getProjectionMatrix(): Transform;
+    getTexCoordMatrix(): Transform;
+    getTexture(): WebGLTexture;
+    handleWebGLContextLost(): void;
+    prepareFrame<T>(frameState: FrameState<T>, layerState: State, context: WebGLContext): boolean;
   }
 
 }

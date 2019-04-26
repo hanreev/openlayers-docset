@@ -6,7 +6,7 @@ declare module 'ol/control/FullScreen' {
     constructor(opt_options?: Options);
   }
 
-  export type Options = {
+  export interface Options {
     className?: string;
     label?: string | Text;
     labelActive?: string | Text;

@@ -11,10 +11,10 @@ declare module 'ol/source/WMTS' {
 
   export function optionsFromCapabilities(wmtsCap: Object, config: Object): Options;
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     cacheSize?: number;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     tileGrid: WMTSTileGrid;
     projection: ProjectionLike;
     reprojectionErrorThreshold?: number;
@@ -36,14 +36,14 @@ declare module 'ol/source/WMTS' {
 
   export default class WMTS extends TileImage {
     constructor(options: Options);
-    getDimensions: () => Object;
-    getFormat: () => string;
-    getLayer: () => string;
-    getMatrixSet: () => string;
-    getRequestEncoding: () => WMTSRequestEncoding;
-    getStyle: () => string;
-    getVersion: () => string;
-    updateDimensions: (dimensions: Object) => void;
+    getDimensions(): Object;
+    getFormat(): string;
+    getLayer(): string;
+    getMatrixSet(): string;
+    getRequestEncoding(): WMTSRequestEncoding;
+    getStyle(): string;
+    getVersion(): string;
+    updateDimensions(dimensions: Object): void;
   }
 
 }

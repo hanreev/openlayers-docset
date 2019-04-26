@@ -4,7 +4,7 @@ declare module 'ol/control/util' {
   import { Options as Options_1 } from 'ol/control/Rotate';
   import { Options as Options_2 } from 'ol/control/Zoom';
 
-  export type DefaultsOptions = {
+  export interface DefaultsOptions {
     attribution?: boolean;
     attributionOptions?: Options;
     rotate?: boolean;

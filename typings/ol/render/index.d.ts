@@ -9,7 +9,7 @@ declare module 'ol/render' {
 
   export type OrderFunction = ((param0: FeatureLike, param1: FeatureLike) => number);
 
-  export type State = {
+  export interface State {
     context: CanvasRenderingContext2D;
     feature: FeatureLike;
     geometry: SimpleGeometry;
@@ -18,7 +18,7 @@ declare module 'ol/render' {
     rotation: number;
   }
 
-  export type ToContextOptions = {
+  export interface ToContextOptions {
     size?: Size;
     pixelRatio?: number;
   }

@@ -4,9 +4,9 @@ declare module 'ol/render/webgl/TextReplay' {
   import WebGLTextureReplay from 'ol/render/webgl/TextureReplay';
   import { Extent } from 'ol/extent';
 
-  export type GlyphAtlas = {
+  export interface GlyphAtlas {
     atlas: AtlasManager;
-    width: { [key: string]: number };
+    width: { [key in string]: number };
     height: number;
   }
 

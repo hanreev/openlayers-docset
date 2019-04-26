@@ -6,8 +6,8 @@ declare module 'ol/events/Event' {
 
   export default class Event {
     constructor(type: string);
-    preventDefault: () => void;
-    stopPropagation: () => void;
+    preventDefault(): void;
+    stopPropagation(): void;
     target: Object;
     type: string;
   }

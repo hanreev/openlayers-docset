@@ -10,10 +10,10 @@ declare module 'ol/interaction/MouseWheelZoom' {
 
   export default class MouseWheelZoom extends Interaction {
     constructor(opt_options?: Options);
-    setMouseAnchor: (useAnchor: boolean) => void;
+    setMouseAnchor(useAnchor: boolean): void;
   }
 
-  export type Options = {
+  export interface Options {
     condition?: Condition;
     duration?: number;
     timeout?: number;

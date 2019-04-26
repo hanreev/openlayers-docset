@@ -4,11 +4,11 @@ declare module 'ol/geom/GeometryCollection' {
 
   export default class GeometryCollection extends Geometry {
     constructor(opt_geometries?: Geometry[]);
-    getGeometries: () => Geometry[];
-    getGeometriesArray: () => Geometry[];
-    isEmpty: () => boolean;
-    setGeometries: (geometries: Geometry[]) => void;
-    setGeometriesArray: (geometries: Geometry[]) => void;
+    getGeometries(): Geometry[];
+    getGeometriesArray(): Geometry[];
+    isEmpty(): boolean;
+    setGeometries(geometries: Geometry[]): void;
+    setGeometriesArray(geometries: Geometry[]): void;
   }
 
 }

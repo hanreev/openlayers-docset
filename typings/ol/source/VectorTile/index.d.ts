@@ -5,14 +5,14 @@ declare module 'ol/source/VectorTile' {
   import FeatureFormat from 'ol/format/Feature';
   import { ProjectionLike } from 'ol/proj';
   import State from 'ol/source/State';
-  import VectorTile from 'ol/VectorTile';
+  import VectorTile_1 from 'ol/VectorTile';
   import { Size } from 'ol/size';
   import TileGrid from 'ol/tilegrid/TileGrid';
   import { LoadFunction } from 'ol/Tile';
   import { UrlFunction } from 'ol/Tile';
   import UrlTile from 'ol/source/UrlTile';
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     cacheSize?: number;
     extent?: Extent;
@@ -20,7 +20,7 @@ declare module 'ol/source/VectorTile' {
     overlaps?: boolean;
     projection: ProjectionLike;
     state?: State;
-    tileClass?: VectorTile;
+    tileClass?: VectorTile_1;
     maxZoom?: number;
     minZoom?: number;
     tileSize?: number | Size;
@@ -35,8 +35,8 @@ declare module 'ol/source/VectorTile' {
 
   export default class VectorTile extends UrlTile {
     constructor(options: Options);
-    clear: () => void;
-    getOverlaps: () => boolean;
+    clear(): void;
+    getOverlaps(): boolean;
   }
 
 }

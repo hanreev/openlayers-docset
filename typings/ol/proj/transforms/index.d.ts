@@ -7,7 +7,7 @@ declare module 'ol/proj/transforms' {
 
   export function clear(): void;
 
-  export function get(sourceCode: string, destinationCode: string): TransformFunction | undefined;
+  export function get(sourceCode: string, destinationCode: string): TransformFunction;
 
   export function remove(source: Projection, destination: Projection): TransformFunction;
 

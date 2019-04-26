@@ -13,13 +13,13 @@ declare module 'ol/style/Style' {
 
   export function createDefaultStyle(feature: FeatureLike, resolution: number): Style[];
 
-  export function createEditingStyle(): { [key: GeometryType]: Style[] };
+  export function createEditingStyle(): { [key in GeometryType]: Style[] };
 
   export function toFunction(obj: StyleFunction | Style[] | Style): StyleFunction;
 
-  export type GeometryFunction = ((param0: FeatureLike) => Geometry | RenderFeature | undefined);
+  export type GeometryFunction = ((param0: FeatureLike) => Geometry | RenderFeature);
 
-  export type Options = {
+  export interface Options {
     geometry?: string | Geometry | GeometryFunction;
     fill?: Fill;
     image?: ImageStyle;
@@ -33,22 +33,22 @@ declare module 'ol/style/Style' {
 
   export default class Style {
     constructor(opt_options?: Options);
-    clone: () => Style;
-    getFill: () => Fill;
-    getGeometry: () => string | Geometry | GeometryFunction;
-    getGeometryFunction: () => GeometryFunction;
-    getImage: () => ImageStyle;
-    getRenderer: () => RenderFunction | null;
-    getStroke: () => Stroke;
-    getText: () => Text;
-    getZIndex: () => number | undefined;
-    setFill: (fill: Fill) => void;
-    setGeometry: (geometry: string | Geometry | GeometryFunction) => void;
-    setImage: (image: ImageStyle) => void;
-    setRenderer: (renderer: RenderFunction | null) => void;
-    setStroke: (stroke: Stroke) => void;
-    setText: (text: Text) => void;
-    setZIndex: (zIndex: number | undefined) => void;
+    clone(): Style;
+    getFill(): Fill;
+    getGeometry(): string | Geometry | GeometryFunction;
+    getGeometryFunction(): GeometryFunction;
+    getImage(): ImageStyle;
+    getRenderer(): RenderFunction;
+    getStroke(): Stroke;
+    getText(): Text;
+    getZIndex(): number;
+    setFill(fill: Fill): void;
+    setGeometry(geometry: string | Geometry | GeometryFunction): void;
+    setImage(image: ImageStyle): void;
+    setRenderer(renderer: RenderFunction): void;
+    setStroke(stroke: Stroke): void;
+    setText(text: Text): void;
+    setZIndex(zIndex: number): void;
   }
 
   export type StyleFunction = ((param0: FeatureLike, param1: number) => Style | Style[]);

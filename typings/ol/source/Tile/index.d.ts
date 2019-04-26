@@ -18,7 +18,7 @@ declare module 'ol/source/Tile' {
     tile: Tile;
   }
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     attributionsCollapsible?: boolean;
     cacheSize?: number;
@@ -34,21 +34,21 @@ declare module 'ol/source/Tile' {
 
   export default class TileSource extends Source {
     constructor(options: Options);
-    canExpireCache: () => boolean;
-    expireCache: (projection: Projection, usedTiles: { [key: string]: TileRange }) => void;
-    forEachLoadedTile: (projection: Projection, z: number, tileRange: TileRange, callback: ((param0: Tile) => boolean | void)) => boolean;
-    getGutterForProjection: (projection: Projection) => number;
-    getKey: () => string;
-    getOpaque: (projection: Projection) => boolean;
-    getTile: (z: number, x: number, y: number, pixelRatio: number, projection: Projection) => Tile;
-    getTileCacheForProjection: (projection: Projection) => TileCache;
-    getTileCoordForTileUrlFunction: (tileCoord: TileCoord, opt_projection?: Projection) => TileCoord;
-    getTileGrid: () => TileGrid;
-    getTileGridForProjection: (projection: Projection) => TileGrid;
-    getTilePixelRatio: (pixelRatio: number) => number;
-    getTilePixelSize: (z: number, pixelRatio: number, projection: Projection) => Size;
-    setKey: (key: string) => void;
-    useTile: (z: number, x: number, y: number, projection: Projection) => void;
+    canExpireCache(): boolean;
+    expireCache(projection: Projection, usedTiles: { [key in string]: TileRange }): void;
+    forEachLoadedTile(projection: Projection, z: number, tileRange: TileRange, callback: ((param0: Tile) => boolean | void)): boolean;
+    getGutterForProjection(projection: Projection): number;
+    getKey(): string;
+    getOpaque(projection: Projection): boolean;
+    getTile(z: number, x: number, y: number, pixelRatio: number, projection: Projection): Tile;
+    getTileCacheForProjection<T>(projection: Projection): TileCache<T>;
+    getTileCoordForTileUrlFunction(tileCoord: TileCoord, opt_projection?: Projection): TileCoord;
+    getTileGrid(): TileGrid;
+    getTileGridForProjection(projection: Projection): TileGrid;
+    getTilePixelRatio(pixelRatio: number): number;
+    getTilePixelSize(z: number, pixelRatio: number, projection: Projection): Size;
+    setKey(key: string): void;
+    useTile(z: number, x: number, y: number, projection: Projection): void;
   }
 
 }

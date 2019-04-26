@@ -8,8 +8,9 @@ declare module 'ol/renderer/canvas/Map' {
 
   export default class CanvasMapRenderer extends MapRenderer {
     constructor(map: PluggableMap);
-    dispatchRenderEvent: (type: EventType, frameState: FrameState) => void;
-    getTransform: (frameState: FrameState) => Transform;
+    dispatchRenderEvent<T>(type: EventType, frameState: FrameState<T>): void;
+    dispatchRenderEvent<T>(type: EventType, frameState: FrameState<T>): void;
+    getTransform<T>(frameState: FrameState<T>): Transform;
   }
 
 }

@@ -1,20 +1,20 @@
 declare module 'ol/format/xsd' {
 
-  export function readBoolean(node: Node): boolean | undefined;
+  export function readBoolean(node: Node): boolean;
 
-  export function readBooleanString(string: string): boolean | undefined;
+  export function readBooleanString(string: string): boolean;
 
-  export function readDateTime(node: Node): number | undefined;
+  export function readDateTime(node: Node): number;
 
-  export function readDecimal(node: Node): number | undefined;
+  export function readDecimal(node: Node): number;
 
-  export function readDecimalString(string: string): number | undefined;
+  export function readDecimalString(string: string): number;
 
-  export function readNonNegativeInteger(node: Node): number | undefined;
+  export function readNonNegativeInteger(node: Node): number;
 
-  export function readNonNegativeIntegerString(string: string): number | undefined;
+  export function readNonNegativeIntegerString(string: string): number;
 
-  export function readString(node: Node): string | undefined;
+  export function readString(node: Node): string;
 
   export function writeBooleanTextNode(node: Node, bool: boolean): void;
 

@@ -7,9 +7,9 @@ declare module 'ol/source/ImageStatic' {
   import { Size } from 'ol/size';
   import ImageSource from 'ol/source/Image';
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     imageExtent?: Extent;
     imageLoadFunction?: LoadFunction;
     projection: ProjectionLike;
@@ -19,8 +19,8 @@ declare module 'ol/source/ImageStatic' {
 
   export default class Static extends ImageSource {
     constructor(options: Options);
-    getImageExtent: () => Extent;
-    getUrl: () => string;
+    getImageExtent(): Extent;
+    getUrl(): string;
   }
 
 }

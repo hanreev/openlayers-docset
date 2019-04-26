@@ -12,7 +12,7 @@ declare module 'ol/format/IGC' {
     NONE = 'none',
   }
 
-  export type Options = {
+  export interface Options {
     altitudeMode?: IGCZ | string;
   }
 

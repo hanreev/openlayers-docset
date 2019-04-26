@@ -12,7 +12,7 @@ declare module 'ol/sphere' {
 
   export function offset(c1: Coordinate, distance: number, bearing: number, opt_radius?: number): Coordinate;
 
-  export type SphereMetricOptions = {
+  export interface SphereMetricOptions {
     projection?: ProjectionLike;
     radius?: number;
   }

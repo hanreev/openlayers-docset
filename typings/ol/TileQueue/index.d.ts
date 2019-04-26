@@ -7,11 +7,11 @@ declare module 'ol/TileQueue' {
 
   export type PriorityFunction = ((param0: Tile, param1: string, param2: Coordinate, param3: number) => number);
 
-  export default class TileQueue extends PriorityQueue {
+  export default class TileQueue<T> extends PriorityQueue<T> {
     constructor(tilePriorityFunction: PriorityFunction, tileChangeCallback: (() => void));
-    getTilesLoading: () => number;
-    handleTileChange: (event: Event) => void;
-    loadMoreTiles: (maxTotalLoading: number, maxNewLoads: number) => void;
+    getTilesLoading(): number;
+    handleTileChange(event: Event): void;
+    loadMoreTiles(maxTotalLoading: number, maxNewLoads: number): void;
   }
 
 }

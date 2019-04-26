@@ -3,12 +3,12 @@ declare module 'ol/control/ZoomSlider' {
   import MapEvent from 'ol/MapEvent';
   import Control from 'ol/control/Control';
 
-  export function render(mapEvent: MapEvent): void;
+  export function render<T>(mapEvent: MapEvent<T>): void;
 
-  export type Options = {
+  export interface Options {
     className?: string;
     duration?: number;
-    render?: ((param0: MapEvent) => void);
+    render?: (<T>(param0: MapEvent<T>) => void);
   }
 
   export default class ZoomSlider extends Control {

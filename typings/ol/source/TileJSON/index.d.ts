@@ -4,7 +4,7 @@ declare module 'ol/source/TileJSON' {
   import { LoadFunction } from 'ol/Tile';
   import TileImage from 'ol/source/TileImage';
 
-  export type Config = {
+  export interface Config {
     name?: string;
     description?: string;
     version?: string;
@@ -20,10 +20,10 @@ declare module 'ol/source/TileJSON' {
     center?: number[];
   }
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     cacheSize?: number;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     jsonp?: boolean;
     reprojectionErrorThreshold?: number;
     tileJSON?: Config;
@@ -35,9 +35,9 @@ declare module 'ol/source/TileJSON' {
 
   export default class TileJSON extends TileImage {
     constructor(options: Options);
-    getTileJSON: () => Config;
-    handleTileJSONError: () => void;
-    handleTileJSONResponse: (tileJSON: Config) => void;
+    getTileJSON(): Config;
+    handleTileJSONError(): void;
+    handleTileJSONResponse(tileJSON: Config): void;
   }
 
 }

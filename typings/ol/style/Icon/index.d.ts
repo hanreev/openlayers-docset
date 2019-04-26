@@ -8,19 +8,20 @@ declare module 'ol/style/Icon' {
 
   export default class Icon extends ImageStyle {
     constructor(opt_options?: Options);
-    clone: () => Icon;
-    getColor: () => Color;
-    getSrc: () => string | undefined;
-    setAnchor: (anchor: number[]) => void;
+    clone(): Icon;
+    clone(): ImageStyle;
+    getColor(): Color;
+    getSrc(): string;
+    setAnchor(anchor: number[]): void;
   }
 
-  export type Options = {
+  export interface Options {
     anchor?: number[];
     anchorOrigin?: IconOrigin;
     anchorXUnits?: IconAnchorUnits;
     anchorYUnits?: IconAnchorUnits;
     color?: Color | string;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     img?: HTMLImageElement | HTMLCanvasElement;
     offset?: number[];
     offsetOrigin?: IconOrigin;

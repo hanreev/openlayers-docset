@@ -10,14 +10,14 @@ declare module 'ol/renderer/canvas/Layer' {
 
   export default class CanvasLayerRenderer extends LayerRenderer {
     constructor(layer: Layer);
-    clip: (context: CanvasRenderingContext2D, frameState: FrameState, extent: Extent) => void;
-    composeFrame: (frameState: FrameState, layerState: State, context: CanvasRenderingContext2D) => void;
-    dispatchRenderEvent: (context: CanvasRenderingContext2D, frameState: FrameState, opt_transform?: Transform) => void;
-    forEachLayerAtCoordinate: (coordinate: Coordinate, frameState: FrameState, hitTolerance: number, callback: ((this: S, param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S) => T | undefined;
-    getTransform: (frameState: FrameState, offsetX: number) => Transform;
-    postCompose: (context: CanvasRenderingContext2D, frameState: FrameState, layerState: State, opt_transform?: Transform) => void;
-    preCompose: (context: CanvasRenderingContext2D, frameState: FrameState, opt_transform?: Transform) => void;
-    prepareFrame: (frameState: FrameState, layerState: State) => boolean;
+    clip<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, extent: Extent): void;
+    composeFrame<T>(frameState: FrameState<T>, layerState: State, context: CanvasRenderingContext2D): void;
+    dispatchRenderEvent<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, opt_transform?: Transform): void;
+    forEachLayerAtCoordinate<S, T, U>(coordinate: Coordinate, frameState: FrameState<T>, hitTolerance: number, callback: ((this: S, param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S): T;
+    getTransform<T>(frameState: FrameState<T>, offsetX: number): Transform;
+    postCompose<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, layerState: State, opt_transform?: Transform): void;
+    preCompose<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, opt_transform?: Transform): void;
+    prepareFrame<T>(frameState: FrameState<T>, layerState: State): boolean;
   }
 
 }

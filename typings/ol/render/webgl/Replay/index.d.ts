@@ -14,16 +14,16 @@ declare module 'ol/render/webgl/Replay' {
 
   export default class WebGLReplay extends VectorContext {
     constructor(tolerance: number, maxExtent: Extent);
-    drawElements: (gl: WebGLRenderingContext, context: WebGLContext, start: number, end: number) => void;
-    drawHitDetectionReplay: (gl: WebGLRenderingContext, context: WebGLContext, skippedFeaturesHash: { [key: string]: boolean }, featureCallback: ((param0: Feature | RenderFeature) => T | undefined), oneByOne: boolean, opt_hitExtent?: Extent) => T | undefined;
-    drawHitDetectionReplayAll: (gl: WebGLRenderingContext, context: WebGLContext, skippedFeaturesHash: { [key: string]: boolean }, featureCallback: ((param0: Feature | RenderFeature) => T | undefined)) => T | undefined;
-    drawHitDetectionReplayOneByOne: (gl: WebGLRenderingContext, context: WebGLContext, skippedFeaturesHash: { [key: string]: boolean }, featureCallback: ((param0: Feature | RenderFeature) => T | undefined), opt_hitExtent?: Extent) => T | undefined;
-    drawReplay: (gl: WebGLRenderingContext, context: WebGLContext, skippedFeaturesHash: { [key: string]: boolean }, hitDetection: boolean) => void;
-    finish: (context: WebGLContext) => void;
-    getDeleteResourcesFunction: (context: WebGLContext) => (() => void);
-    replay: (context: WebGLContext, center: Coordinate, resolution: number, rotation: number, size: Size, pixelRatio: number, opacity: number, skippedFeaturesHash: { [key: string]: boolean }, featureCallback: ((param0: Feature | RenderFeature) => T | undefined), oneByOne: boolean, opt_hitExtent?: Extent) => T | undefined;
-    setUpProgram: (gl: WebGLRenderingContext, context: WebGLContext, size: Size, pixelRatio: number) => Locations | Locations_1 | Locations_2 | Locations_3;
-    shutDownProgram: (gl: WebGLRenderingContext, locations: Locations | Locations_1 | Locations_2 | Locations_3) => void;
+    drawElements(gl: WebGLRenderingContext, context: WebGLContext, start: number, end: number): void;
+    drawHitDetectionReplay<T>(gl: WebGLRenderingContext, context: WebGLContext, skippedFeaturesHash: { [key in string]: boolean }, featureCallback: ((param0: Feature | RenderFeature) => T), oneByOne: boolean, opt_hitExtent?: Extent): T;
+    drawHitDetectionReplayAll<T>(gl: WebGLRenderingContext, context: WebGLContext, skippedFeaturesHash: { [key in string]: boolean }, featureCallback: ((param0: Feature | RenderFeature) => T)): T;
+    drawHitDetectionReplayOneByOne<T>(gl: WebGLRenderingContext, context: WebGLContext, skippedFeaturesHash: { [key in string]: boolean }, featureCallback: ((param0: Feature | RenderFeature) => T), opt_hitExtent?: Extent): T;
+    drawReplay(gl: WebGLRenderingContext, context: WebGLContext, skippedFeaturesHash: { [key in string]: boolean }, hitDetection: boolean): void;
+    finish(context: WebGLContext): void;
+    getDeleteResourcesFunction(context: WebGLContext): (() => void);
+    replay<T>(context: WebGLContext, center: Coordinate, resolution: number, rotation: number, size: Size, pixelRatio: number, opacity: number, skippedFeaturesHash: { [key in string]: boolean }, featureCallback: ((param0: Feature | RenderFeature) => T), oneByOne: boolean, opt_hitExtent?: Extent): T;
+    setUpProgram(gl: WebGLRenderingContext, context: WebGLContext, size: Size, pixelRatio: number): Locations | Locations_1 | Locations_2 | Locations_3;
+    shutDownProgram(gl: WebGLRenderingContext, locations: Locations | Locations_1 | Locations_2 | Locations_3): void;
   }
 
 }

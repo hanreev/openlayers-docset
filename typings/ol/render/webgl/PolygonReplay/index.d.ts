@@ -3,12 +3,12 @@ declare module 'ol/render/webgl/PolygonReplay' {
   import WebGLReplay from 'ol/render/webgl/Replay';
   import { Extent } from 'ol/extent';
 
-  export type PolygonSegment = {
+  export interface PolygonSegment {
     p0: PolygonVertex;
     p1: PolygonVertex;
   }
 
-  export type PolygonVertex = {
+  export interface PolygonVertex {
     x: number;
     y: number;
     i: number;

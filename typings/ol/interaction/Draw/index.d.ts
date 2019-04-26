@@ -19,17 +19,17 @@ declare module 'ol/interaction/Draw' {
 
   export default class Draw extends PointerInteraction {
     constructor(options: Options);
-    extend: (feature: Feature) => void;
-    finishDrawing: () => void;
-    getOverlay: () => VectorLayer;
-    removeLastPoint: () => void;
+    extend(feature: Feature): void;
+    finishDrawing(): void;
+    getOverlay(): VectorLayer;
+    removeLastPoint(): void;
   }
 
   export type GeometryFunction = ((param0: SketchCoordType, param1: SimpleGeometry) => SimpleGeometry);
 
   export type LineCoordType = Coordinate[];
 
-  export type Options = {
+  export interface Options {
     type: GeometryType;
     clickTolerance?: number;
     features?: Collection<Feature>;

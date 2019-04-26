@@ -14,13 +14,13 @@ declare module 'ol/source/Image' {
 
   export default class ImageSource extends Source {
     constructor(options: Options);
-    findNearestResolution: (resolution: number) => number;
-    getImage: (extent: Extent, resolution: number, pixelRatio: number, projection: Projection) => ImageBase;
-    getImageInternal: (extent: Extent, resolution: number, pixelRatio: number, projection: Projection) => ImageBase;
-    handleImageChange: (event: Event) => void;
+    findNearestResolution(resolution: number): number;
+    getImage(extent: Extent, resolution: number, pixelRatio: number, projection: Projection): ImageBase;
+    getImageInternal(extent: Extent, resolution: number, pixelRatio: number, projection: Projection): ImageBase;
+    handleImageChange(event: Event): void;
   }
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     projection: ProjectionLike;
     resolutions?: number[];

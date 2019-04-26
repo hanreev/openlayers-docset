@@ -26,7 +26,7 @@ declare module 'ol/interaction' {
 
   export function defaults(opt_options?: DefaultsOptions): Collection<Interaction>;
 
-  export type DefaultsOptions = {
+  export interface DefaultsOptions {
     altShiftDragRotate?: boolean;
     onFocusOnly?: boolean;
     constrainResolution?: boolean;

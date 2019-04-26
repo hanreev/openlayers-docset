@@ -13,6 +13,6 @@ declare module 'ol/tileurlfunction' {
 
   export function expandUrl(url: string): string[];
 
-  export function nullTileUrlFunction(tileCoord: TileCoord, pixelRatio: number, projection: Projection): string | undefined;
+  export function nullTileUrlFunction(tileCoord: TileCoord, pixelRatio: number, projection: Projection): string;
 
 }

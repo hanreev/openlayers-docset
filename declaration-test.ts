@@ -1,14 +1,71 @@
-import { getUid, inherits, AssertionError, Collection, Disposable, Feature, Geolocation, Graticule, Image, ImageBase, ImageCanvas, ImageTile, Kinetic, Map, MapBrowserEvent, MapBrowserEventHandler, MapBrowserPointerEvent, MapEvent, Object, Observable, Overlay, PluggableMap, Tile, TileCache, TileQueue, TileRange, VectorImageTile, VectorTile, View, WebGLMap, VERSION } from 'ol';
-import { binarySearch, numberSafeCompareFunction, includes, linearFindNearest, reverseSubArray, extend, remove, find, equals, stableSort, findIndex, isSorted } from 'ol/array';
+import {
+  AssertionError,
+  Collection,
+  Disposable,
+  Feature,
+  Geolocation,
+  getUid,
+  Graticule,
+  Image,
+  ImageBase,
+  ImageCanvas,
+  ImageTile,
+  inherits,
+  Kinetic,
+  Map,
+  MapBrowserEvent,
+  MapBrowserEventHandler,
+  MapBrowserPointerEvent,
+  MapEvent,
+  Object,
+  Observable,
+  Overlay,
+  PluggableMap,
+  Tile,
+  TileCache,
+  TileQueue,
+  TileRange,
+  VectorImageTile,
+  VectorTile,
+  VERSION,
+  View,
+  WebGLMap
+} from 'ol';
+import {
+  binarySearch,
+  equals,
+  extend,
+  find,
+  findIndex,
+  includes,
+  isSorted,
+  linearFindNearest,
+  numberSafeCompareFunction,
+  remove,
+  reverseSubArray,
+  stableSort
+} from 'ol/array';
 import AssertionError_1 from 'ol/AssertionError';
 import { assert } from 'ol/asserts';
 import { createExtent, none } from 'ol/centerconstraint';
 import Collection_1 from 'ol/Collection';
 import { CollectionEvent } from 'ol/Collection';
 import CollectionEventType from 'ol/CollectionEventType';
-import { asString, asArray, normalize, toString } from 'ol/color';
+import { asArray, asString, normalize, toString } from 'ol/color';
 import { asColorLike } from 'ol/colorlike';
-import { defaults, Attribution, Control, FullScreen, MousePosition, OverviewMap, Rotate, ScaleLine, Zoom, ZoomSlider, ZoomToExtent } from 'ol/control';
+import {
+  Attribution,
+  Control,
+  defaults,
+  FullScreen,
+  MousePosition,
+  OverviewMap,
+  Rotate,
+  ScaleLine,
+  Zoom,
+  ZoomSlider,
+  ZoomToExtent
+} from 'ol/control';
 import Attribution_1 from 'ol/control/Attribution';
 import { render } from 'ol/control/Attribution';
 import Control_1 from 'ol/control/Control';
@@ -20,34 +77,162 @@ import { render as render_2 } from 'ol/control/OverviewMap';
 import Rotate_1 from 'ol/control/Rotate';
 import { render as render_3 } from 'ol/control/Rotate';
 import ScaleLine_1 from 'ol/control/ScaleLine';
-import { Units, render as render_4 } from 'ol/control/ScaleLine';
+import { render as render_4, Units } from 'ol/control/ScaleLine';
 import Zoom_1 from 'ol/control/Zoom';
 import ZoomSlider_1 from 'ol/control/ZoomSlider';
 import { render as render_5 } from 'ol/control/ZoomSlider';
 import ZoomToExtent_1 from 'ol/control/ZoomToExtent';
-import { add, closestOnCircle, closestOnSegment, createStringXY, degreesToStringHDMS, format, equals as equals_1, rotate, scale, squaredDistance, distance, squaredDistanceToSegment, toStringHDMS, toStringXY } from 'ol/coordinate';
-import { CLASS_HIDDEN, CLASS_SELECTABLE, CLASS_UNSELECTABLE, CLASS_UNSUPPORTED, CLASS_CONTROL, CLASS_COLLAPSED, getFontFamilies } from 'ol/css';
+import {
+  add,
+  closestOnCircle,
+  closestOnSegment,
+  createStringXY,
+  degreesToStringHDMS,
+  distance,
+  equals as equals_1,
+  format,
+  rotate,
+  scale,
+  squaredDistance,
+  squaredDistanceToSegment,
+  toStringHDMS,
+  toStringXY
+} from 'ol/coordinate';
+import {
+  CLASS_COLLAPSED,
+  CLASS_CONTROL,
+  CLASS_HIDDEN,
+  CLASS_SELECTABLE,
+  CLASS_UNSELECTABLE,
+  CLASS_UNSUPPORTED,
+  getFontFamilies
+} from 'ol/css';
 import Disposable_1 from 'ol/Disposable';
-import { createCanvasContext2D, outerWidth, outerHeight, replaceNode, removeNode, removeChildren } from 'ol/dom';
+import { createCanvasContext2D, outerHeight, outerWidth, removeChildren, removeNode, replaceNode } from 'ol/dom';
 import { easeIn, easeOut, inAndOut, linear, upAndDown } from 'ol/easing';
-import { bindListener, findListener, getListeners, listen, listenOnce, unlisten, unlistenByKey, unlistenAll } from 'ol/events';
-import { altKeyOnly, altShiftKeysOnly, focus, always, click, mouseActionButton, never, pointerMove, singleClick, doubleClick, noModifierKeys, platformModifierKeyOnly, shiftKeyOnly, targetNotEditable, mouseOnly, primaryAction } from 'ol/events/condition';
+import {
+  bindListener,
+  findListener,
+  getListeners,
+  listen,
+  listenOnce,
+  unlisten,
+  unlistenAll,
+  unlistenByKey
+} from 'ol/events';
+import {
+  altKeyOnly,
+  altShiftKeysOnly,
+  always,
+  click,
+  doubleClick,
+  focus,
+  mouseActionButton,
+  mouseOnly,
+  never,
+  noModifierKeys,
+  platformModifierKeyOnly,
+  pointerMove,
+  primaryAction,
+  shiftKeyOnly,
+  singleClick,
+  targetNotEditable
+} from 'ol/events/condition';
 import Event from 'ol/events/Event';
-import { stopPropagation, preventDefault } from 'ol/events/Event';
+import { preventDefault, stopPropagation } from 'ol/events/Event';
 import EventType from 'ol/events/EventType';
 import KeyCode from 'ol/events/KeyCode';
 import Target from 'ol/events/Target';
-import { boundingExtent, buffer, clone, closestSquaredDistanceXY, containsCoordinate, containsExtent, containsXY, coordinateRelationship, createEmpty, createOrUpdate, createOrUpdateEmpty, createOrUpdateFromCoordinate, createOrUpdateFromCoordinates, createOrUpdateFromFlatCoordinates, createOrUpdateFromRings, equals as equals_2, extend as extend_1, extendCoordinate, extendCoordinates, extendFlatCoordinates, extendRings, extendXY, forEachCorner, getArea, getBottomLeft, getBottomRight, getCenter, getCorner, getEnlargedArea, getForViewAndSize, getHeight, getIntersectionArea, getIntersection, getMargin, getSize, getTopLeft, getTopRight, getWidth, intersects, isEmpty, returnOrUpdate, scaleFromCenter, intersectsSegment, applyTransform } from 'ol/extent';
+import {
+  applyTransform,
+  boundingExtent,
+  buffer,
+  clone,
+  closestSquaredDistanceXY,
+  containsCoordinate,
+  containsExtent,
+  containsXY,
+  coordinateRelationship,
+  createEmpty,
+  createOrUpdate,
+  createOrUpdateEmpty,
+  createOrUpdateFromCoordinate,
+  createOrUpdateFromCoordinates,
+  createOrUpdateFromFlatCoordinates,
+  createOrUpdateFromRings,
+  equals as equals_2,
+  extend as extend_1,
+  extendCoordinate,
+  extendCoordinates,
+  extendFlatCoordinates,
+  extendRings,
+  extendXY,
+  forEachCorner,
+  getArea,
+  getBottomLeft,
+  getBottomRight,
+  getCenter,
+  getCorner,
+  getEnlargedArea,
+  getForViewAndSize,
+  getHeight,
+  getIntersection,
+  getIntersectionArea,
+  getMargin,
+  getSize,
+  getTopLeft,
+  getTopRight,
+  getWidth,
+  intersects,
+  intersectsSegment,
+  isEmpty,
+  returnOrUpdate,
+  scaleFromCenter
+} from 'ol/extent';
 import Corner from 'ol/extent/Corner';
 import Relationship from 'ol/extent/Relationship';
 import Feature_1 from 'ol/Feature';
 import { createStyleFunction } from 'ol/Feature';
 import { loadFeaturesXhr, xhr } from 'ol/featureloader';
-import { EsriJSON, GeoJSON, GML, GPX, IGC, KML, MVT, OWS, Polyline, TopoJSON, WFS, WKT, WMSCapabilities, WMSGetFeatureInfo, WMTSCapabilities } from 'ol/format';
+import {
+  EsriJSON,
+  GeoJSON,
+  GML,
+  GPX,
+  IGC,
+  KML,
+  MVT,
+  OWS,
+  Polyline,
+  TopoJSON,
+  WFS,
+  WKT,
+  WMSCapabilities,
+  WMSGetFeatureInfo,
+  WMTSCapabilities
+} from 'ol/format';
 import EsriJSON_1 from 'ol/format/EsriJSON';
 import Feature_2 from 'ol/format/Feature';
 import { transformWithOptions } from 'ol/format/Feature';
-import { and, or, not, bbox, contains, intersects as intersects_1, within, equalTo, notEqualTo, lessThan, lessThanOrEqualTo, greaterThan, greaterThanOrEqualTo, isNull, between, like, during } from 'ol/format/filter';
+import {
+  and,
+  bbox,
+  between,
+  contains,
+  during,
+  equalTo,
+  greaterThan,
+  greaterThanOrEqualTo,
+  intersects as intersects_1,
+  isNull,
+  lessThan,
+  lessThanOrEqualTo,
+  like,
+  not,
+  notEqualTo,
+  or,
+  within
+} from 'ol/format/filter';
 import And from 'ol/format/filter/And';
 import Bbox from 'ol/format/filter/Bbox';
 import Comparison from 'ol/format/filter/Comparison';
@@ -83,12 +268,30 @@ import IGC_1 from 'ol/format/IGC';
 import { IGCZ } from 'ol/format/IGC';
 import JSONFeature from 'ol/format/JSONFeature';
 import KML_1 from 'ol/format/KML';
-import { getDefaultFillStyle, getDefaultImageStyle, getDefaultStrokeStyle, getDefaultTextStyle, getDefaultStyle, getDefaultStyleArray, readFlatCoordinates } from 'ol/format/KML';
+import {
+  getDefaultFillStyle,
+  getDefaultImageStyle,
+  getDefaultStrokeStyle,
+  getDefaultStyle,
+  getDefaultStyleArray,
+  getDefaultTextStyle,
+  readFlatCoordinates
+} from 'ol/format/KML';
 import MVT_1 from 'ol/format/MVT';
 import OSMXML from 'ol/format/OSMXML';
 import OWS_1 from 'ol/format/OWS';
 import Polyline_1 from 'ol/format/Polyline';
-import { encodeDeltas, decodeDeltas, encodeFloats, decodeFloats, encodeSignedIntegers, decodeSignedIntegers, encodeUnsignedIntegers, decodeUnsignedIntegers, encodeUnsignedInteger } from 'ol/format/Polyline';
+import {
+  decodeDeltas,
+  decodeFloats,
+  decodeSignedIntegers,
+  decodeUnsignedIntegers,
+  encodeDeltas,
+  encodeFloats,
+  encodeSignedIntegers,
+  encodeUnsignedInteger,
+  encodeUnsignedIntegers
+} from 'ol/format/Polyline';
 import TextFeature from 'ol/format/TextFeature';
 import TopoJSON_1 from 'ol/format/TopoJSON';
 import WFS_1 from 'ol/format/WFS';
@@ -100,31 +303,85 @@ import WMTSCapabilities_1 from 'ol/format/WMTSCapabilities';
 import { readHref } from 'ol/format/XLink';
 import XML from 'ol/format/XML';
 import XMLFeature from 'ol/format/XMLFeature';
-import { readBoolean, readBooleanString, readDateTime, readDecimal, readDecimalString, readNonNegativeInteger, readNonNegativeIntegerString, readString, writeBooleanTextNode, writeCDATASection, writeDateTimeTextNode, writeDecimalTextNode, writeNonNegativeIntegerTextNode, writeStringTextNode } from 'ol/format/xsd';
-import { TRUE, FALSE, VOID } from 'ol/functions';
+import {
+  readBoolean,
+  readBooleanString,
+  readDateTime,
+  readDecimal,
+  readDecimalString,
+  readNonNegativeInteger,
+  readNonNegativeIntegerString,
+  readString,
+  writeBooleanTextNode,
+  writeCDATASection,
+  writeDateTimeTextNode,
+  writeDecimalTextNode,
+  writeNonNegativeIntegerTextNode,
+  writeStringTextNode
+} from 'ol/format/xsd';
+import { FALSE, TRUE, VOID } from 'ol/functions';
 import Geolocation_1 from 'ol/Geolocation';
 import { Circle, Geometry, LineString, MultiLineString, MultiPoint, MultiPolygon, Point, Polygon } from 'ol/geom';
 import Circle_1 from 'ol/geom/Circle';
 import { linearRing, linearRings, linearRingss } from 'ol/geom/flat/area';
 import { linearRingss as linearRingss_1 } from 'ol/geom/flat/center';
-import { maxSquaredDelta, arrayMaxSquaredDelta, multiArrayMaxSquaredDelta, assignClosestPoint, assignClosestArrayPoint, assignClosestMultiArrayPoint } from 'ol/geom/flat/closest';
-import { linearRingContainsExtent, linearRingContainsXY, linearRingsContainsXY, linearRingssContainsXY } from 'ol/geom/flat/contains';
-import { deflateCoordinate, deflateCoordinates, deflateCoordinatesArray, deflateMultiCoordinatesArray } from 'ol/geom/flat/deflate';
+import {
+  arrayMaxSquaredDelta,
+  assignClosestArrayPoint,
+  assignClosestMultiArrayPoint,
+  assignClosestPoint,
+  maxSquaredDelta,
+  multiArrayMaxSquaredDelta
+} from 'ol/geom/flat/closest';
+import {
+  linearRingContainsExtent,
+  linearRingContainsXY,
+  linearRingsContainsXY,
+  linearRingssContainsXY
+} from 'ol/geom/flat/contains';
+import {
+  deflateCoordinate,
+  deflateCoordinates,
+  deflateCoordinatesArray,
+  deflateMultiCoordinatesArray
+} from 'ol/geom/flat/deflate';
 import { flipXY } from 'ol/geom/flat/flip';
 import { greatCircleArc, meridian, parallel } from 'ol/geom/flat/geodesic';
 import { inflateCoordinates, inflateCoordinatesArray, inflateMultiCoordinatesArray } from 'ol/geom/flat/inflate';
 import { getInteriorPointOfArray, getInteriorPointsOfMultiArray } from 'ol/geom/flat/interiorpoint';
 import { interpolatePoint, lineStringCoordinateAtM, lineStringsCoordinateAtM } from 'ol/geom/flat/interpolate';
-import { intersectsLineString, intersectsLineStringArray, intersectsLinearRing, intersectsLinearRingArray, intersectsLinearRingMultiArray } from 'ol/geom/flat/intersectsextent';
-import { lineStringLength, linearRingLength } from 'ol/geom/flat/length';
-import { linearRingIsClockwise, linearRingIsOriented, linearRingsAreOriented, orientLinearRings, orientLinearRingsArray } from 'ol/geom/flat/orient';
+import {
+  intersectsLinearRing,
+  intersectsLinearRingArray,
+  intersectsLinearRingMultiArray,
+  intersectsLineString,
+  intersectsLineStringArray
+} from 'ol/geom/flat/intersectsextent';
+import { linearRingLength, lineStringLength } from 'ol/geom/flat/length';
+import {
+  linearRingIsClockwise,
+  linearRingIsOriented,
+  linearRingsAreOriented,
+  orientLinearRings,
+  orientLinearRingsArray
+} from 'ol/geom/flat/orient';
 import { coordinates } from 'ol/geom/flat/reverse';
 import { forEach } from 'ol/geom/flat/segments';
-import { simplifyLineString, douglasPeucker, douglasPeuckerArray, douglasPeuckerMultiArray, radialDistance, snap, quantize, quantizeArray, quantizeMultiArray } from 'ol/geom/flat/simplify';
+import {
+  douglasPeucker,
+  douglasPeuckerArray,
+  douglasPeuckerMultiArray,
+  quantize,
+  quantizeArray,
+  quantizeMultiArray,
+  radialDistance,
+  simplifyLineString,
+  snap
+} from 'ol/geom/flat/simplify';
 import { matchingChunk } from 'ol/geom/flat/straightchunk';
 import { drawTextOnPath } from 'ol/geom/flat/textpath';
 import { lineStringIsClosed } from 'ol/geom/flat/topology';
-import { transform2D, rotate as rotate_1, scale as scale_1, translate } from 'ol/geom/flat/transform';
+import { rotate as rotate_1, scale as scale_1, transform2D, translate } from 'ol/geom/flat/transform';
 import Geometry_1 from 'ol/geom/Geometry';
 import GeometryCollection from 'ol/geom/GeometryCollection';
 import GeometryLayout from 'ol/geom/GeometryLayout';
@@ -136,7 +393,7 @@ import MultiPoint_1 from 'ol/geom/MultiPoint';
 import MultiPolygon_1 from 'ol/geom/MultiPolygon';
 import Point_1 from 'ol/geom/Point';
 import Polygon_1 from 'ol/geom/Polygon';
-import { circular, fromExtent, fromCircle, makeRegular } from 'ol/geom/Polygon';
+import { circular, fromCircle, fromExtent, makeRegular } from 'ol/geom/Polygon';
 import SimpleGeometry from 'ol/geom/SimpleGeometry';
 import { getStrideForLayout, transformGeom2D } from 'ol/geom/SimpleGeometry';
 import Graticule_1 from 'ol/Graticule';
@@ -146,7 +403,29 @@ import ImageBase_1 from 'ol/ImageBase';
 import ImageCanvas_1 from 'ol/ImageCanvas';
 import ImageState from 'ol/ImageState';
 import ImageTile_1 from 'ol/ImageTile';
-import { defaults as defaults_1, DoubleClickZoom, DragAndDrop, DragBox, DragPan, DragRotate, DragRotateAndZoom, DragZoom, Draw, Extent, Interaction, KeyboardPan, KeyboardZoom, Modify, MouseWheelZoom, PinchRotate, PinchZoom, Pointer, Select, Snap, Translate } from 'ol/interaction';
+import {
+  defaults as defaults_1,
+  DoubleClickZoom,
+  DragAndDrop,
+  DragBox,
+  DragPan,
+  DragRotate,
+  DragRotateAndZoom,
+  DragZoom,
+  Draw,
+  Extent,
+  Interaction,
+  KeyboardPan,
+  KeyboardZoom,
+  Modify,
+  MouseWheelZoom,
+  PinchRotate,
+  PinchZoom,
+  Pointer,
+  Select,
+  Snap,
+  Translate
+} from 'ol/interaction';
 import DoubleClickZoom_1 from 'ol/interaction/DoubleClickZoom';
 import DragAndDrop_1 from 'ol/interaction/DragAndDrop';
 import DragBox_1 from 'ol/interaction/DragBox';
@@ -155,10 +434,17 @@ import DragRotate_1 from 'ol/interaction/DragRotate';
 import DragRotateAndZoom_1 from 'ol/interaction/DragRotateAndZoom';
 import DragZoom_1 from 'ol/interaction/DragZoom';
 import Draw_1 from 'ol/interaction/Draw';
-import { createRegularPolygon, createBox } from 'ol/interaction/Draw';
+import { createBox, createRegularPolygon } from 'ol/interaction/Draw';
 import Extent_1 from 'ol/interaction/Extent';
 import Interaction_1 from 'ol/interaction/Interaction';
-import { pan, rotate as rotate_2, rotateWithoutConstraints, zoom, zoomByDelta, zoomWithoutConstraints } from 'ol/interaction/Interaction';
+import {
+  pan,
+  rotate as rotate_2,
+  rotateWithoutConstraints,
+  zoom,
+  zoomByDelta,
+  zoomWithoutConstraints
+} from 'ol/interaction/Interaction';
 import KeyboardPan_1 from 'ol/interaction/KeyboardPan';
 import KeyboardZoom_1 from 'ol/interaction/KeyboardZoom';
 import Modify_1 from 'ol/interaction/Modify';
@@ -199,11 +485,21 @@ import MapBrowserPointerEvent_1 from 'ol/MapBrowserPointerEvent';
 import MapEvent_1 from 'ol/MapEvent';
 import MapEventType from 'ol/MapEventType';
 import MapProperty from 'ol/MapProperty';
-import { clamp, roundUpToPowerOfTwo, squaredSegmentDistance, squaredDistance as squaredDistance_1, solveLinearSystem, toDegrees, toRadians, modulo, lerp } from 'ol/math';
+import {
+  clamp,
+  lerp,
+  modulo,
+  roundUpToPowerOfTwo,
+  solveLinearSystem,
+  squaredDistance as squaredDistance_1,
+  squaredSegmentDistance,
+  toDegrees,
+  toRadians
+} from 'ol/math';
 import { jsonp } from 'ol/net';
 import { clear, getValues, isEmpty as isEmpty_1 } from 'ol/obj';
 import Object_1 from 'ol/Object';
-import { ObjectEvent, getChangeEventType } from 'ol/Object';
+import { getChangeEventType, ObjectEvent } from 'ol/Object';
 import ObjectEventType from 'ol/ObjectEventType';
 import Observable_1 from 'ol/Observable';
 import { unByKey } from 'ol/Observable';
@@ -219,17 +515,39 @@ import NativeSource from 'ol/pointer/NativeSource';
 import PointerEvent from 'ol/pointer/PointerEvent';
 import PointerEventHandler from 'ol/pointer/PointerEventHandler';
 import TouchSource from 'ol/pointer/TouchSource';
-import { cloneTransform, identityTransform, addProjection, addProjections, get, getPointResolution, addEquivalentProjections, addEquivalentTransforms, clearAllProjections, createProjection, createTransformFromCoordinateTransform, addCoordinateTransforms, fromLonLat, toLonLat, equivalent, getTransformFromProjections, getTransform, transform, transformExtent, transformWithProjections, addCommon } from 'ol/proj';
+import {
+  addCommon,
+  addCoordinateTransforms,
+  addEquivalentProjections,
+  addEquivalentTransforms,
+  addProjection,
+  addProjections,
+  clearAllProjections,
+  cloneTransform,
+  createProjection,
+  createTransformFromCoordinateTransform,
+  equivalent,
+  fromLonLat,
+  get,
+  getPointResolution,
+  getTransform,
+  getTransformFromProjections,
+  identityTransform,
+  toLonLat,
+  transform,
+  transformExtent,
+  transformWithProjections
+} from 'ol/proj';
 import { fromEPSG4326, toEPSG4326 } from 'ol/proj/epsg3857';
 import { register } from 'ol/proj/proj4';
 import Projection from 'ol/proj/Projection';
-import { clear as clear_1, get as get_1, add as add_1 } from 'ol/proj/projections';
-import { clear as clear_2, add as add_2, remove as remove_1, get as get_2 } from 'ol/proj/transforms';
+import { add as add_1, clear as clear_1, get as get_1 } from 'ol/proj/projections';
+import { add as add_2, clear as clear_2, get as get_2, remove as remove_1 } from 'ol/proj/transforms';
 import Units_1 from 'ol/proj/Units';
 import { METERS_PER_UNIT } from 'ol/proj/Units';
 import { toContext } from 'ol/render';
 import Box from 'ol/render/Box';
-import { labelCache, measureTextWidth, rotateAtOffset, drawImage } from 'ol/render/canvas';
+import { drawImage, labelCache, measureTextWidth, rotateAtOffset } from 'ol/render/canvas';
 import ImageReplay from 'ol/render/canvas/ImageReplay';
 import Immediate from 'ol/render/canvas/Immediate';
 import Instruction from 'ol/render/canvas/Instruction';
@@ -280,14 +598,41 @@ import TileLayer_1 from 'ol/renderer/webgl/TileLayer';
 import Locations_5 from 'ol/renderer/webgl/tilelayershader/Locations';
 import VectorLayer_1 from 'ol/renderer/webgl/VectorLayer';
 import { calculateSourceResolution, render as render_6 } from 'ol/reproj';
-import { ERROR_THRESHOLD, ENABLE_RASTER_REPROJECTION } from 'ol/reproj/common';
+import { ENABLE_RASTER_REPROJECTION, ERROR_THRESHOLD } from 'ol/reproj/common';
 import Image_4 from 'ol/reproj/Image';
 import Tile_3 from 'ol/reproj/Tile';
 import Triangulation from 'ol/reproj/Triangulation';
-import { createSnapToResolutions, createSnapToPower } from 'ol/resolutionconstraint';
-import { disable, none as none_1, createSnapToN, createSnapToZero } from 'ol/rotationconstraint';
+import { createSnapToPower, createSnapToResolutions } from 'ol/resolutionconstraint';
+import { createSnapToN, createSnapToZero, disable, none as none_1 } from 'ol/rotationconstraint';
 import { buffer as buffer_1, hasArea, scale as scale_2, toSize } from 'ol/size';
-import { BingMaps, CartoDB, Cluster, Image as Image_5, ImageArcGISRest, ImageCanvas as ImageCanvas_2, ImageMapGuide, ImageStatic, ImageWMS, OSM, Raster, Source, Stamen, Tile as Tile_4, TileArcGISRest, TileDebug, TileImage, TileJSON, TileWMS, UrlTile, UTFGrid, Vector as Vector_2, VectorTile as VectorTile_3, WMTS, XYZ, Zoomify } from 'ol/source';
+import {
+  BingMaps,
+  CartoDB,
+  Cluster,
+  Image as Image_5,
+  ImageArcGISRest,
+  ImageCanvas as ImageCanvas_2,
+  ImageMapGuide,
+  ImageStatic,
+  ImageWMS,
+  OSM,
+  Raster,
+  Source,
+  Stamen,
+  Tile as Tile_4,
+  TileArcGISRest,
+  TileDebug,
+  TileImage,
+  TileJSON,
+  TileWMS,
+  UrlTile,
+  UTFGrid,
+  Vector as Vector_2,
+  VectorTile as VectorTile_3,
+  WMTS,
+  XYZ,
+  Zoomify
+} from 'ol/source';
 import BingMaps_1 from 'ol/source/BingMaps';
 import CartoDB_1 from 'ol/source/CartoDB';
 import Cluster_1 from 'ol/source/Cluster';
@@ -302,6 +647,7 @@ import ImageWMS_1 from 'ol/source/ImageWMS';
 import OSM_1 from 'ol/source/OSM';
 import { ATTRIBUTION } from 'ol/source/OSM';
 import Raster_1 from 'ol/source/Raster';
+import { RasterOperationType } from 'ol/source/Raster';
 import Source_1 from 'ol/source/Source';
 import Stamen_1 from 'ol/source/Stamen';
 import State from 'ol/source/State';
@@ -327,13 +673,25 @@ import WMTSRequestEncoding from 'ol/source/WMTSRequestEncoding';
 import XYZ_1 from 'ol/source/XYZ';
 import Zoomify_1 from 'ol/source/Zoomify';
 import { CustomTile as CustomTile_1 } from 'ol/source/Zoomify';
-import { getDistance, getLength, getArea as getArea_1, offset } from 'ol/sphere';
-import { padNumber, compareVersions } from 'ol/string';
+import { getArea as getArea_1, getDistance, getLength, offset } from 'ol/sphere';
+import { compareVersions, padNumber } from 'ol/string';
 import LinkedList from 'ol/structs/LinkedList';
 import LRUCache from 'ol/structs/LRUCache';
 import PriorityQueue from 'ol/structs/PriorityQueue';
 import RBush from 'ol/structs/RBush';
-import { Atlas, AtlasManager, Circle as Circle_2, Fill, Icon, IconImage, Image as Image_7, RegularShape, Stroke, Style, Text } from 'ol/style';
+import {
+  Atlas,
+  AtlasManager,
+  Circle as Circle_2,
+  Fill,
+  Icon,
+  IconImage,
+  Image as Image_7,
+  RegularShape,
+  Stroke,
+  Style,
+  Text
+} from 'ol/style';
 import Atlas_1 from 'ol/style/Atlas';
 import AtlasManager_1 from 'ol/style/AtlasManager';
 import Circle_3 from 'ol/style/Circle';
@@ -349,13 +707,28 @@ import Image_8 from 'ol/style/Image';
 import RegularShape_1 from 'ol/style/RegularShape';
 import Stroke_1 from 'ol/style/Stroke';
 import Style_1 from 'ol/style/Style';
-import { toFunction, createDefaultStyle, createEditingStyle } from 'ol/style/Style';
+import { createDefaultStyle, createEditingStyle, toFunction } from 'ol/style/Style';
 import Text_1 from 'ol/style/Text';
 import TextPlacement from 'ol/style/TextPlacement';
 import Tile_6 from 'ol/Tile';
 import TileCache_1 from 'ol/TileCache';
-import { createOrUpdate as createOrUpdate_1, getKeyZXY, getKey, fromKey, hash, quadKey, withinExtentAndZ } from 'ol/tilecoord';
-import { getForProjection, wrapX, createForExtent, createXYZ, createForProjection, extentFromProjection } from 'ol/tilegrid';
+import {
+  createOrUpdate as createOrUpdate_1,
+  fromKey,
+  getKey,
+  getKeyZXY,
+  hash,
+  quadKey,
+  withinExtentAndZ
+} from 'ol/tilecoord';
+import {
+  createForExtent,
+  createForProjection,
+  createXYZ,
+  extentFromProjection,
+  getForProjection,
+  wrapX
+} from 'ol/tilegrid';
 import { DEFAULT_MAX_ZOOM, DEFAULT_TILE_SIZE } from 'ol/tilegrid/common';
 import TileGrid from 'ol/tilegrid/TileGrid';
 import WMTS_2 from 'ol/tilegrid/WMTS';
@@ -364,8 +737,27 @@ import TileQueue_1 from 'ol/TileQueue';
 import TileRange_1 from 'ol/TileRange';
 import { createOrUpdate as createOrUpdate_2 } from 'ol/TileRange';
 import TileState from 'ol/TileState';
-import { createFromTemplate, createFromTemplates, createFromTileUrlFunctions, nullTileUrlFunction, expandUrl } from 'ol/tileurlfunction';
-import { create, reset, multiply, set, setFromArray, apply, rotate as rotate_3, scale as scale_3, translate as translate_1, compose, invert, determinant } from 'ol/transform';
+import {
+  createFromTemplate,
+  createFromTemplates,
+  createFromTileUrlFunctions,
+  expandUrl,
+  nullTileUrlFunction
+} from 'ol/tileurlfunction';
+import {
+  apply,
+  compose,
+  create,
+  determinant,
+  invert,
+  multiply,
+  reset,
+  rotate as rotate_3,
+  scale as scale_3,
+  set,
+  setFromArray,
+  translate as translate_1
+} from 'ol/transform';
 import { appendParams } from 'ol/uri';
 import { abstract, VERSION as VERSION_1 } from 'ol/util';
 import { create as create_1, fromTransform } from 'ol/vec/mat4';
@@ -385,4 +777,24 @@ import Fragment from 'ol/webgl/Fragment';
 import Shader from 'ol/webgl/Shader';
 import Vertex from 'ol/webgl/Vertex';
 import WebGLMap_1 from 'ol/WebGLMap';
-import { createElementNS, getAllTextContent, isDocument, getAttributeNS, parse, makeArrayExtender, makeArrayPusher, makeReplacer, makeObjectPropertyPusher, makeObjectPropertySetter, makeChildAppender, makeArraySerializer, makeSimpleNodeFactory, makeSequence, makeStructureNS, parseNode, pushParseAndPop, serialize, pushSerializeAndPop } from 'ol/xml';
+import {
+  createElementNS,
+  getAllTextContent,
+  getAttributeNS,
+  isDocument,
+  makeArrayExtender,
+  makeArrayPusher,
+  makeArraySerializer,
+  makeChildAppender,
+  makeObjectPropertyPusher,
+  makeObjectPropertySetter,
+  makeReplacer,
+  makeSequence,
+  makeSimpleNodeFactory,
+  makeStructureNS,
+  parse,
+  parseNode,
+  pushParseAndPop,
+  pushSerializeAndPop,
+  serialize
+} from 'ol/xml';

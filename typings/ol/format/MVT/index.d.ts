@@ -6,10 +6,10 @@ declare module 'ol/format/MVT' {
 
   export default class MVT extends FeatureFormat {
     constructor(opt_options?: Options);
-    setLayers: (layers: string[]) => void;
+    setLayers(layers: string[]): void;
   }
 
-  export type Options = {
+  export interface Options {
     featureClass?: FeatureClass;
     geometryName?: string;
     layerName?: string;

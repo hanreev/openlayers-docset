@@ -12,14 +12,14 @@ declare module 'ol/Object' {
   }
 
   export default class BaseObject extends Observable {
-    constructor(opt_values?: { [key: string]: any });
-    get: (key: string) => any;
-    getKeys: () => string[];
-    getProperties: () => { [key: string]: any };
-    notify: (key: string, oldValue: any) => void;
-    set: (key: string, value: any, opt_silent?: boolean) => void;
-    setProperties: (values: { [key: string]: any }, opt_silent?: boolean) => void;
-    unset: (key: string, opt_silent?: boolean) => void;
+    constructor(opt_values?: { [key in string]: any });
+    get(key: string): any;
+    getKeys(): string[];
+    getProperties(): { [key in string]: any };
+    notify(key: string, oldValue: any): void;
+    set(key: string, value: any, opt_silent?: boolean): void;
+    setProperties(values: { [key in string]: any }, opt_silent?: boolean): void;
+    unset(key: string, opt_silent?: boolean): void;
   }
 
 }

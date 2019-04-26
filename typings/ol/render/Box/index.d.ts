@@ -7,10 +7,10 @@ declare module 'ol/render/Box' {
 
   export default class RenderBox extends Disposable {
     constructor(className: string);
-    createOrUpdateGeometry: () => void;
-    getGeometry: () => Polygon;
-    setMap: (map: PluggableMap) => void;
-    setPixels: (startPixel: Pixel, endPixel: Pixel) => void;
+    createOrUpdateGeometry(): void;
+    getGeometry(): Polygon;
+    setMap(map: PluggableMap): void;
+    setPixels(startPixel: Pixel, endPixel: Pixel): void;
   }
 
 }

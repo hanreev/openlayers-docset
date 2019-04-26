@@ -15,24 +15,24 @@ declare module 'ol/format/WFS' {
   import IsNull from 'ol/format/filter/IsNull';
   import LogicalNary from 'ol/format/filter/LogicalNary';
   import Not from 'ol/format/filter/Not';
-  import { Options } from 'ol/format/GMLBase';
+  import { Options as Options_1 } from 'ol/format/GMLBase';
   import Within from 'ol/format/filter/Within';
 
   export function writeFilter(filter: Filter): Node;
 
-  export type FeatureCollectionMetadata = {
+  export interface FeatureCollectionMetadata {
     numberOfFeatures: number;
     bounds: Extent;
   }
 
-  export type Options = {
-    featureNS?: { [key: string]: string } | string;
+  export interface Options {
+    featureNS?: { [key in string]: string } | string;
     featureType?: string[] | string;
     gmlFormat?: GMLBase;
     schemaLocation?: string;
   }
 
-  export type TransactionResponse = {
+  export interface TransactionResponse {
     totalDeleted: number;
     totalInserted: number;
     totalUpdated: number;
@@ -41,19 +41,19 @@ declare module 'ol/format/WFS' {
 
   export default class WFS extends XMLFeature {
     constructor(opt_options?: Options);
-    getFeatureType: () => string[] | string | undefined;
-    readFeatureCollectionMetadata: (source: Document | Element | Object | string) => FeatureCollectionMetadata | undefined;
-    readFeatureCollectionMetadataFromDocument: (doc: Document) => FeatureCollectionMetadata | undefined;
-    readFeatureCollectionMetadataFromNode: (node: Element) => FeatureCollectionMetadata | undefined;
-    readTransactionResponse: (source: Document | Element | Object | string) => TransactionResponse | undefined;
-    readTransactionResponseFromDocument: (doc: Document) => TransactionResponse | undefined;
-    readTransactionResponseFromNode: (node: Element) => TransactionResponse | undefined;
-    setFeatureType: (featureType: string[] | string | undefined) => void;
-    writeGetFeature: (options: WriteGetFeatureOptions) => Node;
-    writeTransaction: (inserts: Feature[], updates: Feature[], deletes: Feature[], options: WriteTransactionOptions) => Node;
+    getFeatureType(): string[] | string;
+    readFeatureCollectionMetadata(source: Document | Element | Object | string): FeatureCollectionMetadata;
+    readFeatureCollectionMetadataFromDocument(doc: Document): FeatureCollectionMetadata;
+    readFeatureCollectionMetadataFromNode(node: Element): FeatureCollectionMetadata;
+    readTransactionResponse(source: Document | Element | Object | string): TransactionResponse;
+    readTransactionResponseFromDocument(doc: Document): TransactionResponse;
+    readTransactionResponseFromNode(node: Element): TransactionResponse;
+    setFeatureType(featureType: string[] | string): void;
+    writeGetFeature(options: WriteGetFeatureOptions): Node;
+    writeTransaction(inserts: Feature[], updates: Feature[], deletes: Feature[], options: WriteTransactionOptions): Node;
   }
 
-  export type WriteGetFeatureOptions = {
+  export interface WriteGetFeatureOptions {
     featureNS: string;
     featurePrefix: string;
     featureTypes: string[];
@@ -71,7 +71,7 @@ declare module 'ol/format/WFS' {
     resultType?: string;
   }
 
-  export type WriteTransactionOptions = {
+  export interface WriteTransactionOptions {
     featureNS: string;
     featurePrefix: string;
     featureType: string;
@@ -79,7 +79,7 @@ declare module 'ol/format/WFS' {
     handle?: string;
     hasZ?: boolean;
     nativeElements: Object[];
-    gmlOptions?: Options;
+    gmlOptions?: Options_1;
     version?: string;
   }
 

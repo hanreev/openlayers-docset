@@ -13,11 +13,11 @@ declare module 'ol/renderer/canvas/VectorLayer' {
 
   export default class CanvasVectorLayerRenderer extends CanvasLayerRenderer {
     constructor(vectorLayer: VectorLayer);
-    'create']: (mapRenderer: MapRenderer, layer: Layer) => CanvasVectorLayerRenderer;
-  'handles']: (layer: Layer) => boolean;
-  compose: (context: CanvasRenderingContext2D, frameState: FrameState, layerState: State) => void;
-  handleFontsChanged_: (event: Event) => void;
-  renderFeature: (feature: Feature, resolution: number, pixelRatio: number, styles: Style | Style[], replayGroup: CanvasReplayGroup) => boolean;
-}
+    create(mapRenderer: MapRenderer, layer: Layer): CanvasVectorLayerRenderer;
+    handles(layer: Layer): boolean;
+    compose<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, layerState: State): void;
+    handleFontsChanged_(event: Event): void;
+    renderFeature(feature: Feature, resolution: number, pixelRatio: number, styles: Style | Style[], replayGroup: CanvasReplayGroup): boolean;
+  }
 
 }

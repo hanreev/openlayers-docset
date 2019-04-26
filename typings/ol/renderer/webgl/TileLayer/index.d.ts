@@ -8,8 +8,8 @@ declare module 'ol/renderer/webgl/TileLayer' {
 
   export default class WebGLTileLayerRenderer extends WebGLLayerRenderer {
     constructor(mapRenderer: WebGLMapRenderer, tileLayer: TileLayer);
-    'create']: (mapRenderer: MapRenderer, layer: Layer) => WebGLTileLayerRenderer;
-  'handles']: (layer: Layer) => boolean;
-}
+    create(mapRenderer: MapRenderer, layer: Layer): WebGLTileLayerRenderer;
+    handles(layer: Layer): boolean;
+  }
 
 }

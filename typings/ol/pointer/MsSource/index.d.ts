@@ -5,7 +5,7 @@ declare module 'ol/pointer/MsSource' {
 
   export default class MsSource extends EventSource {
     constructor(dispatcher: PointerEventHandler);
-    cleanup: (pointerId: number) => void;
+    cleanup(pointerId: number): void;
   }
 
 }

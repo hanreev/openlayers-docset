@@ -33,6 +33,7 @@ const force_include_members = {
   'module:ol/render/replay': [],
   'module:ol/reproj/common': [],
   'module:ol/source/common': [],
+  'module:ol/source/Raster': ['RasterOperationType'],
   'module:ol/tilegrid/common': [],
   'module:ol/util': ['VERSION'],
 };

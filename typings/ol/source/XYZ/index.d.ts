@@ -8,11 +8,11 @@ declare module 'ol/source/XYZ' {
   import { UrlFunction } from 'ol/Tile';
   import TileImage from 'ol/source/TileImage';
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     attributionsCollapsible?: boolean;
     cacheSize?: number;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     opaque?: boolean;
     projection?: ProjectionLike;
     reprojectionErrorThreshold?: number;

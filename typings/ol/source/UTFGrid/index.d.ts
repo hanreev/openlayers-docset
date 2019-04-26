@@ -1,28 +1,21 @@
 declare module 'ol/source/UTFGrid' {
 
   import Tile from 'ol/Tile';
-  import { Coordinate } from 'ol/coordinate';
   import { TileCoord } from 'ol/tilecoord';
   import TileState from 'ol/TileState';
   import { Extent } from 'ol/extent';
+  import { Coordinate } from 'ol/coordinate';
   import { Config } from 'ol/source/TileJSON';
   import TileSource from 'ol/source/Tile';
 
   export class CustomTile extends Tile {
-    constructor();
-    forDataAtCoordinate: (coordinate: Coordinate, callback: ((this: T, param1: any) => void), opt_this?: T, opt_request?: boolean) => void;
-    getData: (coordinate: Coordinate) => any;
-    getImage: () => HTMLImageElement;
-  }
-
-  export class CustomTile {
     constructor(tileCoord: TileCoord, state: TileState, src: string, extent: Extent, preemptive: boolean, jsonp: boolean);
-    forDataAtCoordinate: (coordinate: Coordinate, callback: ((this: T, param1: any) => void), opt_this?: T, opt_request?: boolean) => void;
-    getData: (coordinate: Coordinate) => any;
-    getImage: () => HTMLImageElement;
+    forDataAtCoordinate<T>(coordinate: Coordinate, callback: ((this: T, param1: any) => void), opt_this?: T, opt_request?: boolean): void;
+    getData(coordinate: Coordinate): any;
+    getImage(): HTMLImageElement;
   }
 
-  export type Options = {
+  export interface Options {
     preemptive?: boolean;
     jsonp?: boolean;
     tileJSON?: Config;
@@ -31,16 +24,16 @@ declare module 'ol/source/UTFGrid' {
 
   export default class UTFGrid extends TileSource {
     constructor(options: Options);
-    forDataAtCoordinateAndResolution: (coordinate: Coordinate, resolution: number, callback: ((param0: any) => void), opt_request?: boolean) => void;
-    getTemplate: () => string | undefined;
-    handleTileJSONError: () => void;
-    handleTileJSONResponse: (tileJSON: Config) => void;
+    forDataAtCoordinateAndResolution(coordinate: Coordinate, resolution: number, callback: ((param0: any) => void), opt_request?: boolean): void;
+    getTemplate(): string;
+    handleTileJSONError(): void;
+    handleTileJSONResponse(tileJSON: Config): void;
   }
 
-  export type UTFGridJSON = {
+  export interface UTFGridJSON {
     grid: string[];
     keys: string[];
-    data?: { [key: string]: Object };
+    data?: { [key in string]: Object };
   }
 
 }

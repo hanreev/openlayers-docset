@@ -9,16 +9,16 @@ declare module 'ol/source/ImageMapGuide' {
 
   export default class ImageMapGuide extends ImageSource {
     constructor(options: Options);
-    getImageLoadFunction: () => LoadFunction;
-    getParams: () => Object;
-    getUrl: (baseUrl: string, params: { [key: string]: any }, extent: Extent, size: Size, projection: Projection) => string;
-    setImageLoadFunction: (imageLoadFunction: LoadFunction) => void;
-    updateParams: (params: Object) => void;
+    getImageLoadFunction(): LoadFunction;
+    getParams(): Object;
+    getUrl(baseUrl: string, params: { [key in string]: any }, extent: Extent, size: Size, projection: Projection): string;
+    setImageLoadFunction(imageLoadFunction: LoadFunction): void;
+    updateParams(params: Object): void;
   }
 
-  export type Options = {
+  export interface Options {
     url?: string;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     displayDpi?: number;
     metersPerUnit?: number;
     hidpi?: boolean;

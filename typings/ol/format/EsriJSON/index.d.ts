@@ -31,7 +31,7 @@ declare module 'ol/format/EsriJSON' {
 
   export type EsriJSONMultipoint = Multipoint;
 
-  export type EsriJSONMultiPolygon = {
+  export interface EsriJSONMultiPolygon {
     rings: number[][][][];
     hasM?: boolean;
     hasZ?: boolean;
@@ -48,7 +48,7 @@ declare module 'ol/format/EsriJSON' {
 
   export type EsriJSONSpatialReferenceWkid = SpatialReferenceWkid;
 
-  export type Options = {
+  export interface Options {
     geometryName?: string;
   }
 

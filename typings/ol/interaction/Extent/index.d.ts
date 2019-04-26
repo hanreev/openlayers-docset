@@ -9,11 +9,11 @@ declare module 'ol/interaction/Extent' {
 
   export default class ExtentInteraction extends PointerInteraction {
     constructor(opt_options?: Options);
-    getExtent: () => Extent;
-    setExtent: (extent: Extent) => void;
+    getExtent(): Extent;
+    setExtent(extent: Extent): void;
   }
 
-  export type Options = {
+  export interface Options {
     extent?: Extent;
     boxStyle?: StyleLike;
     pixelTolerance?: number;

@@ -5,30 +5,30 @@ declare module 'ol/source/BingMaps' {
 
   export default class BingMaps extends TileImage {
     constructor(options: Options);
-    getApiKey: () => string;
-    getImagerySet: () => string;
-    handleImageryMetadataResponse: (response: BingMapsImageryMetadataResponse) => void;
+    getApiKey(): string;
+    getImagerySet(): string;
+    handleImageryMetadataResponse(response: BingMapsImageryMetadataResponse): void;
   }
 
-  export type BingMapsImageryMetadataResponse = {
+  export interface BingMapsImageryMetadataResponse {
     statusCode: number;
     statusDescription: string;
     authenticationResultCode: string;
     resourceSets: ResourceSet[];
   }
 
-  export type CoverageArea = {
+  export interface CoverageArea {
     zoomMin: number;
     zoomMax: number;
     bbox: number[];
   }
 
-  export type ImageryProvider = {
+  export interface ImageryProvider {
     coverageAreas: CoverageArea[];
     attribution?: string;
   }
 
-  export type Options = {
+  export interface Options {
     cacheSize?: number;
     hidpi?: boolean;
     culture?: string;
@@ -41,7 +41,7 @@ declare module 'ol/source/BingMaps' {
     transition?: number;
   }
 
-  export type Resource = {
+  export interface Resource {
     imageHeight: number;
     imageWidth: number;
     zoomMin: number;
@@ -51,7 +51,7 @@ declare module 'ol/source/BingMaps' {
     imageryProviders?: ImageryProvider[];
   }
 
-  export type ResourceSet = {
+  export interface ResourceSet {
     resources: Resource[];
   }
 

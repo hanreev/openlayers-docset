@@ -7,15 +7,15 @@ declare module 'ol/layer/Heatmap' {
 
   export default class Heatmap extends VectorLayer {
     constructor(opt_options?: Options);
-    getBlur: () => number;
-    getGradient: () => string[];
-    getRadius: () => number;
-    setBlur: (blur: number) => void;
-    setGradient: (colors: string[]) => void;
-    setRadius: (radius: number) => void;
+    getBlur(): number;
+    getGradient(): string[];
+    getRadius(): number;
+    setBlur(blur: number): void;
+    setGradient(colors: string[]): void;
+    setRadius(radius: number): void;
   }
 
-  export type Options = {
+  export interface Options {
     opacity?: number;
     visible?: boolean;
     extent?: Extent;

@@ -7,10 +7,10 @@ declare module 'ol/style/Circle' {
 
   export default class CircleStyle extends RegularShape {
     constructor(opt_options?: Options);
-    setRadius: (radius: number) => void;
+    setRadius(radius: number): void;
   }
 
-  export type Options = {
+  export interface Options {
     fill?: Fill;
     radius: number;
     stroke?: Stroke;

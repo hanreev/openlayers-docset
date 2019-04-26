@@ -2,7 +2,7 @@ declare module 'ol/control/Zoom' {
 
   import Control from 'ol/control/Control';
 
-  export type Options = {
+  export interface Options {
     duration?: number;
     className?: string;
     zoomInLabel?: string | HTMLElement;

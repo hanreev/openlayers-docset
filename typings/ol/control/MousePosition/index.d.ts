@@ -6,23 +6,23 @@ declare module 'ol/control/MousePosition' {
   import Projection from 'ol/proj/Projection';
   import { ProjectionLike } from 'ol/proj';
 
-  export function render(mapEvent: MapEvent): void;
+  export function render<T>(mapEvent: MapEvent<T>): void;
 
   export default class MousePosition extends Control {
     constructor(opt_options?: Options);
-    getCoordinateFormat: () => CoordinateFormat | undefined;
-    getProjection: () => Projection | undefined;
-    handleMouseMove: (event: Event) => void;
-    handleMouseOut: (event: Event) => void;
-    setCoordinateFormat: (format: CoordinateFormat) => void;
-    setProjection: (projection: ProjectionLike) => void;
+    getCoordinateFormat(): CoordinateFormat;
+    getProjection(): Projection;
+    handleMouseMove(event: Event): void;
+    handleMouseOut(event: Event): void;
+    setCoordinateFormat(format: CoordinateFormat): void;
+    setProjection(projection: ProjectionLike): void;
   }
 
-  export type Options = {
+  export interface Options {
     className?: string;
     coordinateFormat?: CoordinateFormat;
     projection?: ProjectionLike;
-    render?: ((param0: MapEvent) => void);
+    render?: (<T>(param0: MapEvent<T>) => void);
     target?: HTMLElement | string;
     undefinedHTML?: string;
   }

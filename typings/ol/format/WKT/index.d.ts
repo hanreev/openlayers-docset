@@ -12,11 +12,11 @@ declare module 'ol/format/WKT' {
   import Polygon from 'ol/geom/Polygon';
   import TextFeature from 'ol/format/TextFeature';
 
-  export type Options = {
+  export interface Options {
     splitCollection?: boolean;
   }
 
-  export type Token = {
+  export interface Token {
     type: number;
     value?: number | string;
     position: number;

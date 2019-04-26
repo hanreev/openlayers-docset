@@ -3,10 +3,10 @@ declare module 'ol/TileCache' {
   import LRUCache from 'ol/structs/LRUCache';
   import TileRange from 'ol/TileRange';
 
-  export default class TileCache extends LRUCache {
+  export default class TileCache<T> extends LRUCache<T> {
     constructor(opt_highWaterMark?: number);
-    expireCache: (usedTiles: { [key: string]: TileRange }) => void;
-    pruneExceptNewestZ: () => void;
+    expireCache(usedTiles: { [key in string]: TileRange }): void;
+    pruneExceptNewestZ(): void;
   }
 
 }

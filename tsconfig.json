@@ -13,15 +13,16 @@
     ],
     "module": "es2015",
     "moduleResolution": "node",
+    "noEmit": true,
     "noImplicitAny": true,
-    "strict": true,
-    "target": "es5",
     "paths": {
       "*": [
         "node_modules/@types/*",
         "typings/*"
       ]
-    }
+    },
+    "strict": false,
+    "target": "es5"
   },
   "include": [
     "declaration-test.ts",

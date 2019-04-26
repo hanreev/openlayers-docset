@@ -5,9 +5,9 @@ declare module 'ol/events' {
 
   export function bindListener(listenerObj: EventsKey): ListenerFunction;
 
-  export function findListener(listeners: EventsKey[], listener: (() => void), opt_this?: Object, opt_setDeleteIndex?: boolean): EventsKey | undefined;
+  export function findListener(listeners: EventsKey[], listener: (() => void), opt_this?: Object, opt_setDeleteIndex?: boolean): EventsKey;
 
-  export function getListeners(target: EventTargetLike, type: string): EventsKey[] | undefined;
+  export function getListeners(target: EventTargetLike, type: string): EventsKey[];
 
   export function listen(target: EventTargetLike, type: string, listener: ListenerFunction, opt_this?: Object, opt_once?: boolean): EventsKey;
 
@@ -19,7 +19,7 @@ declare module 'ol/events' {
 
   export function unlistenByKey(key: EventsKey): void;
 
-  export type EventsKey = {
+  export interface EventsKey {
     bindTo?: Object;
     boundListener?: ListenerFunction;
     callOnce: boolean;

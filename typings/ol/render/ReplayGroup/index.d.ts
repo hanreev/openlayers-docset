@@ -5,9 +5,9 @@ declare module 'ol/render/ReplayGroup' {
 
   export default class ReplayGroup {
     constructor();
-    addDeclutter: (group: boolean) => any[];
-    getReplay: (zIndex: number | undefined, replayType: ReplayType) => VectorContext;
-    isEmpty: () => boolean;
+    addDeclutter(group: boolean): any[];
+    getReplay(zIndex: number, replayType: ReplayType): VectorContext;
+    isEmpty(): boolean;
   }
 
 }

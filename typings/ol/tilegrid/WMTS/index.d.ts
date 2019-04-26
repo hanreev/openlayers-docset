@@ -7,7 +7,7 @@ declare module 'ol/tilegrid/WMTS' {
 
   export function createFromCapabilitiesMatrixSet(matrixSet: Object, opt_extent?: Extent, opt_matrixLimits?: Object[]): WMTSTileGrid;
 
-  export type Options = {
+  export interface Options {
     extent?: Extent;
     origin?: Coordinate;
     origins?: Coordinate[];
@@ -21,8 +21,8 @@ declare module 'ol/tilegrid/WMTS' {
 
   export default class WMTSTileGrid extends TileGrid {
     constructor(options: Options);
-    getMatrixId: (z: number) => string;
-    getMatrixIds: () => string[];
+    getMatrixId(z: number): string;
+    getMatrixIds(): string[];
   }
 
 }

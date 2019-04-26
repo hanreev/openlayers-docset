@@ -3,7 +3,7 @@ declare module 'ol/source/Stamen' {
   import { LoadFunction } from 'ol/Tile';
   import XYZ from 'ol/source/XYZ';
 
-  export type Options = {
+  export interface Options {
     cacheSize?: number;
     layer: string;
     minZoom?: number;

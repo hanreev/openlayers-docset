@@ -4,8 +4,9 @@ declare module 'ol/layer/Tile' {
   import TileSource from 'ol/source/Tile';
   import PluggableMap from 'ol/PluggableMap';
   import Layer from 'ol/layer/Layer';
+  import Source from 'ol/source/Source';
 
-  export type Options = {
+  export interface Options {
     opacity?: number;
     visible?: boolean;
     extent?: Extent;
@@ -20,11 +21,12 @@ declare module 'ol/layer/Tile' {
 
   export default class TileLayer extends Layer {
     constructor(opt_options?: Options);
-    getPreload: () => number;
-    getSource: () => TileSource;
-    getUseInterimTilesOnError: () => boolean;
-    setPreload: (preload: number) => void;
-    setUseInterimTilesOnError: (useInterimTilesOnError: boolean) => void;
+    getPreload(): number;
+    getSource(): TileSource;
+    getSource(): Source;
+    getUseInterimTilesOnError(): boolean;
+    setPreload(preload: number): void;
+    setUseInterimTilesOnError(useInterimTilesOnError: boolean): void;
   }
 
 }

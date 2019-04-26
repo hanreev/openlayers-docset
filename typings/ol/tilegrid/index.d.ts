@@ -1,5 +1,6 @@
 declare module 'ol/tilegrid' {
 
+  import Corner from 'ol/extent/Corner';
   import { Extent } from 'ol/extent';
   import { Size } from 'ol/size';
   import TileGrid from 'ol/tilegrid/TileGrid';
@@ -19,7 +20,7 @@ declare module 'ol/tilegrid' {
 
   export function wrapX(tileGrid: TileGrid, tileCoord: TileCoord, projection: Projection): TileCoord;
 
-  export type XYZOptions = {
+  export interface XYZOptions {
     extent?: Extent;
     maxZoom?: number;
     minZoom?: number;

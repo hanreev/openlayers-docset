@@ -6,7 +6,7 @@ declare module 'ol/render/canvas' {
   import Fill from 'ol/style/Fill';
   import Stroke from 'ol/style/Stroke';
 
-  export function drawImage(context: CanvasRenderingContext2D, transform: Transform | null, opacity: number, image: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement, originX: number, originY: number, w: number, h: number, x: number, y: number, scale: number): void;
+  export function drawImage(context: CanvasRenderingContext2D, transform: Transform, opacity: number, image: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement, originX: number, originY: number, w: number, h: number, x: number, y: number, scale: number): void;
 
   export function measureTextWidth(font: string, text: string): number;
 
@@ -14,11 +14,11 @@ declare module 'ol/render/canvas' {
 
   export type DeclutterGroup = any[];
 
-  export type FillState = {
+  export interface FillState {
     fillStyle: ColorLike;
   }
 
-  export type FillStrokeState = {
+  export interface FillStrokeState {
     currentFillStyle?: ColorLike;
     currentStrokeStyle?: ColorLike;
     currentLineCap?: string;
@@ -40,7 +40,7 @@ declare module 'ol/render/canvas' {
 
   export const labelCache: LRUCache<HTMLCanvasElement>;
 
-  export type StrokeState = {
+  export interface StrokeState {
     lineCap: string;
     lineDash: number[];
     lineDashOffset: number;
@@ -50,7 +50,7 @@ declare module 'ol/render/canvas' {
     strokeStyle: ColorLike;
   }
 
-  export type TextState = {
+  export interface TextState {
     font: string;
     textAlign?: string;
     textBaseline: string;

@@ -8,8 +8,8 @@ declare module 'ol/format/GML2' {
 
   export default class GML2 extends GMLBase {
     constructor(opt_options?: Options);
-    writeFeatureElement: (node: Element, feature: Feature, objectStack: any[]) => void;
-    writeGeometryElement: (node: Node, geometry: Geometry | Extent, objectStack: any[]) => void;
+    writeFeatureElement(node: Element, feature: Feature, objectStack: any[]): void;
+    writeGeometryElement(node: Node, geometry: Geometry | Extent, objectStack: any[]): void;
   }
 
 }

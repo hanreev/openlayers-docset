@@ -8,7 +8,7 @@ declare module 'ol/reproj/Image' {
 
   export default class ReprojImage extends ImageBase {
     constructor(sourceProj: Projection, targetProj: Projection, targetExtent: Extent, targetResolution: number, pixelRatio: number, getImageFunction: FunctionType);
-    getProjection: () => Projection;
+    getProjection(): Projection;
   }
 
 }

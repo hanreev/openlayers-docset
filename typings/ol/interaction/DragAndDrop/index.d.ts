@@ -13,7 +13,7 @@ declare module 'ol/interaction/DragAndDrop' {
     constructor(opt_options?: Options);
   }
 
-  export type Options = {
+  export interface Options {
     formatConstructors?: FeatureFormat[];
     source?: VectorSource;
     projection?: ProjectionLike;

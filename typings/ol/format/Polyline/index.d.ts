@@ -21,7 +21,7 @@ declare module 'ol/format/Polyline' {
 
   export function encodeUnsignedIntegers(numbers: number[]): string;
 
-  export type Options = {
+  export interface Options {
     factor?: number;
     geometryLayout?: GeometryLayout;
   }

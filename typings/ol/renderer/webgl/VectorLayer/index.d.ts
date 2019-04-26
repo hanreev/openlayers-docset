@@ -11,9 +11,9 @@ declare module 'ol/renderer/webgl/VectorLayer' {
 
   export default class WebGLVectorLayerRenderer extends WebGLLayerRenderer {
     constructor(mapRenderer: WebGLMapRenderer, vectorLayer: VectorLayer);
-    'create']: (mapRenderer: MapRenderer, layer: Layer) => WebGLVectorLayerRenderer;
-  'handles']: (layer: Layer) => boolean;
-  renderFeature: (feature: Feature, resolution: number, pixelRatio: number, styles: Style | Style[], replayGroup: WebGLReplayGroup) => boolean;
-}
+    create(mapRenderer: MapRenderer, layer: Layer): WebGLVectorLayerRenderer;
+    handles(layer: Layer): boolean;
+    renderFeature(feature: Feature, resolution: number, pixelRatio: number, styles: Style | Style[], replayGroup: WebGLReplayGroup): boolean;
+  }
 
 }

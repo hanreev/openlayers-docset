@@ -1,5 +1,6 @@
 declare module 'ol/proj' {
 
+  import Units from 'ol/proj/Units';
   import { Coordinate } from 'ol/coordinate';
   import Projection from 'ol/proj/Projection';
   import { Extent } from 'ol/extent';
@@ -20,7 +21,7 @@ declare module 'ol/proj' {
 
   export function cloneTransform(input: number[], opt_output?: number[], opt_dimension?: number): number[];
 
-  export function createProjection(projection: Projection | string | undefined, defaultCode: string): Projection;
+  export function createProjection(projection: Projection | string, defaultCode: string): Projection;
 
   export function createTransformFromCoordinateTransform(coordTransform: ((param0: Coordinate) => Coordinate)): TransformFunction;
 
@@ -46,7 +47,7 @@ declare module 'ol/proj' {
 
   export function transformWithProjections(point: Coordinate, sourceProjection: Projection, destinationProjection: Projection): Coordinate;
 
-  export type ProjectionLike = Projection | string | undefined;
+  export type ProjectionLike = Projection | string;
 
   export type TransformFunction = ((param0: number[], param1: number[], param2: number) => number[]);
 

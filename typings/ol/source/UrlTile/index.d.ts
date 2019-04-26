@@ -9,7 +9,7 @@ declare module 'ol/source/UrlTile' {
   import TileSource from 'ol/source/Tile';
   import Event from 'ol/events/Event';
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     attributionsCollapsible?: boolean;
     cacheSize?: number;
@@ -29,14 +29,14 @@ declare module 'ol/source/UrlTile' {
 
   export default class UrlTile extends TileSource {
     constructor(options: Options);
-    getTileLoadFunction: () => LoadFunction;
-    getTileUrlFunction: () => UrlFunction;
-    getUrls: () => string[] | null;
-    handleTileChange: (event: Event) => void;
-    setTileLoadFunction: (tileLoadFunction: LoadFunction) => void;
-    setTileUrlFunction: (tileUrlFunction: UrlFunction, key?: string) => void;
-    setUrl: (url: string) => void;
-    setUrls: (urls: string[]) => void;
+    getTileLoadFunction(): LoadFunction;
+    getTileUrlFunction(): UrlFunction;
+    getUrls(): string[];
+    handleTileChange(event: Event): void;
+    setTileLoadFunction(tileLoadFunction: LoadFunction): void;
+    setTileUrlFunction(tileUrlFunction: UrlFunction, key?: string): void;
+    setUrl(url: string): void;
+    setUrls(urls: string[]): void;
   }
 
 }

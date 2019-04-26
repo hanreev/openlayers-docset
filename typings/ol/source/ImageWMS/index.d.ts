@@ -9,22 +9,22 @@ declare module 'ol/source/ImageWMS' {
 
   export default class ImageWMS extends ImageSource {
     constructor(opt_options?: Options);
-    getGetFeatureInfoUrl: (coordinate: Coordinate, resolution: number, projection: ProjectionLike, params: Object) => string | undefined;
-    getImageLoadFunction: () => LoadFunction;
-    getParams: () => Object;
-    getUrl: () => string | undefined;
-    setImageLoadFunction: (imageLoadFunction: LoadFunction) => void;
-    setUrl: (url: string | undefined) => void;
-    updateParams: (params: Object) => void;
+    getGetFeatureInfoUrl(coordinate: Coordinate, resolution: number, projection: ProjectionLike, params: Object): string;
+    getImageLoadFunction(): LoadFunction;
+    getParams(): Object;
+    getUrl(): string;
+    setImageLoadFunction(imageLoadFunction: LoadFunction): void;
+    setUrl(url: string): void;
+    updateParams(params: Object): void;
   }
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     hidpi?: boolean;
     serverType?: WMSServerType | string;
     imageLoadFunction?: LoadFunction;
-    params: { [key: string]: any };
+    params: { [key in string]: any };
     projection: ProjectionLike;
     ratio?: number;
     resolutions?: number[];

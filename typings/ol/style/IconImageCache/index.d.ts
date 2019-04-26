@@ -5,11 +5,11 @@ declare module 'ol/style/IconImageCache' {
 
   export default class IconImageCache {
     constructor();
-    clear: () => void;
-    expire: () => void;
-    get: (src: string, crossOrigin: string, color: Color) => IconImage;
-    set: (src: string, crossOrigin: string, color: Color, iconImage: IconImage) => void;
-    setSize: (maxCacheSize: number) => void;
+    clear(): void;
+    expire(): void;
+    get(src: string, crossOrigin: string, color: Color): IconImage;
+    set(src: string, crossOrigin: string, color: Color, iconImage: IconImage): void;
+    setSize(maxCacheSize: number): void;
   }
 
   export const shared: IconImageCache;

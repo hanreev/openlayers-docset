@@ -8,11 +8,11 @@ declare module 'ol/source/TileArcGISRest' {
   import { TileCoord } from 'ol/tilecoord';
   import Projection from 'ol/proj/Projection';
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     cacheSize?: number;
-    crossOrigin?: null | string;
-    params?: { [key: string]: any };
+    crossOrigin?: string;
+    params?: { [key in string]: any };
     tileGrid?: TileGrid;
     projection: ProjectionLike;
     reprojectionErrorThreshold?: number;
@@ -25,9 +25,8 @@ declare module 'ol/source/TileArcGISRest' {
 
   export default class TileArcGISRest extends TileImage {
     constructor(opt_options?: Options);
-    getParams: () => Object;
-    getTilePixelRatio: () => void;
-    updateParams: (params: Object) => void;
+    getParams(): Object;
+    updateParams(params: Object): void;
   }
 
 }

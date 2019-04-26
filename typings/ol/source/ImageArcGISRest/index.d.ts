@@ -7,20 +7,20 @@ declare module 'ol/source/ImageArcGISRest' {
 
   export default class ImageArcGISRest extends ImageSource {
     constructor(opt_options?: Options);
-    getImageLoadFunction: () => LoadFunction;
-    getParams: () => Object;
-    getUrl: () => string | undefined;
-    setImageLoadFunction: (imageLoadFunction: LoadFunction) => void;
-    setUrl: (url: string | undefined) => void;
-    updateParams: (params: Object) => void;
+    getImageLoadFunction(): LoadFunction;
+    getParams(): Object;
+    getUrl(): string;
+    setImageLoadFunction(imageLoadFunction: LoadFunction): void;
+    setUrl(url: string): void;
+    updateParams(params: Object): void;
   }
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     hidpi?: boolean;
     imageLoadFunction?: LoadFunction;
-    params?: { [key: string]: any };
+    params?: { [key in string]: any };
     projection: ProjectionLike;
     ratio?: number;
     resolutions?: number[];

@@ -8,10 +8,8 @@ declare module 'ol/renderer/canvas/ImageLayer' {
 
   export default class CanvasImageLayerRenderer extends IntermediateCanvasRenderer {
     constructor(imageLayer: ImageLayer | VectorLayer);
-    'create']: (mapRenderer: MapRenderer, layer: Layer) => CanvasImageLayerRenderer;
-  'handles']: (layer: Layer) => boolean;
-  disposeInternal: () => void;
-  forEachFeatureAtCoordinate: () => void;
-}
+    create(mapRenderer: MapRenderer, layer: Layer): CanvasImageLayerRenderer;
+    handles(layer: Layer): boolean;
+  }
 
 }

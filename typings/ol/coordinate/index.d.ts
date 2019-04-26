@@ -32,6 +32,6 @@ declare module 'ol/coordinate' {
 
   export type Coordinate = number[];
 
-  export type CoordinateFormat = ((param0: Coordinate | undefined) => string);
+  export type CoordinateFormat = ((param0: Coordinate) => string);
 
 }

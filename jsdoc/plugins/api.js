@@ -109,6 +109,11 @@ exports.handlers = {
       doclet.setMemberof(doclet.longname);
   },
 
+  beforeParse: e => {
+    // Fix enums has undefined properties
+    e.source = e.source.replace(/export const/g, 'const');
+  },
+
   parseComplete: e => {
     const doclets = e.doclets;
     for (let i = doclets.length - 1; i >= 0; --i) {

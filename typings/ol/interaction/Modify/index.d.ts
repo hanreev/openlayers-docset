@@ -14,19 +14,19 @@ declare module 'ol/interaction/Modify' {
   import SimpleGeometry from 'ol/geom/SimpleGeometry';
   import { Extent } from 'ol/extent';
 
-  export class ModifyEvent extends Event {
+  export class ModifyEvent<T> extends Event {
     constructor();
     features: Collection<Feature>;
-    mapBrowserEvent: MapBrowserEvent;
+    mapBrowserEvent: MapBrowserEvent<T>;
   }
 
   export default class Modify extends PointerInteraction {
     constructor(options: Options);
-    getOverlay: () => VectorLayer;
-    removePoint: () => boolean;
+    getOverlay(): VectorLayer;
+    removePoint(): boolean;
   }
 
-  export type Options = {
+  export interface Options {
     condition?: Condition;
     deleteCondition?: Condition;
     insertVertexCondition?: Condition;
@@ -37,7 +37,7 @@ declare module 'ol/interaction/Modify' {
     wrapX?: boolean;
   }
 
-  export type SegmentData = {
+  export interface SegmentData {
     depth?: number[];
     feature: Feature;
     geometry: SimpleGeometry;

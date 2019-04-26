@@ -7,8 +7,8 @@ declare module 'ol/pointer/MouseSource' {
 
   export default class MouseSource extends EventSource {
     constructor(dispatcher: PointerEventHandler);
-    cancel: (inEvent: Event) => void;
-    cleanupMouse: () => void;
+    cancel(inEvent: Event): void;
+    cleanupMouse(): void;
   }
 
 }

@@ -6,10 +6,10 @@ declare module 'ol/source/OSM' {
 
   export const ATTRIBUTION: string;
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     cacheSize?: number;
-    crossOrigin?: null | string;
+    crossOrigin?: string;
     maxZoom?: number;
     opaque?: boolean;
     reprojectionErrorThreshold?: number;

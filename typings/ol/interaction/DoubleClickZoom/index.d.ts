@@ -7,7 +7,7 @@ declare module 'ol/interaction/DoubleClickZoom' {
     constructor(opt_options?: Options);
   }
 
-  export type Options = {
+  export interface Options {
     duration?: number;
     delta?: number;
   }

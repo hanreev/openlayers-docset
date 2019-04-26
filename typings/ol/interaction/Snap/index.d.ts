@@ -10,7 +10,7 @@ declare module 'ol/interaction/Snap' {
   import PointerInteraction from 'ol/interaction/Pointer';
   import PluggableMap from 'ol/PluggableMap';
 
-  export type Options = {
+  export interface Options {
     features?: Collection<Feature>;
     edge?: boolean;
     vertex?: boolean;
@@ -18,22 +18,22 @@ declare module 'ol/interaction/Snap' {
     source?: VectorSource;
   }
 
-  export type Result = {
+  export interface Result {
     snapped: boolean;
-    vertex: Coordinate | null;
-    vertexPixel: Pixel | null;
+    vertex: Coordinate;
+    vertexPixel: Pixel;
   }
 
-  export type SegmentData = {
+  export interface SegmentData {
     feature: Feature;
     segment: Coordinate[];
   }
 
   export default class Snap extends PointerInteraction {
     constructor(opt_options?: Options);
-    addFeature: (feature: Feature, opt_listen?: boolean) => void;
-    removeFeature: (feature: Feature, opt_unlisten?: boolean) => void;
-    snapTo: (pixel: Pixel, pixelCoordinate: Coordinate, map: PluggableMap) => Result;
+    addFeature(feature: Feature, opt_listen?: boolean): void;
+    removeFeature(feature: Feature, opt_unlisten?: boolean): void;
+    snapTo(pixel: Pixel, pixelCoordinate: Coordinate, map: PluggableMap): Result;
   }
 
 }

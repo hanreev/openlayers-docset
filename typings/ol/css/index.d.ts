@@ -12,6 +12,6 @@ declare module 'ol/css' {
 
   export const CLASS_UNSUPPORTED: string;
 
-  export const getFontFamilies: ((param0: string) => { [key: string]: any } | null);
+  export const getFontFamilies: ((param0: string) => { [key in string]: any });
 
 }

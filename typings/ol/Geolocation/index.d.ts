@@ -9,23 +9,22 @@ declare module 'ol/Geolocation' {
 
   export default class Geolocation extends BaseObject {
     constructor(opt_options?: Options);
-    disposeInternal: () => void;
-    getAccuracy: () => number | undefined;
-    getAccuracyGeometry: () => Polygon;
-    getAltitude: () => number | undefined;
-    getAltitudeAccuracy: () => number | undefined;
-    getHeading: () => number | undefined;
-    getPosition: () => Coordinate | undefined;
-    getProjection: () => Projection | undefined;
-    getSpeed: () => number | undefined;
-    getTracking: () => boolean;
-    getTrackingOptions: () => PositionOptions | undefined;
-    setProjection: (projection: ProjectionLike) => void;
-    setTracking: (tracking: boolean) => void;
-    setTrackingOptions: (options: PositionOptions) => void;
+    getAccuracy(): number;
+    getAccuracyGeometry(): Polygon;
+    getAltitude(): number;
+    getAltitudeAccuracy(): number;
+    getHeading(): number;
+    getPosition(): Coordinate;
+    getProjection(): Projection;
+    getSpeed(): number;
+    getTracking(): boolean;
+    getTrackingOptions(): PositionOptions;
+    setProjection(projection: ProjectionLike): void;
+    setTracking(tracking: boolean): void;
+    setTrackingOptions(options: PositionOptions): void;
   }
 
-  export type Options = {
+  export interface Options {
     tracking?: boolean;
     trackingOptions?: PositionOptions;
     projection?: ProjectionLike;

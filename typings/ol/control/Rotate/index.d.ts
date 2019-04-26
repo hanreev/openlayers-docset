@@ -3,15 +3,15 @@ declare module 'ol/control/Rotate' {
   import MapEvent from 'ol/MapEvent';
   import Control from 'ol/control/Control';
 
-  export function render(mapEvent: MapEvent): void;
+  export function render<T>(mapEvent: MapEvent<T>): void;
 
-  export type Options = {
+  export interface Options {
     className?: string;
     label?: string | HTMLElement;
     tipLabel?: string;
     duration?: number;
     autoHide?: boolean;
-    render?: ((param0: MapEvent) => void);
+    render?: (<T>(param0: MapEvent<T>) => void);
     resetNorth?: (() => void);
     target?: HTMLElement | string;
   }

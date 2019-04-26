@@ -6,14 +6,14 @@ declare module 'ol/control/Control' {
 
   export default class Control extends BaseObject {
     constructor(options: Options);
-    getMap: () => PluggableMap;
-    setMap: (map: PluggableMap) => void;
-    setTarget: (target: HTMLElement | string) => void;
+    getMap(): PluggableMap;
+    setMap(map: PluggableMap): void;
+    setTarget(target: HTMLElement | string): void;
   }
 
-  export type Options = {
+  export interface Options {
     element?: HTMLElement;
-    render?: ((param0: MapEvent) => void);
+    render?: (<T>(param0: MapEvent<T>) => void);
     target?: HTMLElement | string;
   }
 

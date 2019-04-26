@@ -8,7 +8,7 @@ declare module 'ol/interaction/KeyboardPan' {
     constructor(opt_options?: Options);
   }
 
-  export type Options = {
+  export interface Options {
     condition?: Condition;
     duration?: number;
     pixelDelta?: number;

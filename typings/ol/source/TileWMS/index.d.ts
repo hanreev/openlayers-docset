@@ -11,11 +11,11 @@ declare module 'ol/source/TileWMS' {
   import TileImage from 'ol/source/TileImage';
   import { Coordinate } from 'ol/coordinate';
 
-  export type Options = {
+  export interface Options {
     attributions?: AttributionLike;
     cacheSize?: number;
-    crossOrigin?: null | string;
-    params: { [key: string]: any };
+    crossOrigin?: string;
+    params: { [key in string]: any };
     gutter?: number;
     hidpi?: boolean;
     projection: ProjectionLike;
@@ -32,9 +32,9 @@ declare module 'ol/source/TileWMS' {
 
   export default class TileWMS extends TileImage {
     constructor(opt_options?: Options);
-    getGetFeatureInfoUrl: (coordinate: Coordinate, resolution: number, projection: ProjectionLike, params: Object) => string | undefined;
-    getParams: () => Object;
-    updateParams: (params: Object) => void;
+    getGetFeatureInfoUrl(coordinate: Coordinate, resolution: number, projection: ProjectionLike, params: Object): string;
+    getParams(): Object;
+    updateParams(params: Object): void;
   }
 
 }

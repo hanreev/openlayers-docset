@@ -7,7 +7,7 @@ declare module 'ol/interaction/DragZoom' {
     constructor(opt_options?: Options);
   }
 
-  export type Options = {
+  export interface Options {
     className?: string;
     condition?: Condition;
     duration?: number;

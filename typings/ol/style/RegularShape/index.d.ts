@@ -6,7 +6,7 @@ declare module 'ol/style/RegularShape' {
   import ImageStyle from 'ol/style/Image';
   import { ColorLike } from 'ol/colorlike';
 
-  export type Options = {
+  export interface Options {
     fill?: Fill;
     points: number;
     radius?: number;
@@ -21,18 +21,19 @@ declare module 'ol/style/RegularShape' {
 
   export default class RegularShape extends ImageStyle {
     constructor(options: Options);
-    clone: () => RegularShape;
-    getAngle: () => number;
-    getChecksum: () => string;
-    getFill: () => Fill;
-    getPoints: () => number;
-    getRadius: () => number;
-    getRadius2: () => number | undefined;
-    getStroke: () => Stroke;
-    render_: (atlasManager: AtlasManager | undefined) => void;
+    clone(): RegularShape;
+    clone(): ImageStyle;
+    getAngle(): number;
+    getChecksum(): string;
+    getFill(): Fill;
+    getPoints(): number;
+    getRadius(): number;
+    getRadius2(): number;
+    getStroke(): Stroke;
+    render_(atlasManager: AtlasManager): void;
   }
 
-  export type RenderOptions = {
+  export interface RenderOptions {
     strokeStyle?: ColorLike;
     strokeWidth: number;
     size: number;

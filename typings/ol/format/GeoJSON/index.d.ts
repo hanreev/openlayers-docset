@@ -49,7 +49,7 @@ declare module 'ol/format/GeoJSON' {
 
   export type GeoJSONPolygon = Polygon;
 
-  export type Options = {
+  export interface Options {
     dataProjection?: ProjectionLike;
     featureProjection?: ProjectionLike;
     geometryName?: string;

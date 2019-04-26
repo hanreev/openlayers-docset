@@ -34,34 +34,34 @@ declare module 'ol/format/KML' {
 
   export function getDefaultTextStyle(): Text;
 
-  export function readFlatCoordinates(node: Node): number[] | undefined;
+  export function readFlatCoordinates(node: Node): number[];
 
-  export type GxTrackObject = {
+  export interface GxTrackObject {
     flatCoordinates: number[];
     whens: number[];
   }
 
   export default class KML extends XMLFeature {
     constructor(opt_options?: Options);
-    readName: (source: Document | Element | string) => string | undefined;
-    readNameFromDocument: (doc: Document) => string | undefined;
-    readNameFromNode: (node: Element) => string | undefined;
-    readNetworkLinks: (source: Document | Element | string) => Object[];
-    readNetworkLinksFromDocument: (doc: Document) => Object[];
-    readNetworkLinksFromNode: (node: Element) => Object[];
-    readRegion: (source: Document | Element | string) => Object[];
-    readRegionFromDocument: (doc: Document) => Object[];
-    readRegionFromNode: (node: Element) => Object[];
+    readName(source: Document | Element | string): string;
+    readNameFromDocument(doc: Document): string;
+    readNameFromNode(node: Element): string;
+    readNetworkLinks(source: Document | Element | string): Object[];
+    readNetworkLinksFromDocument(doc: Document): Object[];
+    readNetworkLinksFromNode(node: Element): Object[];
+    readRegion(source: Document | Element | string): Object[];
+    readRegionFromDocument(doc: Document): Object[];
+    readRegionFromNode(node: Element): Object[];
   }
 
-  export type Options = {
+  export interface Options {
     extractStyles?: boolean;
     showPointNames?: boolean;
     defaultStyle?: Style[];
     writeStyles?: boolean;
   }
 
-  export type Vec2 = {
+  export interface Vec2 {
     x: number;
     xunits: IconAnchorUnits;
     y: number;
