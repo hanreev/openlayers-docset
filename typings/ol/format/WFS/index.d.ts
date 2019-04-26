@@ -26,7 +26,7 @@ declare module 'ol/format/WFS' {
   }
 
   export interface Options {
-    featureNS?: { [key in string]: string } | string;
+    featureNS?: { [key: string]: string } | string;
     featureType?: string[] | string;
     gmlFormat?: GMLBase;
     schemaLocation?: string;

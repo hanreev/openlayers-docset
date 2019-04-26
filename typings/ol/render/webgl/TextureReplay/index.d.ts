@@ -6,9 +6,9 @@ declare module 'ol/render/webgl/TextureReplay' {
 
   export default class WebGLTextureReplay extends WebGLReplay {
     constructor(tolerance: number, maxExtent: Extent);
-    createTextures(textures: WebGLTexture[], images: any[], texturePerImage: { [key in string]: WebGLTexture }, gl: WebGLRenderingContext): void;
+    createTextures(textures: WebGLTexture[], images: any[], texturePerImage: { [key: string]: WebGLTexture }, gl: WebGLRenderingContext): void;
     drawCoordinates(flatCoordinates: number[], offset: number, end: number, stride: number): number;
-    drawReplaySkipping(gl: WebGLRenderingContext, context: WebGLContext, skippedFeaturesHash: { [key in string]: boolean }, textures: WebGLTexture[], groupIndices: number[]): void;
+    drawReplaySkipping(gl: WebGLRenderingContext, context: WebGLContext, skippedFeaturesHash: { [key: string]: boolean }, textures: WebGLTexture[], groupIndices: number[]): void;
     getHitDetectionTextures(): WebGLTexture[];
     getTextures(opt_all?: boolean): WebGLTexture[];
   }

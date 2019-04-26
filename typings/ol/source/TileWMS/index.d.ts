@@ -15,7 +15,7 @@ declare module 'ol/source/TileWMS' {
     attributions?: AttributionLike;
     cacheSize?: number;
     crossOrigin?: string;
-    params: { [key in string]: any };
+    params: { [key: string]: any };
     gutter?: number;
     hidpi?: boolean;
     projection: ProjectionLike;

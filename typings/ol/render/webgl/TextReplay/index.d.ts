@@ -6,7 +6,7 @@ declare module 'ol/render/webgl/TextReplay' {
 
   export interface GlyphAtlas {
     atlas: AtlasManager;
-    width: { [key in string]: number };
+    width: { [key: string]: number };
     height: number;
   }
 

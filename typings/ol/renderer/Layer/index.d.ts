@@ -15,7 +15,7 @@ declare module 'ol/renderer/Layer' {
 
   export default class LayerRenderer extends Observable {
     constructor(layer: Layer);
-    createLoadedTileFinder(source: TileSource, projection: Projection, tiles: { [key in number]: { [key in string]: Tile } }): ((param0: number, param1: TileRange) => boolean);
+    createLoadedTileFinder(source: TileSource, projection: Projection, tiles: { [key: number]: { [key: string]: Tile } }): ((param0: number, param1: TileRange) => boolean);
     forEachFeatureAtCoordinate<T>(coordinate: Coordinate, frameState: FrameState<T>, hitTolerance: number, callback: ((param0: FeatureLike, param1: Layer) => T)): T | void;
     getLayer(): Layer;
     hasFeatureAtCoordinate<T>(coordinate: Coordinate, frameState: FrameState<T>): boolean;
@@ -23,7 +23,7 @@ declare module 'ol/renderer/Layer' {
     manageTilePyramid<T>(frameState: FrameState<T>, tileSource: TileSource, tileGrid: TileGrid, pixelRatio: number, projection: Projection, extent: Extent, currentZ: number, preload: number, opt_tileCallback?: (() => void), opt_this?: T): void;
     renderIfReadyAndVisible(): void;
     scheduleExpireCache<T>(frameState: FrameState<T>, tileSource: TileSource): void;
-    updateUsedTiles(usedTiles: { [key in string]: { [key in string]: TileRange } }, tileSource: TileSource, z: number, tileRange: TileRange): void;
+    updateUsedTiles(usedTiles: { [key: string]: { [key: string]: TileRange } }, tileSource: TileSource, z: number, tileRange: TileRange): void;
   }
 
 }

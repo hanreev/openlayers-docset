@@ -33,7 +33,7 @@ declare module 'ol/source/UTFGrid' {
   export interface UTFGridJSON {
     grid: string[];
     keys: string[];
-    data?: { [key in string]: Object };
+    data?: { [key: string]: Object };
   }
 
 }

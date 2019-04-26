@@ -24,7 +24,7 @@ declare module 'ol/source/ImageWMS' {
     hidpi?: boolean;
     serverType?: WMSServerType | string;
     imageLoadFunction?: LoadFunction;
-    params: { [key in string]: any };
+    params: { [key: string]: any };
     projection: ProjectionLike;
     ratio?: number;
     resolutions?: number[];

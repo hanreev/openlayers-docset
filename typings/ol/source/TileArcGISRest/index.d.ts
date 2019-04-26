@@ -12,7 +12,7 @@ declare module 'ol/source/TileArcGISRest' {
     attributions?: AttributionLike;
     cacheSize?: number;
     crossOrigin?: string;
-    params?: { [key in string]: any };
+    params?: { [key: string]: any };
     tileGrid?: TileGrid;
     projection: ProjectionLike;
     reprojectionErrorThreshold?: number;

@@ -10,7 +10,7 @@ declare module 'ol/Feature' {
   export function createStyleFunction(obj: StyleFunction | Style[] | Style): StyleFunction;
 
   export default class Feature extends BaseObject {
-    constructor(opt_geometryOrProperties?: Geometry | { [key in string]: any });
+    constructor(opt_geometryOrProperties?: Geometry | { [key: string]: any });
     clone(): Feature;
     getGeometry(): Geometry;
     getGeometryName(): string;

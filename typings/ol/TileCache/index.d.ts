@@ -5,7 +5,7 @@ declare module 'ol/TileCache' {
 
   export default class TileCache<T> extends LRUCache<T> {
     constructor(opt_highWaterMark?: number);
-    expireCache(usedTiles: { [key in string]: TileRange }): void;
+    expireCache(usedTiles: { [key: string]: TileRange }): void;
     pruneExceptNewestZ(): void;
   }
 

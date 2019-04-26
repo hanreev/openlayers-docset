@@ -178,7 +178,7 @@ function stringifyType(parsedType, _module) {
         break;
 
       case 'Object':
-        if (applications[0] != 'number' || applications[0] != 'string')
+        if (applications[0] != 'number' && applications[0] != 'string')
           typeStr = `{ [key in ${applications[0]}]: ${applications[1]} }`;
         else
           typeStr = `{ [key: ${applications[0]}]: ${applications[1]} }`;

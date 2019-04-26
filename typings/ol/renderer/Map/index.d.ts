@@ -22,7 +22,7 @@ declare module 'ol/renderer/Map' {
     forEachLayerAtPixel<S, T, U>(pixel: Pixel, frameState: FrameState<T>, hitTolerance: number, callback: ((this: S, param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S, layerFilter: ((this: U, param1: Layer) => boolean), thisArg2: U): T;
     getLayerRenderer(layer: BaseLayer): LayerRenderer;
     getLayerRendererByKey(layerKey: string): LayerRenderer;
-    getLayerRenderers(): { [key in string]: LayerRenderer };
+    getLayerRenderers(): { [key: string]: LayerRenderer };
     getMap(): PluggableMap;
     hasFeatureAtCoordinate<U, T>(coordinate: Coordinate, frameState: FrameState<T>, hitTolerance: number, layerFilter: ((this: U, param1: Layer) => boolean), thisArg: U): boolean;
     registerLayerRenderers(constructors: LayerRenderer[]): void;

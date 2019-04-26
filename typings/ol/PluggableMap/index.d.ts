@@ -38,16 +38,16 @@ declare module 'ol/PluggableMap' {
     extent: Extent;
     focus: Coordinate;
     index: number;
-    layerStates: { [key in string]: State_1 };
+    layerStates: { [key: string]: State_1 };
     layerStatesArray: State_1[];
     pixelToCoordinateTransform: Transform;
     postRenderFunctions: PostRenderFunction[];
     size: Size;
-    skippedFeatureUids: { [key in string]: boolean };
+    skippedFeatureUids: { [key: string]: boolean };
     tileQueue: TileQueue<T>;
-    usedTiles: { [key in string]: { [key in string]: TileRange } };
+    usedTiles: { [key: string]: { [key: string]: TileRange } };
     viewHints: number[];
-    wantedTiles: { [key in string]: { [key in string]: boolean } };
+    wantedTiles: { [key: string]: { [key: string]: boolean } };
   }
 
   export interface MapOptions {
@@ -70,7 +70,7 @@ declare module 'ol/PluggableMap' {
     interactions?: Collection<Interaction>;
     keyboardEventTarget: HTMLElement | Document;
     overlays: Collection<Overlay>;
-    values: { [key in string]: any };
+    values: { [key: string]: any };
   }
 
   export default class PluggableMap extends BaseObject {

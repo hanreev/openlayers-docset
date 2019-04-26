@@ -26,8 +26,8 @@ declare module 'ol/render/canvas/Replay' {
     finish(): void;
     getBufferedMaxExtent(): Extent;
     renderDeclutter_(declutterGroup: DeclutterGroup, feature: Feature | RenderFeature): void;
-    replay(context: CanvasRenderingContext2D, transform: Transform, viewRotation: number, skippedFeaturesHash: { [key in string]: boolean }, snapToPixel: boolean): void;
-    replayHitDetection<T>(context: CanvasRenderingContext2D, transform: Transform, viewRotation: number, skippedFeaturesHash: { [key in string]: boolean }, opt_featureCallback?: (() => void), opt_hitExtent?: Extent): T;
+    replay(context: CanvasRenderingContext2D, transform: Transform, viewRotation: number, skippedFeaturesHash: { [key: string]: boolean }, snapToPixel: boolean): void;
+    replayHitDetection<T>(context: CanvasRenderingContext2D, transform: Transform, viewRotation: number, skippedFeaturesHash: { [key: string]: boolean }, opt_featureCallback?: (() => void), opt_hitExtent?: Extent): T;
     replayImage_(context: CanvasRenderingContext2D, x: number, y: number, image: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement, anchorX: number, anchorY: number, declutterGroup: DeclutterGroup, height: number, opacity: number, originX: number, originY: number, rotation: number, scale: number, snapToPixel: boolean, width: number, padding: number[], fillInstruction: any[], strokeInstruction: any[]): void;
     replayTextBackground_(context: CanvasRenderingContext2D, p1: Coordinate, p2: Coordinate, p3: Coordinate, p4: Coordinate, fillInstruction: any[], strokeInstruction: any[]): void;
     reverseHitDetectionInstructions(): void;

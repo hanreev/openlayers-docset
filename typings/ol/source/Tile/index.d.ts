@@ -35,7 +35,7 @@ declare module 'ol/source/Tile' {
   export default class TileSource extends Source {
     constructor(options: Options);
     canExpireCache(): boolean;
-    expireCache(projection: Projection, usedTiles: { [key in string]: TileRange }): void;
+    expireCache(projection: Projection, usedTiles: { [key: string]: TileRange }): void;
     forEachLoadedTile(projection: Projection, z: number, tileRange: TileRange, callback: ((param0: Tile) => boolean | void)): boolean;
     getGutterForProjection(projection: Projection): number;
     getKey(): string;

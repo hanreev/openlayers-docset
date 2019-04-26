@@ -20,7 +20,7 @@ declare module 'ol/source/ImageArcGISRest' {
     crossOrigin?: string;
     hidpi?: boolean;
     imageLoadFunction?: LoadFunction;
-    params?: { [key in string]: any };
+    params?: { [key: string]: any };
     projection: ProjectionLike;
     ratio?: number;
     resolutions?: number[];

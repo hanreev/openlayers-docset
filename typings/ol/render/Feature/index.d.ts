@@ -5,7 +5,7 @@ declare module 'ol/render/Feature' {
   import { ProjectionLike } from 'ol/proj';
 
   export default class RenderFeature {
-    constructor(type: GeometryType, flatCoordinates: number[], ends: number[] | number[][], properties: { [key in string]: any }, id: number | string);
+    constructor(type: GeometryType, flatCoordinates: number[], ends: number[] | number[][], properties: { [key: string]: any }, id: number | string);
     get(key: string): any;
     getExtent(): Extent;
     getFlatInteriorPoint(): number[];
@@ -15,7 +15,7 @@ declare module 'ol/render/Feature' {
     getGeometry(): RenderFeature;
     getId(): number | string;
     getOrientedFlatCoordinates(): number[];
-    getProperties(): { [key in string]: any };
+    getProperties(): { [key: string]: any };
     getSimplifiedGeometry(squaredTolerance: number): RenderFeature;
     getStride(): number;
     getStyleFunction(): any;

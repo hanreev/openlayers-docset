@@ -11,7 +11,7 @@ declare module 'ol/source/ImageMapGuide' {
     constructor(options: Options);
     getImageLoadFunction(): LoadFunction;
     getParams(): Object;
-    getUrl(baseUrl: string, params: { [key in string]: any }, extent: Extent, size: Size, projection: Projection): string;
+    getUrl(baseUrl: string, params: { [key: string]: any }, extent: Extent, size: Size, projection: Projection): string;
     setImageLoadFunction(imageLoadFunction: LoadFunction): void;
     updateParams(params: Object): void;
   }
