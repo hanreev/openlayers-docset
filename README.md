@@ -4,6 +4,7 @@ OpenLayers Docset
 [OpenLayers](https://openlayers.org/) docset generator.
 
 
+
 ## Usage
 
 - Clone this repository
@@ -17,6 +18,8 @@ OpenLayers Docset
   ```bash
   git submodule update --init
   ```
+  > ***Note:***
+  > Instead of cloning whole repository, you may download the desired release from [OpenLayers release page](https://github.com/openlayers/openlayers/releases) and extract it into `openlayers` folder
 - Install dependencies
   ```bash
   # Using NPM
@@ -37,3 +40,26 @@ OpenLayers Docset
   ```bash
   tar --exclude='.DS_Store' -cvzf OpenLayers.tgz OpenLayers.docset
   ```
+
+
+
+## TypeScript declaration
+
+I have included TypeScript declaration for `v5.3.2` in `typings` directory. If you need another version, just follow the above steps then run
+
+```bash
+# NPX
+npx run build-format-dts
+
+# Yarn
+yarn build-format-dts
+```
+
+> ***Note:***
+> Some declaration was patched manually. If you found any errors please [create a new issue](https://github.com/hanreev/openlayers-docset/issues).
+
+
+
+## License
+Copyright &copy; 2019 [Rifa'i M. Hanif](https://github.com/hanreev)
+Licensed under MIT License
