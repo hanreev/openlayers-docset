@@ -45,7 +45,27 @@ OpenLayers Docset
 
 ## TypeScript declaration
 
-I have included TypeScript declaration for `v5.3.2` in `typings` directory. If you need another version, just follow the above steps then run
+I have included TypeScript declaration for `v5.3.2` in `typings` directory. 
+
+### Requirements
+
+These modules are required to use provided TypeScript declaration, install them using `npm` of `yarn`
+- `@types/arcgis-rest-api`
+- `@types/geojson`
+- `@types/topojson-specification`
+
+```bash
+# NPM
+npm i -D @types/arcgis-rest-api @types/geojson @types/topojson-specification
+
+#Yarn
+yarn add -D @types/arcgis-rest-api @types/geojson @types/topojson-specification
+```
+
+
+
+If you need another version, just follow the above steps then run
+
 ```bash
 # NPM
 npm run build-format-dts
@@ -53,6 +73,8 @@ npm run build-format-dts
 # Yarn
 yarn build-format-dts
 ```
+
+
 > ***Note:***  
 > Some declaration was patched manually. If you found any errors please [create a new issue](https://github.com/hanreev/openlayers-docset/issues).
 
