@@ -45,11 +45,11 @@ OpenLayers Docset
 
 ## TypeScript declaration
 
-I have included TypeScript declaration for `v5.3.2` in `typings` directory. 
+I have included TypeScript declaration for `v5.3.2` in `typings` directory that includes all documented API and protected class members and methods.
 
 ### Requirements
 
-These modules are required to use provided TypeScript declaration, install them using `npm` of `yarn`
+These [DefinitelyTyped](http://definitelytyped.org/) modules are required to use provided TypeScript declaration, install them using `npm` or `yarn`
 - `@types/arcgis-rest-api`
 - `@types/geojson`
 - `@types/topojson-specification`
