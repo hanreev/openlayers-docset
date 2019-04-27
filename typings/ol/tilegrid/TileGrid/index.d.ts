@@ -19,6 +19,8 @@ declare module 'ol/tilegrid/TileGrid' {
 
   export default class TileGrid {
     constructor(options: Options);
+    protected maxZoom: number;
+    protected minZoom: number;
     forEachTileCoord(extent: Extent, zoom: number, callback: ((param0: TileCoord) => void)): void;
     forEachTileCoordParentTileRange<T>(tileCoord: TileCoord, callback: ((this: T, param1: number, param2: TileRange) => boolean), opt_this?: T, opt_tileRange?: TileRange, opt_extent?: Extent): boolean;
     getExtent(): Extent;

@@ -30,7 +30,7 @@ declare module 'ol/source/Zoomify' {
     tileSize?: number;
   }
 
-  export default class Zoomify extends TileImage {
+  export default class Zoomify<T> extends TileImage<T> {
     constructor(opt_options?: Options);
   }
 

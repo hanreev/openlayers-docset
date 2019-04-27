@@ -1,18 +1,21 @@
 declare module 'ol/geom/Geometry' {
 
   import BaseObject from 'ol/Object';
+  import { Extent } from 'ol/extent';
   import { TransformFunction } from 'ol/proj';
   import { Coordinate } from 'ol/coordinate';
-  import { Extent } from 'ol/extent';
   import GeometryType from 'ol/geom/GeometryType';
   import { ProjectionLike } from 'ol/proj';
 
   export default class Geometry extends BaseObject {
     constructor();
+    protected simplifiedGeometryCache: { [key: string]: Geometry };
+    protected simplifiedGeometryMaxMinSquaredTolerance: number;
+    protected simplifiedGeometryRevision: number;
+    protected computeExtent(extent: Extent): Extent;
     applyTransform(transformFn: TransformFunction): void;
     clone(): Geometry;
     closestPointXY(x: number, y: number, closestPoint: Coordinate, minSquaredDistance: number): number;
-    computeExtent(extent: Extent): Extent;
     containsXY(x: number, y: number): boolean;
     getClosestPoint(point: Coordinate, opt_closestPoint?: Coordinate): Coordinate;
     getExtent(opt_extent?: Extent): Extent;

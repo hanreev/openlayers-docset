@@ -13,7 +13,8 @@ declare module 'ol/Tile' {
 
   export default class Tile extends Target {
     constructor(tileCoord: TileCoord, state: TileState, opt_options?: Options);
-    changed(): void;
+    protected state: TileState;
+    protected changed(): void;
     endTransition(id: string): void;
     getAlpha(id: string, time: number): number;
     getInterimTile(): Tile;

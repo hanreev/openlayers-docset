@@ -33,10 +33,11 @@ declare module 'ol/source/Vector' {
 
   export default class VectorSource extends Source {
     constructor(opt_options?: Options);
+    protected addFeatureInternal(feature: Feature): void;
+    protected addFeaturesInternal(features: Feature[]): void;
+    protected removeFeatureInternal(feature: Feature): void;
     addFeature(feature: Feature): void;
-    addFeatureInternal(feature: Feature): void;
     addFeatures(features: Feature[]): void;
-    addFeaturesInternal(features: Feature[]): void;
     clear(opt_fast?: boolean): void;
     forEachFeature<T>(callback: ((param0: Feature) => T)): T;
     forEachFeatureAtCoordinateDirect<T>(coordinate: Coordinate, callback: ((param0: Feature) => T)): T;
@@ -56,7 +57,6 @@ declare module 'ol/source/Vector' {
     isEmpty(): boolean;
     loadFeatures(extent: Extent, resolution: number, projection: Projection): void;
     removeFeature(feature: Feature): void;
-    removeFeatureInternal(feature: Feature): void;
     removeLoadedExtent(extent: Extent): void;
     setLoader(loader: FeatureLoader): void;
   }

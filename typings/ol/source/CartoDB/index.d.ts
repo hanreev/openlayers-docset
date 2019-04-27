@@ -4,7 +4,7 @@ declare module 'ol/source/CartoDB' {
   import { AttributionLike } from 'ol/source/Source';
   import { ProjectionLike } from 'ol/proj';
 
-  export default class CartoDB extends XYZ {
+  export default class CartoDB<T> extends XYZ<T> {
     constructor(options: Options);
     getConfig(): Object;
     setConfig(config: Object): void;

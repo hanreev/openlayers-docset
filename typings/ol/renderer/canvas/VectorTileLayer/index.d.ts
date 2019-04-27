@@ -9,9 +9,9 @@ declare module 'ol/renderer/canvas/VectorTileLayer' {
   import Style from 'ol/style/Style';
   import CanvasReplayGroup from 'ol/render/canvas/ReplayGroup';
 
-  export default class CanvasVectorTileLayerRenderer extends CanvasTileLayerRenderer {
-    constructor(layer: VectorTileLayer);
-    create(mapRenderer: MapRenderer, layer: Layer): CanvasVectorTileLayerRenderer;
+  export default class CanvasVectorTileLayerRenderer<T> extends CanvasTileLayerRenderer<T> {
+    constructor(layer: VectorTileLayer<T>);
+    create<T>(mapRenderer: MapRenderer, layer: Layer): CanvasVectorTileLayerRenderer<T>;
     handles(layer: Layer): boolean;
     handleFontsChanged_(event: Event): void;
     renderFeature(feature: FeatureLike, squaredTolerance: number, styles: Style | Style[], replayGroup: CanvasReplayGroup): boolean;

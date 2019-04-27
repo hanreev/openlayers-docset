@@ -27,12 +27,15 @@ declare module 'ol/source/UrlTile' {
     key?: string;
   }
 
-  export default class UrlTile extends TileSource {
+  export default class UrlTile<T> extends TileSource<T> {
     constructor(options: Options);
+    protected tileLoadFunction: LoadFunction;
+    protected tileUrlFunction: UrlFunction;
+    protected urls: string[];
+    protected handleTileChange(event: Event): void;
     getTileLoadFunction(): LoadFunction;
     getTileUrlFunction(): UrlFunction;
     getUrls(): string[];
-    handleTileChange(event: Event): void;
     setTileLoadFunction(tileLoadFunction: LoadFunction): void;
     setTileUrlFunction(tileUrlFunction: UrlFunction, key?: string): void;
     setUrl(url: string): void;

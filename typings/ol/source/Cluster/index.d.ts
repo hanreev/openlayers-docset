@@ -7,8 +7,13 @@ declare module 'ol/source/Cluster' {
 
   export default class Cluster extends VectorSource {
     constructor(options: Options);
-    cluster(): void;
-    createCluster(features: Feature[]): Feature;
+    protected distance: number;
+    protected features: Feature[];
+    protected geometryFunction: ((param0: Feature) => Point);
+    protected resolution: number;
+    protected source: VectorSource;
+    protected cluster(): void;
+    protected createCluster(features: Feature[]): Feature;
     getDistance(): number;
     getSource(): VectorSource;
     setDistance(distance: number): void;

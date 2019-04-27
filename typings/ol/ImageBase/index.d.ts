@@ -6,7 +6,10 @@ declare module 'ol/ImageBase' {
 
   export default class ImageBase extends Target {
     constructor(extent: Extent, resolution: number, pixelRatio: number, state: ImageState);
-    changed(): void;
+    protected extent: Extent;
+    protected resolution: number;
+    protected state: ImageState;
+    protected changed(): void;
     getExtent(): Extent;
     getImage(): HTMLCanvasElement | HTMLImageElement | HTMLVideoElement;
     getPixelRatio(): number;

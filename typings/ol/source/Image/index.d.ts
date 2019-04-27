@@ -14,10 +14,10 @@ declare module 'ol/source/Image' {
 
   export default class ImageSource extends Source {
     constructor(options: Options);
-    findNearestResolution(resolution: number): number;
+    protected findNearestResolution(resolution: number): number;
+    protected getImageInternal(extent: Extent, resolution: number, pixelRatio: number, projection: Projection): ImageBase;
+    protected handleImageChange(event: Event): void;
     getImage(extent: Extent, resolution: number, pixelRatio: number, projection: Projection): ImageBase;
-    getImageInternal(extent: Extent, resolution: number, pixelRatio: number, projection: Projection): ImageBase;
-    handleImageChange(event: Event): void;
   }
 
   export interface Options {

@@ -13,7 +13,8 @@ declare module 'ol/control/ZoomToExtent' {
 
   export default class ZoomToExtent extends Control {
     constructor(opt_options?: Options);
-    handleZoomToExtent(): void;
+    protected extent: Extent;
+    protected handleZoomToExtent(): void;
   }
 
 }

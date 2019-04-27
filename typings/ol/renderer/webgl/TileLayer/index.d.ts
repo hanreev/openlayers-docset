@@ -6,9 +6,9 @@ declare module 'ol/renderer/webgl/TileLayer' {
   import MapRenderer from 'ol/renderer/Map';
   import Layer from 'ol/layer/Layer';
 
-  export default class WebGLTileLayerRenderer extends WebGLLayerRenderer {
-    constructor(mapRenderer: WebGLMapRenderer, tileLayer: TileLayer);
-    create(mapRenderer: MapRenderer, layer: Layer): WebGLTileLayerRenderer;
+  export default class WebGLTileLayerRenderer<T> extends WebGLLayerRenderer {
+    constructor(mapRenderer: WebGLMapRenderer, tileLayer: TileLayer<T>);
+    create<T>(mapRenderer: MapRenderer, layer: Layer): WebGLTileLayerRenderer<T>;
     handles(layer: Layer): boolean;
   }
 

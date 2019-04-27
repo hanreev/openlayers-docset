@@ -13,7 +13,7 @@ declare module 'ol/source/TileDebug' {
     wrapX?: boolean;
   }
 
-  export default class TileDebug extends TileSource {
+  export default class TileDebug<T> extends TileSource<T> {
     constructor(options: Options);
   }
 

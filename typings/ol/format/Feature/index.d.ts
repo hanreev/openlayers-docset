@@ -2,9 +2,9 @@ declare module 'ol/format/Feature' {
 
   import Geometry from 'ol/geom/Geometry';
   import { Extent } from 'ol/extent';
+  import Projection from 'ol/proj/Projection';
   import FormatType from 'ol/format/FormatType';
   import { FeatureLike } from 'ol/Feature';
-  import Projection from 'ol/proj/Projection';
   import Feature from 'ol/Feature';
   import { ProjectionLike } from 'ol/proj';
 
@@ -12,9 +12,11 @@ declare module 'ol/format/Feature' {
 
   export default class FeatureFormat {
     constructor();
-    adaptOptions(options: WriteOptions | ReadOptions): WriteOptions | ReadOptions;
+    protected dataProjection: Projection;
+    protected defaultFeatureProjection: Projection;
+    protected adaptOptions(options: WriteOptions | ReadOptions): WriteOptions | ReadOptions;
+    protected getReadOptions(source: Document | Node | Object | string, opt_options?: ReadOptions): ReadOptions;
     getLastExtent(): Extent;
-    getReadOptions(source: Document | Node | Object | string, opt_options?: ReadOptions): ReadOptions;
     getType(): FormatType;
     readFeature(source: Document | Node | Object | string, opt_options?: ReadOptions): FeatureLike;
     readFeatures(source: Document | Node | ArrayBuffer | Object | string, opt_options?: ReadOptions): FeatureLike[];

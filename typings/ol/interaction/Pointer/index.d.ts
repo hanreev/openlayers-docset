@@ -19,10 +19,12 @@ declare module 'ol/interaction/Pointer' {
 
   export default class PointerInteraction extends Interaction {
     constructor(opt_options?: Options);
-    handleDownEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): boolean;
-    handleDragEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): void;
-    handleMoveEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): void;
-    handleUpEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): boolean;
+    protected handlingDownUpSequence: boolean;
+    protected targetPointers: PointerEvent[];
+    protected handleDownEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): boolean;
+    protected handleDragEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): void;
+    protected handleMoveEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): void;
+    protected handleUpEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): boolean;
     stopDown(handled: boolean): boolean;
   }
 

@@ -7,11 +7,12 @@ declare module 'ol/source/Tile' {
   import State from 'ol/source/State';
   import TileGrid from 'ol/tilegrid/TileGrid';
   import Source from 'ol/source/Source';
+  import TileCache from 'ol/TileCache';
+  import { Options as Options_1 } from 'ol/Tile';
+  import { Size } from 'ol/size';
   import Projection from 'ol/proj/Projection';
   import TileRange from 'ol/TileRange';
-  import TileCache from 'ol/TileCache';
   import { TileCoord } from 'ol/tilecoord';
-  import { Size } from 'ol/size';
 
   export class TileSourceEvent extends Event {
     constructor();
@@ -32,22 +33,26 @@ declare module 'ol/source/Tile' {
     key?: string;
   }
 
-  export default class TileSource extends Source {
+  export default class TileSource<T> extends Source {
     constructor(options: Options);
+    protected tileCache: TileCache<T>;
+    protected tileGrid: TileGrid;
+    protected tileOptions: Options_1;
+    protected tmpSize: Size;
+    protected getKey(): string;
+    protected getTileCacheForProjection<T>(projection: Projection): TileCache<T>;
+    protected setKey(key: string): void;
     canExpireCache(): boolean;
     expireCache(projection: Projection, usedTiles: { [key: string]: TileRange }): void;
     forEachLoadedTile(projection: Projection, z: number, tileRange: TileRange, callback: ((param0: Tile) => boolean | void)): boolean;
     getGutterForProjection(projection: Projection): number;
-    getKey(): string;
     getOpaque(projection: Projection): boolean;
     getTile(z: number, x: number, y: number, pixelRatio: number, projection: Projection): Tile;
-    getTileCacheForProjection<T>(projection: Projection): TileCache<T>;
     getTileCoordForTileUrlFunction(tileCoord: TileCoord, opt_projection?: Projection): TileCoord;
     getTileGrid(): TileGrid;
     getTileGridForProjection(projection: Projection): TileGrid;
     getTilePixelRatio(pixelRatio: number): number;
     getTilePixelSize(z: number, pixelRatio: number, projection: Projection): Size;
-    setKey(key: string): void;
     useTile(z: number, x: number, y: number, projection: Projection): void;
   }
 

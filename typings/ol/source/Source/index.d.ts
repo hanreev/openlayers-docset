@@ -20,6 +20,7 @@ declare module 'ol/source/Source' {
 
   export default class Source extends BaseObject {
     constructor(options: Options);
+    protected setState(state: State): void;
     getAttributions(): Attribution;
     getAttributionsCollapsible(): boolean;
     getProjection(): Projection;
@@ -28,7 +29,6 @@ declare module 'ol/source/Source' {
     getWrapX(): boolean;
     refresh(): void;
     setAttributions(attributions: AttributionLike): void;
-    setState(state: State): void;
   }
 
 }

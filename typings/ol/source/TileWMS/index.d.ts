@@ -30,7 +30,7 @@ declare module 'ol/source/TileWMS' {
     transition?: number;
   }
 
-  export default class TileWMS extends TileImage {
+  export default class TileWMS<T> extends TileImage<T> {
     constructor(opt_options?: Options);
     getGetFeatureInfoUrl(coordinate: Coordinate, resolution: number, projection: ProjectionLike, params: Object): string;
     getParams(): Object;

@@ -22,12 +22,12 @@ declare module 'ol/source/UTFGrid' {
     url?: string;
   }
 
-  export default class UTFGrid extends TileSource {
+  export default class UTFGrid<T> extends TileSource<T> {
     constructor(options: Options);
+    protected handleTileJSONError(): void;
+    protected handleTileJSONResponse(tileJSON: Config): void;
     forDataAtCoordinateAndResolution(coordinate: Coordinate, resolution: number, callback: ((param0: any) => void), opt_request?: boolean): void;
     getTemplate(): string;
-    handleTileJSONError(): void;
-    handleTileJSONResponse(tileJSON: Config): void;
   }
 
   export interface UTFGridJSON {

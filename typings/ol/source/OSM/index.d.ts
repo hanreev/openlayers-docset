@@ -18,7 +18,7 @@ declare module 'ol/source/OSM' {
     wrapX?: boolean;
   }
 
-  export default class OSM extends XYZ {
+  export default class OSM<T> extends XYZ<T> {
     constructor(opt_options?: Options);
   }
 

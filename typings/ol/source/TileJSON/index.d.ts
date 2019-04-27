@@ -33,11 +33,11 @@ declare module 'ol/source/TileJSON' {
     transition?: number;
   }
 
-  export default class TileJSON extends TileImage {
+  export default class TileJSON<T> extends TileImage<T> {
     constructor(options: Options);
+    protected handleTileJSONError(): void;
+    protected handleTileJSONResponse(tileJSON: Config): void;
     getTileJSON(): Config;
-    handleTileJSONError(): void;
-    handleTileJSONResponse(tileJSON: Config): void;
   }
 
 }

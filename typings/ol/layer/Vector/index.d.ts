@@ -7,6 +7,7 @@ declare module 'ol/layer/Vector' {
   import PluggableMap from 'ol/PluggableMap';
   import { StyleLike } from 'ol/style/Style';
   import Layer from 'ol/layer/Layer';
+  import LayerType from 'ol/LayerType';
   import Feature from 'ol/Feature';
   import Source from 'ol/source/Source';
   import { StyleFunction } from 'ol/style/Style';
@@ -32,6 +33,7 @@ declare module 'ol/layer/Vector' {
 
   export default class VectorLayer extends Layer {
     constructor(opt_options?: Options);
+    protected type: LayerType;
     getDeclutter(): boolean;
     getRenderBuffer(): number;
     getRenderMode(): VectorRenderType | string;

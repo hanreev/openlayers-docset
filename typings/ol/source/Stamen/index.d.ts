@@ -14,7 +14,7 @@ declare module 'ol/source/Stamen' {
     wrapX?: boolean;
   }
 
-  export default class Stamen extends XYZ {
+  export default class Stamen<T> extends XYZ<T> {
     constructor(options: Options);
   }
 

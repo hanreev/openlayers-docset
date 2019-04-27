@@ -33,8 +33,9 @@ declare module 'ol/source/VectorTile' {
     wrapX?: boolean;
   }
 
-  export default class VectorTile extends UrlTile {
+  export default class VectorTile<T> extends UrlTile<T> {
     constructor(options: Options);
+    protected tileClass: VectorTile_1;
     clear(): void;
     getOverlaps(): boolean;
   }

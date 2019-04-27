@@ -8,6 +8,7 @@ declare module 'ol/source/TileImage' {
   import { LoadFunction } from 'ol/Tile';
   import { UrlFunction } from 'ol/Tile';
   import UrlTile from 'ol/source/UrlTile';
+  import TileCache from 'ol/TileCache';
   import Projection from 'ol/proj/Projection';
   import Tile from 'ol/Tile';
 
@@ -32,10 +33,14 @@ declare module 'ol/source/TileImage' {
     key?: string;
   }
 
-  export default class TileImage extends UrlTile {
+  export default class TileImage<T> extends UrlTile<T> {
     constructor(options: Options);
+    protected crossOrigin: string;
+    protected tileCacheForProjection: { [key: string]: TileCache<T> };
+    protected tileClass: ImageTile;
+    protected tileGridForProjection: { [key: string]: TileGrid };
+    protected getTileInternal(z: number, x: number, y: number, pixelRatio: number, projection: Projection): Tile;
     getGutter(): number;
-    getTileInternal(z: number, x: number, y: number, pixelRatio: number, projection: Projection): Tile;
     setRenderReprojectionEdges(render: boolean): void;
     setTileGridForProjection(projection: ProjectionLike, tilegrid: TileGrid): void;
   }

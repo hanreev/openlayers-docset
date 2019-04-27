@@ -23,7 +23,7 @@ declare module 'ol/source/TileArcGISRest' {
     urls: string[];
   }
 
-  export default class TileArcGISRest extends TileImage {
+  export default class TileArcGISRest<T> extends TileImage<T> {
     constructor(opt_options?: Options);
     getParams(): Object;
     updateParams(params: Object): void;

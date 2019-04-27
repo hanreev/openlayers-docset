@@ -13,10 +13,19 @@ declare module 'ol/render/canvas/Replay' {
 
   export default class CanvasReplay extends VectorContext {
     constructor(tolerance: number, maxExtent: Extent, resolution: number, pixelRatio: number, overlaps: boolean, declutterTree: any);
-    appendFlatCoordinates(flatCoordinates: number[], offset: number, end: number, stride: number, closed: boolean, skipFirst: boolean): number;
-    applyPixelRatio(dashArray: number[]): number[];
+    protected coordinates: number[];
+    protected hitDetectionInstructions: any[];
+    protected instructions: any[];
+    protected maxLineWidth: number;
+    protected overlaps: boolean;
+    protected pixelRatio: number;
+    protected state: FillStrokeState;
+    protected tolerance: number;
+    protected appendFlatCoordinates(flatCoordinates: number[], offset: number, end: number, stride: number, closed: boolean, skipFirst: boolean): number;
+    protected applyPixelRatio(dashArray: number[]): number[];
+    protected beginGeometry(geometry: Geometry | RenderFeature, feature: Feature | RenderFeature): void;
+    protected getBufferedMaxExtent(): Extent;
     applyStroke(state: FillStrokeState): void;
-    beginGeometry(geometry: Geometry | RenderFeature, feature: Feature | RenderFeature): void;
     createFill(state: FillStrokeState, geometry: Geometry | RenderFeature): any[];
     createStroke(state: FillStrokeState): any[];
     drawCustom(): void;
@@ -24,7 +33,6 @@ declare module 'ol/render/canvas/Replay' {
     drawCustomCoordinates_(flatCoordinates: number[], offset: number, ends: number[], stride: number, replayEnds: number[]): number;
     endGeometry(geometry: Geometry | RenderFeature, feature: Feature | RenderFeature): void;
     finish(): void;
-    getBufferedMaxExtent(): Extent;
     renderDeclutter_(declutterGroup: DeclutterGroup, feature: Feature | RenderFeature): void;
     replay(context: CanvasRenderingContext2D, transform: Transform, viewRotation: number, skippedFeaturesHash: { [key: string]: boolean }, snapToPixel: boolean): void;
     replayHitDetection<T>(context: CanvasRenderingContext2D, transform: Transform, viewRotation: number, skippedFeaturesHash: { [key: string]: boolean }, opt_featureCallback?: (() => void), opt_hitExtent?: Extent): T;

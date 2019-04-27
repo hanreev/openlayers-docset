@@ -13,6 +13,10 @@ declare module 'ol/format/GMLBase' {
 
   export default class GMLBase extends XMLFeature {
     constructor(opt_options?: Options);
+    protected featureNS: { [key: string]: string } | string;
+    protected featureType: string[] | string;
+    protected schemaLocation: string;
+    protected srsName: string;
     readFeatureElement(node: Element, objectStack: any[]): Feature;
     readFeatureElementInternal(node: Element, objectStack: any[], asFeature: boolean): Feature | Object;
     readFeaturesInternal(node: Element, objectStack: any[]): Feature[];

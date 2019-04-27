@@ -21,6 +21,9 @@ declare module 'ol/style/RegularShape' {
 
   export default class RegularShape extends ImageStyle {
     constructor(options: Options);
+    protected atlasManager_: AtlasManager;
+    protected radius_: number;
+    protected render_(atlasManager: AtlasManager): void;
     clone(): RegularShape;
     clone(): ImageStyle;
     getAngle(): number;
@@ -30,7 +33,6 @@ declare module 'ol/style/RegularShape' {
     getRadius(): number;
     getRadius2(): number;
     getStroke(): Stroke;
-    render_(atlasManager: AtlasManager): void;
   }
 
   export interface RenderOptions {

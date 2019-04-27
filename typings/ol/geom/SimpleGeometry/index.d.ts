@@ -11,16 +11,19 @@ declare module 'ol/geom/SimpleGeometry' {
 
   export default class SimpleGeometry extends Geometry {
     constructor();
+    protected flatCoordinates: number[];
+    protected layout: GeometryLayout;
+    protected stride: number;
+    protected getSimplifiedGeometryInternal(squaredTolerance: number): SimpleGeometry;
+    protected setLayout(layout: GeometryLayout, coordinates: any[], nesting: number): void;
     getCoordinates(): any[];
     getFirstCoordinate(): Coordinate;
     getFlatCoordinates(): number[];
     getLastCoordinate(): Coordinate;
     getLayout(): GeometryLayout;
-    getSimplifiedGeometryInternal(squaredTolerance: number): SimpleGeometry;
     getStride(): number;
     setCoordinates(coordinates: any[], opt_layout?: GeometryLayout): void;
     setFlatCoordinates(layout: GeometryLayout, flatCoordinates: number[]): void;
-    setLayout(layout: GeometryLayout, coordinates: any[], nesting: number): void;
   }
 
 }

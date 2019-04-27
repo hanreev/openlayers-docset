@@ -166,10 +166,13 @@ exports.handlers = {
           continue;
         }
 
-      if (doclet.kind == 'class')
+      if (doclet.kind == 'class') {
         includeAugments(doclet);
-      else if (doclet.undocumented !== false && !doclet._hideConstructor && !(doclet.kind == 'typedef' && doclet.longname in types))
+      } else if (doclet.undocumented !== false && !doclet._hideConstructor && !(doclet.kind == 'typedef' && doclet.longname in types)) {
+        if (doclet.access == 'protected')
+          continue;
         doclet.undocumented = true;
+      }
     }
   }
 

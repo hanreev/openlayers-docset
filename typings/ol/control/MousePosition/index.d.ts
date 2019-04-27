@@ -10,10 +10,10 @@ declare module 'ol/control/MousePosition' {
 
   export default class MousePosition extends Control {
     constructor(opt_options?: Options);
+    protected handleMouseMove(event: Event): void;
+    protected handleMouseOut(event: Event): void;
     getCoordinateFormat(): CoordinateFormat;
     getProjection(): Projection;
-    handleMouseMove(event: Event): void;
-    handleMouseOut(event: Event): void;
     setCoordinateFormat(format: CoordinateFormat): void;
     setProjection(projection: ProjectionLike): void;
   }

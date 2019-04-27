@@ -29,7 +29,7 @@ declare module 'ol/source/XYZ' {
     transition?: number;
   }
 
-  export default class XYZ extends TileImage {
+  export default class XYZ<T> extends TileImage<T> {
     constructor(opt_options?: Options);
   }
 

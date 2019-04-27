@@ -75,6 +75,9 @@ declare module 'ol/PluggableMap' {
 
   export default class PluggableMap extends BaseObject {
     constructor(options: MapOptions);
+    protected controls: Collection<Control>;
+    protected interactions: Collection<Interaction>;
+    protected handlePostRender(): void;
     addControl(control: Control): void;
     addInteraction(interaction: Interaction): void;
     addLayer(layer: BaseLayer): void;
@@ -104,7 +107,6 @@ declare module 'ol/PluggableMap' {
     getViewport(): HTMLElement;
     handleBrowserEvent(browserEvent: Event, opt_type?: string): void;
     handleMapBrowserEvent<T>(mapBrowserEvent: MapBrowserEvent<T>): void;
-    handlePostRender(): void;
     hasFeatureAtPixel<U>(pixel: Pixel, opt_options?: AtPixelOptions): boolean;
     isRendered(): boolean;
     removeControl(control: Control): Control;

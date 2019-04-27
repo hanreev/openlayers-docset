@@ -155,6 +155,7 @@ const TYPE_PATCHES = {
   'module:ol/events/condition~never': 'typeof:module:ol/functions.FALSE',
   'module:ol/format/GML~GML': 'module:ol/format/GML3~GML3',
   'module:ol/style/IconImageCache~shared': 'module:ol/style/IconImageCache~IconImageCache',
+  'module:ol/source/Cluster~Cluster#geometryFunction': 'function(module:ol/Feature~Feature): module:ol/geom/Point~Point',
 };
 
 /** @type {Object<string, string[]>} */
@@ -442,9 +443,7 @@ function parseConstFunctionType(doclet, _module) {
 
 /** @type {DocletParser} */
 function getType(doclet, _module) {
-  if (doclet.longname in TYPE_PATCHES)
-    doclet.type = { names: [TYPE_PATCHES[doclet.longname]] };
-  else if (!doclet.type)
+  if (!doclet.type)
     if (doclet.params || doclet.yields || doclet.returns) {
       return parseConstFunctionType(doclet, _module);
     } else {
@@ -546,12 +545,12 @@ const PROCESSORS = {
     if (!doclet._hideConstructor)
       children.push(`constructor(${getParams(doclet, _module)});`);
 
-    find({
+    data({
       kind: ['member', 'function'],
       inheritdoc: { '!is': true },
       inherited: { '!is': true },
       memberof: doclet.longname
-    }).forEach(child => {
+    }).order('access, kind desc').get().forEach(child => {
       // Remove non alphanumeric from member name
       child.name = child.name.replace(/\W/g, '');
       const kind = child.kind == 'function' ? 'method' : child.kind;
@@ -563,7 +562,8 @@ const PROCESSORS = {
   },
 
   member: (doclet, _module) => {
-    return `${doclet.name}: ${getType(doclet, _module)};`;
+    const prefix = doclet.access ? `${doclet.access} ` : '';
+    return prefix + `${doclet.name}: ${getType(doclet, _module)};`;
   },
 
   constant: (doclet, _module) => {
@@ -572,6 +572,7 @@ const PROCESSORS = {
   },
 
   method: (doclet, _module, lookupOverrides = true) => {
+    const prefix = doclet.scope == 'instance' && doclet.access ? `${doclet.access} ` : '';
     let name = doclet.name;
 
     if (doclet.longname in GENERIC_TYPES)
@@ -579,7 +580,7 @@ const PROCESSORS = {
 
     const params = getParams(doclet, _module);
     const returnType = getReturnType(doclet, _module);
-    let decl = `${name}(${params}): ${returnType};`;
+    let decl = prefix + `${name}(${params}): ${returnType};`;
 
     if (lookupOverrides && doclet.overrides) {
       const superDoclet = find({ longname: doclet.overrides })[0];
@@ -911,15 +912,43 @@ exports.publish = (taffyData) => {
   data = taffyData;
   data = helper.prune(data);
   data.sort('longname, version, since');
+
   const members = helper.getMembers(data);
+
+  /**
+   * Patching types
+   */
+  for (const longname in TYPE_PATCHES) {
+    const doclet = data({ longname }).first();
+    if (!doclet)
+      continue;
+    doclet.type = { names: [TYPE_PATCHES[longname]] };
+  }
+
+  const paramTypePatches = {
+    'module:ol/layer/Tile~TileLayer': ['opt_options', 'module:ol/layer/Tile~Options'],
+    'module:ol/layer/VectorTile~VectorTileLayer': ['opt_options', 'module:ol/layer/VectorTile~Options'],
+  };
+
+  for (const longname in paramTypePatches) {
+    const doclet = data({ longname }).first();
+    const paramName = paramTypePatches[longname].shift();
+
+    if (doclet && doclet.params)
+      doclet.params = doclet.params.map(param => {
+        if (param.name == paramName)
+          param.type.names = paramTypePatches[longname];
+        return param;
+      });
+  }
 
   /**
    * Extract generic types
    * Repetation is needed because some generic types are added from parameters and members
    */
   extractGenericTypes();
-  extractGenericTypes(false);
-  extractGenericTypes(false);
+  for (let i = 0; i < 3; ++i)
+    extractGenericTypes(false);
 
   /**
    * Update module exports

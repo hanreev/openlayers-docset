@@ -7,9 +7,10 @@ declare module 'ol/layer/VectorTile' {
   import PluggableMap from 'ol/PluggableMap';
   import { StyleLike } from 'ol/style/Style';
   import VectorLayer from 'ol/layer/Vector';
+  import LayerType from 'ol/LayerType';
   import VectorSource from 'ol/source/Vector';
 
-  export interface Options {
+  export interface Options<T> {
     opacity?: number;
     visible?: boolean;
     extent?: Extent;
@@ -19,7 +20,7 @@ declare module 'ol/layer/VectorTile' {
     renderOrder?: OrderFunction;
     renderBuffer?: number;
     renderMode?: VectorTileRenderType | string;
-    source?: VectorTile;
+    source?: VectorTile<T>;
     map?: PluggableMap;
     declutter?: boolean;
     style?: StyleLike;
@@ -29,10 +30,11 @@ declare module 'ol/layer/VectorTile' {
     useInterimTilesOnError?: boolean;
   }
 
-  export default class VectorTileLayer extends VectorLayer {
-    constructor(opt_options?: Options);
+  export default class VectorTileLayer<T> extends VectorLayer {
+    constructor(opt_options?: Options<T>);
+    protected type: LayerType;
     getPreload(): number;
-    getSource(): VectorTile;
+    getSource<T>(): VectorTile<T>;
     getSource(): VectorSource;
     getUseInterimTilesOnError(): boolean;
     setPreload(preload: number): void;
