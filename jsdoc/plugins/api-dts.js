@@ -38,7 +38,7 @@ const force_include_members = {
   'module:ol/reproj/common': [],
   'module:ol/source/common': [],
   'module:ol/source/Image': ['ImageSourceEvent', 'ImageSourceEventType'],
-  'module:ol/source/Raster': ['RasterOperationType', 'RasterSourceEvent'],
+  'module:ol/source/Raster': ['RasterSourceEvent'],
   'module:ol/source/Vector': ['VectorSourceEvent'],
   'module:ol/tilegrid/common': [],
   'module:ol/util': ['VERSION'],

@@ -19,12 +19,7 @@ declare module 'ol/source/Raster' {
     operation?: Operation;
     lib?: any;
     threads?: number;
-    operationType?: RasterOperationType;
-  }
-
-  export enum RasterOperationType {
-    PIXEL = 'pixel',
-    IMAGE = 'image',
+    operationType?: 'pixel' | 'image';
   }
 
   export default class RasterSource extends ImageSource {

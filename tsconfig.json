@@ -25,6 +25,7 @@
     "target": "es5"
   },
   "include": [
+    "test/**/*",
     "typings/**/*"
   ]
 }

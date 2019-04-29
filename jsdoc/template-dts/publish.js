@@ -447,6 +447,9 @@ function getType(doclet, _module) {
     let parsedType;
     let prefix = '';
 
+    if (_module.name == 'ol/source/Raster' && type == 'RasterOperationType')
+      return '\'pixel\' | \'image\'';
+
     if (type.startsWith('typeof:')) {
       prefix = 'typeof ';
       type = type.replace(/^typeof:/, '');

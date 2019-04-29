@@ -1,6 +1,7 @@
 node_modules
 OpenLayers.docset
 OpenLayers.tgz
+test-out
 
 yarn-error.log
 report.*.json
