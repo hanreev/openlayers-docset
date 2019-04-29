@@ -105,14 +105,14 @@ const map = new Map({
 
 let coordinate: number[];
 
-map.on('click', function (event) {
+map.on('click', function(event) {
   coordinate = event.coordinate;
   raster.changed();
 });
 
 const thresholdControl = document.getElementById('threshold') as HTMLInputElement;
 
-raster.on('beforeoperations', function (event) {
+raster.on('beforeoperations', function(event) {
   // the event.data object will be passed to operations
   const data = event.data;
   data.delta = thresholdControl.value;
@@ -126,7 +126,7 @@ function updateControlValue() {
 }
 updateControlValue();
 
-thresholdControl.addEventListener('input', function () {
+thresholdControl.addEventListener('input', function() {
   updateControlValue();
   raster.changed();
 });

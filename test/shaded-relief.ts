@@ -130,10 +130,10 @@ const map = new Map({
 
 const controlIds = ['vert', 'sunEl', 'sunAz'];
 const controls: { [key: string]: HTMLInputElement } = {};
-controlIds.forEach(function (id) {
+controlIds.forEach(function(id) {
   const control = document.getElementById(id) as HTMLInputElement;
   const output = document.getElementById(id + 'Out');
-  control.addEventListener('input', function () {
+  control.addEventListener('input', function() {
     output.innerText = control.value;
     raster.changed();
   });
@@ -141,7 +141,7 @@ controlIds.forEach(function (id) {
   controls[id] = control;
 });
 
-raster.on('beforeoperations', function (event) {
+raster.on('beforeoperations', function(event) {
   // the event.data object will be passed to operations
   const data = event.data;
   data.resolution = event.resolution;

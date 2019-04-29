@@ -13,7 +13,7 @@ declare module 'ol/structs/RBush' {
   export default class RBush<T> {
     constructor(opt_maxEntries?: number);
     clear(): void;
-    concat<T>(rbush: RBush<T>): void;
+    concat(rbush: RBush<T>): void;
     forEach<S>(callback: ((this: S, param1: T) => void), opt_this?: S): any;
     forEachInExtent<S>(extent: Extent, callback: ((this: S, param1: T) => void), opt_this?: S): any;
     getAll(): T[];

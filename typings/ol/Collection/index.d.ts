@@ -5,9 +5,9 @@ declare module 'ol/Collection' {
   import { EventsKey } from 'ol/events';
   import { ObjectEvent } from 'ol/Object';
 
-  export class CollectionEvent extends Event {
+  export class CollectionEvent<T> extends Event {
     constructor();
-    element: any;
+    element: T;
   }
 
   export default class Collection<T> extends BaseObject {
@@ -27,9 +27,9 @@ declare module 'ol/Collection' {
     on(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
     once(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
     un(type: string | string[], listener: ((param0: any) => void)): void;
-    on(type: 'add', listener: (evt: CollectionEvent) => void): EventsKey;
-    once(type: 'add', listener: (evt: CollectionEvent) => void): EventsKey;
-    un(type: 'add', listener: (evt: CollectionEvent) => void): void;
+    on(type: 'add', listener: (evt: CollectionEvent<T>) => void): EventsKey;
+    once(type: 'add', listener: (evt: CollectionEvent<T>) => void): EventsKey;
+    un(type: 'add', listener: (evt: CollectionEvent<T>) => void): void;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
     un(type: 'change', listener: (evt: Event) => void): void;
@@ -39,9 +39,9 @@ declare module 'ol/Collection' {
     on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
     un(type: 'propertychange', listener: (evt: ObjectEvent) => void): void;
-    on(type: 'remove', listener: (evt: CollectionEvent) => void): EventsKey;
-    once(type: 'remove', listener: (evt: CollectionEvent) => void): EventsKey;
-    un(type: 'remove', listener: (evt: CollectionEvent) => void): void;
+    on(type: 'remove', listener: (evt: CollectionEvent<T>) => void): EventsKey;
+    once(type: 'remove', listener: (evt: CollectionEvent<T>) => void): EventsKey;
+    un(type: 'remove', listener: (evt: CollectionEvent<T>) => void): void;
   }
 
   export interface Options {

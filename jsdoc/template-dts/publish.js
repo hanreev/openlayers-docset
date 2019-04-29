@@ -146,7 +146,9 @@ const EXTERNAL_MODULE_WHITELIST = [
 ];
 
 /** @type {Object<string, string>} */
-const GENERIC_TYPES = {};
+const GENERIC_TYPES = {
+  'module:ol/Collection.CollectionEvent': 'T'
+};
 
 /** @type {string[]} */
 const ANY_GENERIC_TYPES = [
@@ -157,12 +159,13 @@ const ANY_GENERIC_TYPES = [
 
 /** @type {Object<string, string>} */
 const TYPE_PATCHES = {
+  'module:ol/Collection.CollectionEvent#element': 'T',
   'module:ol/css~getFontFamilies': 'function(string): (Object<string, *>|null)',
   'module:ol/events/condition~always': 'typeof:module:ol/functions.TRUE',
   'module:ol/events/condition~never': 'typeof:module:ol/functions.FALSE',
   'module:ol/format/GML~GML': 'module:ol/format/GML3~GML3',
-  'module:ol/style/IconImageCache~shared': 'module:ol/style/IconImageCache~IconImageCache',
   'module:ol/source/Cluster~Cluster#geometryFunction': 'function(module:ol/Feature~Feature): module:ol/geom/Point~Point',
+  'module:ol/style/IconImageCache~shared': 'module:ol/style/IconImageCache~IconImageCache',
 };
 
 /** @type {Object<string, string[]>} */
@@ -568,7 +571,9 @@ const PROCESSORS = {
     const addFire = (eventType, fireType) => {
       if (fireType.startsWith('ol'))
         fireType = 'module:' + fireType;
-      const genericType = GENERIC_TYPES[fireType];
+      let genericType = GENERIC_TYPES[fireType];
+      if (genericType && genericType == GENERIC_TYPES[doclet.longname])
+        genericType = null;
       fireType = getType({ type: { names: [fireType || 'undefined'] } }, _module);
       ['on', 'once', 'un'].forEach(fireMethod => {
         const returnType = fireMethod == 'un' ? 'void' : 'EventsKey';
@@ -839,62 +844,33 @@ function generateDeclaration(doclet, emitOutput = true) {
   return content;
 }
 
-function extractGenericTypes(initial = true) {
+function extractGenericTypes(initial = true, strict = false) {
   if (initial)
-    find({ kind: ['class', 'function', 'method'] }).forEach(doclet => {
-      if (!doclet.tags)
-        return;
-
+    find({ tags: { isArray: true } }).forEach(doclet => {
       const template = doclet.tags.find(tag => tag.title == 'template');
       if (template)
         GENERIC_TYPES[doclet.longname] = template.value.split(/,\s?/).join(', ');
     });
 
+  if (!strict) return;
+
   find({ kind: 'class' }).forEach(doclet => {
-    if (!(doclet.augments && doclet.augments.length))
-      return;
-
     let genericTypes = [];
+
     if (doclet.longname in GENERIC_TYPES)
       genericTypes = GENERIC_TYPES[doclet.longname].split(/,\s?/);
 
-    const addGenericTypes = dl => {
-      dl.type.names.forEach(t => {
-        if (t in GENERIC_TYPES)
-          genericTypes = genericTypes.concat(GENERIC_TYPES[t].split(/,\s?/));
-      });
-    };
+    if (doclet.augments && doclet.augments.length) {
+      const augment = doclet.augments[0];
+      if (augment in GENERIC_TYPES)
+        genericTypes = genericTypes.concat(GENERIC_TYPES[augment].split(/,\s?/));
+    }
 
-    const augment = doclet.augments[0];
-    if (augment in GENERIC_TYPES && ANY_GENERIC_TYPES.indexOf(augment) == -1)
-      genericTypes = genericTypes.concat(GENERIC_TYPES[augment].split(/,\s?/));
-
-    find({
-      kind: 'member',
-      inheritdoc: { '!is': true },
-      inherited: { '!is': true },
-      memberof: doclet.longname
-    }).forEach(addGenericTypes);
-
-    if (doclet.params)
-      doclet.params.forEach(addGenericTypes);
-
-    if (genericTypes.length)
-      GENERIC_TYPES[doclet.longname] = Array.from(new Set(genericTypes)).join(', ');
-  });
-
-  find({ kind: 'typedef' }).forEach(doclet => {
-    if (!doclet.properties)
-      return;
-
-    let genericTypes = [];
-    if (doclet.longname in GENERIC_TYPES)
-      genericTypes = GENERIC_TYPES[doclet.longname].split(/,\s?/);
-
-    doclet.properties.forEach(prop => {
-      prop.type.names.forEach(t => {
-        if (t in GENERIC_TYPES)
-          genericTypes = genericTypes.concat(GENERIC_TYPES[t].split(/,\s?/));
+    find({ kind: ['member', 'constant'], memberof: doclet.longname }).forEach(member => {
+      if (!member.type) return;
+      member.type.names.forEach(type => {
+        if (type in GENERIC_TYPES)
+          genericTypes = genericTypes.concat(GENERIC_TYPES[type].split(/,\s?/));
       });
     });
 
@@ -902,39 +878,44 @@ function extractGenericTypes(initial = true) {
       GENERIC_TYPES[doclet.longname] = Array.from(new Set(genericTypes)).join(', ');
   });
 
-  find({ kind: ['function', 'method'] }).forEach(doclet => {
-    if (!(doclet.params || doclet.yields || doclet.returns))
-      return;
-
+  find({ kind: 'typedef', properties: { isArray: true } }).forEach(doclet => {
     let genericTypes = [];
+
     if (doclet.longname in GENERIC_TYPES)
       genericTypes = GENERIC_TYPES[doclet.longname].split(/,\s?/);
 
-    const addGenericTypes = dl => {
-      dl.type.names.forEach(t => {
-        if (t in GENERIC_TYPES)
-          genericTypes = genericTypes.concat(GENERIC_TYPES[t].split(/,\s?/));
+    doclet.properties.forEach(prop => {
+      prop.type.names.forEach(type => {
+        if (type in GENERIC_TYPES)
+          genericTypes = genericTypes.concat(GENERIC_TYPES[type].split(/,\s?/));
       });
-    };
+    });
 
-    if (doclet.params)
-      doclet.params.forEach(addGenericTypes);
+    if (genericTypes.length)
+      GENERIC_TYPES[doclet.longname] = Array.from(new Set(genericTypes)).join(', ');
+  });
 
-    if (doclet.yields || doclet.returns)
-      (doclet.yields || doclet.returns).forEach(addGenericTypes);
+  find(
+    { kind: ['function', 'class'] },
+    [{ params: { isArray: true } }, { returns: { isArray: true } }, { yields: { isArray: true } }]
+  ).forEach(doclet => {
+    let genericTypes = [];
 
-    genericTypes = Array.from(new Set(genericTypes));
+    if (doclet.longname in GENERIC_TYPES)
+      genericTypes = GENERIC_TYPES[doclet.longname].split(/,\s?/);
 
-    if (genericTypes.length) {
-      GENERIC_TYPES[doclet.longname] = genericTypes.join(', ');
+    const merged = (doclet.params || []).concat(doclet.yields || doclet.returns || []);
 
-      if (doclet.kind == 'method') {
-        let parentGenericTypes = genericTypes;
-        if (doclet.memberof in GENERIC_TYPES)
-          parentGenericTypes = GENERIC_TYPES[doclet.memberof].split(/,\s?/).concat(parentGenericTypes);
-        GENERIC_TYPES[doclet.memberof] = Array.from(new Set(parentGenericTypes)).join(', ');
-      }
-    }
+    merged.forEach(d => {
+      if (!d.type) return;
+      d.type.names.forEach(type => {
+        if (type in GENERIC_TYPES)
+          genericTypes = genericTypes.concat(GENERIC_TYPES[type].split(/,\s?/));
+      });
+    });
+
+    if (genericTypes.length)
+      GENERIC_TYPES[doclet.longname] = Array.from(new Set(genericTypes)).join(', ');
   });
 }
 
@@ -979,9 +960,9 @@ exports.publish = (taffyData) => {
 
   if (declarationConfig.strictGenericTypes) {
     ANY_GENERIC_TYPES.splice(0);
-    extractGenericTypes();
-    for (let i = 0; i < 3; ++i)
-      extractGenericTypes(false);
+    extractGenericTypes(true, true);
+    for (let i = 0; i < 2; ++i)
+      extractGenericTypes(false, true);
   } else {
     extractGenericTypes();
   }
