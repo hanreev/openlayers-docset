@@ -13,7 +13,8 @@
     "build-dts": "jsdoc -c jsdoc/conf-dts.json -P openlayers/package.json -d typings",
     "lint-dts": "tsc --pretty",
     "format-dts": "tsfmt -r",
-    "build-format-dts": "yarn build-dts && yarn format-dts"
+    "build-format-dts": "npm run build-dts && npm run format-dts",
+    "test-dts": "tsc -p tsconfig.test.json --pretty"
   },
   "dependencies": {
     "jsdoc": "^3.5.5",
@@ -23,8 +24,10 @@
   "devDependencies": {
     "@types/arcgis-rest-api": "^10.4.4",
     "@types/geojson": "^7946.0.7",
+    "@types/proj4": "^2.5.0",
     "@types/topojson-specification": "^1.0.1",
     "ol": "^5.3.2",
+    "proj4": "^2.5.0",
     "tslint": "^5.16.0",
     "typescript": "^3.4.5",
     "typescript-formatter": "^7.2.2"

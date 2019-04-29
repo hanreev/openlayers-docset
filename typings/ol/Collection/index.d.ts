@@ -24,21 +24,24 @@ declare module 'ol/Collection' {
     remove(elem: T): T;
     removeAt(index: number): T;
     setAt(index: number, elem: T): void;
+    on(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
+    once(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
+    un(type: string | string[], listener: ((param0: any) => void)): void;
     on(type: 'add', listener: (evt: CollectionEvent) => void): EventsKey;
     once(type: 'add', listener: (evt: CollectionEvent) => void): EventsKey;
-    un(type: 'add', listener: (evt: CollectionEvent) => void): EventsKey;
+    un(type: 'add', listener: (evt: CollectionEvent) => void): void;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
-    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): void;
     on(type: 'change:length', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'change:length', listener: (evt: ObjectEvent) => void): EventsKey;
-    un(type: 'change:length', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:length', listener: (evt: ObjectEvent) => void): void;
     on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
-    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): void;
     on(type: 'remove', listener: (evt: CollectionEvent) => void): EventsKey;
     once(type: 'remove', listener: (evt: CollectionEvent) => void): EventsKey;
-    un(type: 'remove', listener: (evt: CollectionEvent) => void): EventsKey;
+    un(type: 'remove', listener: (evt: CollectionEvent) => void): void;
   }
 
   export interface Options {

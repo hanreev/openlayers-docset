@@ -16,7 +16,6 @@ declare module 'ol/format/GML3' {
     writeEnvelope(node: Element, extent: Extent, objectStack: any[]): void;
     writeFeatureElement(node: Element, feature: Feature, objectStack: any[]): void;
     writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
-    writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
     writeGeometryElement(node: Node, geometry: Geometry | Extent, objectStack: any[]): void;
   }
 

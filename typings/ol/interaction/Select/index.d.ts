@@ -37,18 +37,21 @@ declare module 'ol/interaction/Select' {
     getLayer(feature: FeatureLike): VectorLayer;
     getOverlay(): VectorLayer;
     setHitTolerance(hitTolerance: number): void;
+    on(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
+    once(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
+    un(type: string | string[], listener: ((param0: any) => void)): void;
     on(type: 'select', listener: (evt: SelectEvent) => void): EventsKey;
     once(type: 'select', listener: (evt: SelectEvent) => void): EventsKey;
-    un(type: 'select', listener: (evt: SelectEvent) => void): EventsKey;
+    un(type: 'select', listener: (evt: SelectEvent) => void): void;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
-    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): void;
     on(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
-    un(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:active', listener: (evt: ObjectEvent) => void): void;
     on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
-    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): void;
   }
 
   export class SelectEvent extends Event {

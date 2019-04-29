@@ -403,8 +403,10 @@ function parseFunctionType(type, _module) {
   if (match) {
     params = match[1].split(/,\s?/).map((p, i) => {
       let name = `param${i}`;
-      if (p.startsWith('this:'))
-        return;
+      if (p.startsWith('this:')) {
+        name = 'this';
+        p = p.replace(/^this:\s?/, '');
+      }
       if (p.match(/^\?.+$/))
         name += '?';
       return `${name}: ` + (p.split(/\s?\|\s?/).map(parse).filter(t => t != 'undefined').join(' | ') || 'any');
@@ -566,14 +568,26 @@ const PROCESSORS = {
       const genericType = GENERIC_TYPES[fireType];
       fireType = getType({ type: { names: [fireType || 'undefined'] } }, _module);
       ['on', 'once', 'un'].forEach(fireMethod => {
+        const returnType = fireMethod == 'un' ? 'void' : 'EventsKey';
         if (genericType)
           fireMethod += `<${genericType}>`;
-        children.push(`${fireMethod}(type: '${eventType}', listener: (evt: ${fireType}) => void): EventsKey;`);
+        children.push(`${fireMethod}(type: '${eventType}', listener: (evt: ${fireType}) => void): ${returnType};`);
       });
     };
 
     if (doclet.fires) {
       registerImport(_module, 'module:ol/events~EventsKey');
+
+      // Add default observable methods
+      find({
+        name: ['on', 'once', 'un'],
+        kind: 'function',
+        memberof: 'module:ol/Observable~Observable'
+      }).forEach(method => {
+        children.push(PROCESSORS.method(method, _module));
+      });
+
+      // Add per event observsable method
       doclet.fires.forEach(fire => {
         let eventType;
         let fireType;
@@ -641,8 +655,11 @@ const PROCESSORS = {
 
     if (lookupOverrides && doclet.overrides) {
       const superDoclet = find({ longname: doclet.overrides })[0];
-      if (superDoclet)
-        decl += '\n' + PROCESSORS.method(superDoclet, _module, false);
+      if (superDoclet) {
+        const superDecl = PROCESSORS.method(superDoclet, _module, false);
+        if (superDecl != decl)
+          decl += '\n' + superDecl;
+      }
     }
 
     return decl;

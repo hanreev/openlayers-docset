@@ -23,10 +23,10 @@ declare module 'ol/renderer/Map' {
     protected scheduleExpireIconCache(frameState: FrameState): void;
     protected scheduleRemoveUnusedLayerRenderers(frameState: FrameState): void;
     dispatchRenderEvent(type: EventType, frameState: FrameState): void;
-    forEachFeatureAtCoordinate<S, T, U>(coordinate: Coordinate, frameState: FrameState, hitTolerance: number, callback: ((param1: FeatureLike, param2: Layer) => T), thisArg: S, layerFilter: ((param1: Layer) => boolean), thisArg2: U): T;
-    forEachLayerAtPixel<S, T, U>(pixel: Pixel, frameState: FrameState, hitTolerance: number, callback: ((param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S, layerFilter: ((param1: Layer) => boolean), thisArg2: U): T;
+    forEachFeatureAtCoordinate<S, T, U>(coordinate: Coordinate, frameState: FrameState, hitTolerance: number, callback: ((this: S, param1: FeatureLike, param2: Layer) => T), thisArg: S, layerFilter: ((this: U, param1: Layer) => boolean), thisArg2: U): T;
+    forEachLayerAtPixel<S, T, U>(pixel: Pixel, frameState: FrameState, hitTolerance: number, callback: ((this: S, param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S, layerFilter: ((this: U, param1: Layer) => boolean), thisArg2: U): T;
     getMap(): PluggableMap;
-    hasFeatureAtCoordinate<U>(coordinate: Coordinate, frameState: FrameState, hitTolerance: number, layerFilter: ((param1: Layer) => boolean), thisArg: U): boolean;
+    hasFeatureAtCoordinate<U>(coordinate: Coordinate, frameState: FrameState, hitTolerance: number, layerFilter: ((this: U, param1: Layer) => boolean), thisArg: U): boolean;
     registerLayerRenderers(constructors: LayerRenderer[]): void;
     removeLayerRenderers(): void;
     renderFrame(frameState: FrameState): void;

@@ -26,9 +26,12 @@ declare module 'ol/renderer/Layer' {
     forEachFeatureAtCoordinate<T>(coordinate: Coordinate, frameState: FrameState, hitTolerance: number, callback: ((param0: FeatureLike, param1: Layer) => T)): T | void;
     getLayer(): Layer;
     hasFeatureAtCoordinate(coordinate: Coordinate, frameState: FrameState): boolean;
+    on(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
+    once(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
+    un(type: string | string[], listener: ((param0: any) => void)): void;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
-    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): void;
   }
 
 }

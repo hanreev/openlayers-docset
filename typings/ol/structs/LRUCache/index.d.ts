@@ -16,7 +16,7 @@ declare module 'ol/structs/LRUCache' {
     canExpireCache(): boolean;
     clear(): void;
     containsKey(key: string): boolean;
-    forEach<S>(f: (<T>(param1: T, param2: string, param3: LRUCache<T>) => void), opt_this?: S): void;
+    forEach<S>(f: (<T>(this: S, param1: T, param2: string, param3: LRUCache<T>) => void), opt_this?: S): void;
     get(key: string): T;
     getCount(): number;
     getKeys(): string[];
@@ -30,9 +30,12 @@ declare module 'ol/structs/LRUCache' {
     replace(key: string, value: T): void;
     set(key: string, value: T): void;
     setSize(size: number): void;
+    on(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
+    once(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
+    un(type: string | string[], listener: ((param0: any) => void)): void;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
-    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): void;
   }
 
 }

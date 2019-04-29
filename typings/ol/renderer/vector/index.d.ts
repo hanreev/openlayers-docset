@@ -22,6 +22,6 @@ declare module 'ol/renderer/vector' {
 
   export function getTolerance(resolution: number, pixelRatio: number): number;
 
-  export function renderFeature<T>(replayGroup: ReplayGroup, feature: FeatureLike, style: Style, squaredTolerance: number, listener: ((param1: Event) => void), thisArg: T): boolean;
+  export function renderFeature<T>(replayGroup: ReplayGroup, feature: FeatureLike, style: Style, squaredTolerance: number, listener: ((this: T, param1: Event) => void), thisArg: T): boolean;
 
 }

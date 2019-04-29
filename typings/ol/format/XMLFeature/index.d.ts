@@ -24,8 +24,6 @@ declare module 'ol/format/XMLFeature' {
     readFeatures(source: Document | Node | any | string, opt_options?: ReadOptions): Feature[];
     readFeatures(source: Document | Node | ArrayBuffer | any | string, opt_options?: ReadOptions): FeatureLike[];
     readProjection(source: Document | Node | any | string): Projection;
-    readProjection(source: Document | Node | any | string): Projection;
-    writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
     writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
     writeFeaturesNode(features: Feature[], opt_options?: WriteOptions): Node;
     writeGeometryNode(geometry: Geometry, opt_options?: WriteOptions): Node;

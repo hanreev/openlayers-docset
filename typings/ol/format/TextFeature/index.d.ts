@@ -22,14 +22,9 @@ declare module 'ol/format/TextFeature' {
     readFeatures(source: Document | Node | any | string, opt_options?: ReadOptions): Feature[];
     readFeatures(source: Document | Node | ArrayBuffer | any | string, opt_options?: ReadOptions): FeatureLike[];
     readGeometry(source: Document | Node | any | string, opt_options?: ReadOptions): Geometry;
-    readGeometry(source: Document | Node | any | string, opt_options?: ReadOptions): Geometry;
-    readProjection(source: Document | Node | any | string): Projection;
     readProjection(source: Document | Node | any | string): Projection;
     writeFeature(feature: Feature, opt_options?: WriteOptions): string;
-    writeFeature(feature: Feature, opt_options?: WriteOptions): string;
     writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
-    writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
-    writeGeometry(geometry: Geometry, opt_options?: WriteOptions): string;
     writeGeometry(geometry: Geometry, opt_options?: WriteOptions): string;
   }
 

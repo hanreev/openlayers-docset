@@ -119,21 +119,24 @@ declare module 'ol/View' {
     setRotation(rotation: number): void;
     setZoom(zoom: number): void;
     updateAnimations_(): void;
+    on(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
+    once(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
+    un(type: string | string[], listener: ((param0: any) => void)): void;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
-    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): void;
     on(type: 'change:center', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'change:center', listener: (evt: ObjectEvent) => void): EventsKey;
-    un(type: 'change:center', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:center', listener: (evt: ObjectEvent) => void): void;
     on(type: 'change:resolution', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'change:resolution', listener: (evt: ObjectEvent) => void): EventsKey;
-    un(type: 'change:resolution', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:resolution', listener: (evt: ObjectEvent) => void): void;
     on(type: 'change:rotation', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'change:rotation', listener: (evt: ObjectEvent) => void): EventsKey;
-    un(type: 'change:rotation', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:rotation', listener: (evt: ObjectEvent) => void): void;
     on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
-    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): void;
   }
 
   export interface ViewOptions {

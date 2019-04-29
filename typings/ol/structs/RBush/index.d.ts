@@ -14,8 +14,8 @@ declare module 'ol/structs/RBush' {
     constructor(opt_maxEntries?: number);
     clear(): void;
     concat<T>(rbush: RBush<T>): void;
-    forEach<S>(callback: ((param1: T) => void), opt_this?: S): any;
-    forEachInExtent<S>(extent: Extent, callback: ((param1: T) => void), opt_this?: S): any;
+    forEach<S>(callback: ((this: S, param1: T) => void), opt_this?: S): any;
+    forEachInExtent<S>(extent: Extent, callback: ((this: S, param1: T) => void), opt_this?: S): any;
     getAll(): T[];
     getExtent(opt_extent?: Extent): Extent;
     getInExtent(extent: Extent): T[];

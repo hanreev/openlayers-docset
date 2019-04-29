@@ -8,19 +8,19 @@ declare module 'ol/xml' {
 
   export function isDocument(object: any): boolean;
 
-  export function makeArrayExtender<T>(valueReader: ((param1: Node, param2: any[]) => any[]), opt_this?: T): Parser;
+  export function makeArrayExtender<T>(valueReader: ((this: T, param1: Node, param2: any[]) => any[]), opt_this?: T): Parser;
 
-  export function makeArrayPusher<T>(valueReader: ((param1: Element, param2: any[]) => void), opt_this?: T): Parser;
+  export function makeArrayPusher<T>(valueReader: ((this: T, param1: Element, param2: any[]) => void), opt_this?: T): Parser;
 
-  export function makeArraySerializer<T, V>(nodeWriter: ((param1: Element, param2: V, param3: any[]) => void), opt_this?: T): Serializer;
+  export function makeArraySerializer<T, V>(nodeWriter: ((this: T, param1: Element, param2: V, param3: any[]) => void), opt_this?: T): Serializer;
 
-  export function makeChildAppender<T, V>(nodeWriter: ((param1: Node, param2: V, param3: any[]) => void), opt_this?: T): Serializer;
+  export function makeChildAppender<T, V>(nodeWriter: ((this: T, param1: Node, param2: V, param3: any[]) => void), opt_this?: T): Serializer;
 
-  export function makeObjectPropertyPusher<T>(valueReader: ((param1: Element, param2: any[]) => void), opt_property?: string, opt_this?: T): Parser;
+  export function makeObjectPropertyPusher<T>(valueReader: ((this: T, param1: Element, param2: any[]) => void), opt_property?: string, opt_this?: T): Parser;
 
-  export function makeObjectPropertySetter<T>(valueReader: ((param1: Element, param2: any[]) => void), opt_property?: string, opt_this?: T): Parser;
+  export function makeObjectPropertySetter<T>(valueReader: ((this: T, param1: Element, param2: any[]) => void), opt_property?: string, opt_this?: T): Parser;
 
-  export function makeReplacer<T>(valueReader: ((param1: Node, param2: any[]) => void), opt_this?: T): Parser;
+  export function makeReplacer<T>(valueReader: ((this: T, param1: Node, param2: any[]) => void), opt_this?: T): Parser;
 
   export function makeSequence<V>(object: { [key: string]: V }, orderedKeys: string[]): V[];
 
@@ -34,9 +34,9 @@ declare module 'ol/xml' {
 
   export function pushParseAndPop<T>(object: T, parsersNS: { [key: string]: { [key: string]: Parser } }, node: Element, objectStack: any[], opt_this?: any): T;
 
-  export function pushSerializeAndPop<O, T>(object: O, serializersNS: { [key: string]: { [key: string]: Serializer } }, nodeFactory: ((param1: any, param2: any[], param3: string) => Node), values: any[], objectStack: any[], opt_keys?: string[], opt_this?: T): O;
+  export function pushSerializeAndPop<O, T>(object: O, serializersNS: { [key: string]: { [key: string]: Serializer } }, nodeFactory: ((this: T, param1: any, param2: any[], param3: string) => Node), values: any[], objectStack: any[], opt_keys?: string[], opt_this?: T): O;
 
-  export function serialize<T>(serializersNS: { [key: string]: { [key: string]: Serializer } }, nodeFactory: ((param1: any, param2: any[], param3: string) => Node), values: any[], objectStack: any[], opt_keys?: string[], opt_this?: T): void;
+  export function serialize<T>(serializersNS: { [key: string]: { [key: string]: Serializer } }, nodeFactory: ((this: T, param1: any, param2: any[], param3: string) => Node), values: any[], objectStack: any[], opt_keys?: string[], opt_this?: T): void;
 
   export interface NodeStackItem {
     node: Node;

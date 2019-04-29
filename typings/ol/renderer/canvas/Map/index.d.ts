@@ -10,7 +10,6 @@ declare module 'ol/renderer/canvas/Map' {
     constructor(map: PluggableMap);
     protected getTransform(frameState: FrameState): Transform;
     dispatchRenderEvent(type: EventType, frameState: FrameState): void;
-    dispatchRenderEvent(type: EventType, frameState: FrameState): void;
   }
 
 }

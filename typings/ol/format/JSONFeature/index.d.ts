@@ -23,12 +23,9 @@ declare module 'ol/format/JSONFeature' {
     readProjection(source: ArrayBuffer | Document | Node | any | string): Projection;
     readProjection(source: Document | Node | any | string): Projection;
     writeFeature(feature: Feature, opt_options?: WriteOptions): string;
-    writeFeature(feature: Feature, opt_options?: WriteOptions): string;
     writeFeatureObject(feature: Feature, opt_options?: WriteOptions): any;
     writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
-    writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
     writeFeaturesObject(features: Feature[], opt_options?: WriteOptions): any;
-    writeGeometry(geometry: Geometry, opt_options?: WriteOptions): string;
     writeGeometry(geometry: Geometry, opt_options?: WriteOptions): string;
     writeGeometryObject(geometry: Geometry, opt_options?: WriteOptions): any;
   }
