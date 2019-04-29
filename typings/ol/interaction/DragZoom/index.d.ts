@@ -9,15 +9,15 @@ declare module 'ol/interaction/DragZoom' {
 
   export default class DragZoom extends DragBox {
     constructor(opt_options?: Options);
-    on<T>(type: 'boxstart', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    once<T>(type: 'boxstart', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    un<T>(type: 'boxstart', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    on<T>(type: 'boxdrag', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    once<T>(type: 'boxdrag', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    un<T>(type: 'boxdrag', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    on<T>(type: 'boxend', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    once<T>(type: 'boxend', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    un<T>(type: 'boxend', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
+    on(type: 'boxstart', listener: (evt: DragBoxEvent) => void): EventsKey;
+    once(type: 'boxstart', listener: (evt: DragBoxEvent) => void): EventsKey;
+    un(type: 'boxstart', listener: (evt: DragBoxEvent) => void): EventsKey;
+    on(type: 'boxdrag', listener: (evt: DragBoxEvent) => void): EventsKey;
+    once(type: 'boxdrag', listener: (evt: DragBoxEvent) => void): EventsKey;
+    un(type: 'boxdrag', listener: (evt: DragBoxEvent) => void): EventsKey;
+    on(type: 'boxend', listener: (evt: DragBoxEvent) => void): EventsKey;
+    once(type: 'boxend', listener: (evt: DragBoxEvent) => void): EventsKey;
+    un(type: 'boxend', listener: (evt: DragBoxEvent) => void): EventsKey;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
     un(type: 'change', listener: (evt: Event) => void): EventsKey;

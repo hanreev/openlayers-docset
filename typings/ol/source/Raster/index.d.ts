@@ -30,12 +30,12 @@ declare module 'ol/source/Raster' {
   export default class RasterSource extends ImageSource {
     constructor(options: Options);
     setOperation(operation: Operation, opt_lib?: any): void;
-    on<T>(type: 'afteroperations', listener: (evt: RasterSourceEvent<T>) => void): EventsKey;
-    once<T>(type: 'afteroperations', listener: (evt: RasterSourceEvent<T>) => void): EventsKey;
-    un<T>(type: 'afteroperations', listener: (evt: RasterSourceEvent<T>) => void): EventsKey;
-    on<T>(type: 'beforeoperations', listener: (evt: RasterSourceEvent<T>) => void): EventsKey;
-    once<T>(type: 'beforeoperations', listener: (evt: RasterSourceEvent<T>) => void): EventsKey;
-    un<T>(type: 'beforeoperations', listener: (evt: RasterSourceEvent<T>) => void): EventsKey;
+    on(type: 'afteroperations', listener: (evt: RasterSourceEvent) => void): EventsKey;
+    once(type: 'afteroperations', listener: (evt: RasterSourceEvent) => void): EventsKey;
+    un(type: 'afteroperations', listener: (evt: RasterSourceEvent) => void): EventsKey;
+    on(type: 'beforeoperations', listener: (evt: RasterSourceEvent) => void): EventsKey;
+    once(type: 'beforeoperations', listener: (evt: RasterSourceEvent) => void): EventsKey;
+    un(type: 'beforeoperations', listener: (evt: RasterSourceEvent) => void): EventsKey;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
     un(type: 'change', listener: (evt: Event) => void): EventsKey;
@@ -44,8 +44,8 @@ declare module 'ol/source/Raster' {
     un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
-  export class RasterSourceEvent<T> extends Event {
-    constructor(type: string, frameState: FrameState<T>, data: any);
+  export class RasterSourceEvent extends Event {
+    constructor(type: string, frameState: FrameState, data: any);
     data: any;
     extent: Extent;
     resolution: number;

@@ -21,8 +21,8 @@ declare module 'ol/renderer/webgl/Map' {
     protected handleWebGLContextLost(event: Event): void;
     protected handleWebGLContextRestored(): void;
     bindTileTexture(tile: Tile, tileSize: Size, tileGutter: number, magFilter: number, minFilter: number): void;
-    dispatchRenderEvent<T>(type: EventType, frameState: FrameState<T>): void;
-    dispatchRenderEvent<T>(type: EventType, frameState: FrameState<T>): void;
+    dispatchRenderEvent(type: EventType, frameState: FrameState): void;
+    dispatchRenderEvent(type: EventType, frameState: FrameState): void;
     getContext(): WebGLContext;
     getGL(): WebGLRenderingContext;
     getTileTextureQueue(): PriorityQueue<any[]>;

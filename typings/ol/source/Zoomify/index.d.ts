@@ -34,7 +34,7 @@ declare module 'ol/source/Zoomify' {
     tileSize?: number;
   }
 
-  export default class Zoomify<T> extends TileImage<T> {
+  export default class Zoomify extends TileImage {
     constructor(opt_options?: Options);
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;

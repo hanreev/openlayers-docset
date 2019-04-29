@@ -24,7 +24,7 @@ declare module 'ol/control/Control' {
 
   export interface Options {
     element?: HTMLElement;
-    render?: (<T>(param0: MapEvent<T>) => void);
+    render?: ((param0: MapEvent) => void);
     target?: HTMLElement | string;
   }
 

@@ -9,7 +9,7 @@ declare module 'ol/control/MousePosition' {
   import Event from 'ol/events/Event';
   import { ObjectEvent } from 'ol/Object';
 
-  export function render<T>(mapEvent: MapEvent<T>): void;
+  export function render(mapEvent: MapEvent): void;
 
   export default class MousePosition extends Control {
     constructor(opt_options?: Options);
@@ -37,7 +37,7 @@ declare module 'ol/control/MousePosition' {
     className?: string;
     coordinateFormat?: CoordinateFormat;
     projection?: ProjectionLike;
-    render?: (<T>(param0: MapEvent<T>) => void);
+    render?: ((param0: MapEvent) => void);
     target?: HTMLElement | string;
     undefinedHTML?: string;
   }

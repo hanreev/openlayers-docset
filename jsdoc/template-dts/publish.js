@@ -92,8 +92,8 @@
 
 /**
  * @typedef DeclarationConfig
- * @prop {string} [mode]
- * @prop {boolean} [emitTestFile]
+ * @prop {'single'|'multiple'} [mode]
+ * @prop {boolean} [strictGenericTypes]
  */
 
 /**
@@ -148,6 +148,13 @@ const EXTERNAL_MODULE_WHITELIST = [
 /** @type {Object<string, string>} */
 const GENERIC_TYPES = {};
 
+/** @type {string[]} */
+const ANY_GENERIC_TYPES = [
+  'module:ol/structs/LRUCache~LRUCache',
+  'module:ol/structs/PriorityQueue~PriorityQueue',
+  'module:ol/structs/RBush~RBush',
+];
+
 /** @type {Object<string, string>} */
 const TYPE_PATCHES = {
   'module:ol/css~getFontFamilies': 'function(string): (Object<string, *>|null)',
@@ -160,33 +167,15 @@ const TYPE_PATCHES = {
 
 /** @type {Object<string, string[]>} */
 const IMPORT_PATCHES = {
-  'module:ol/control': [
-    'module:ol/control/util~DefaultsOptions',
-  ],
-  'module:ol/geom/LinearRing': [
-    'module:ol/geom/GeometryLayout~GeometryLayout',
-  ],
-  'module:ol/geom/LineString': [
-    'module:ol/geom/GeometryLayout~GeometryLayout',
-  ],
-  'module:ol/geom/MultiLineString': [
-    'module:ol/geom/GeometryLayout~GeometryLayout',
-  ],
-  'module:ol/geom/MultiPolygon': [
-    'module:ol/geom/GeometryLayout~GeometryLayout',
-  ],
-  'module:ol/geom/Polygon': [
-    'module:ol/geom/GeometryLayout~GeometryLayout',
-  ],
-  'module:ol/proj': [
-    'module:ol/proj/Units~Units',
-  ],
-  'module:ol/source/Cluster': [
-    'module:ol/geom/Point~Point',
-  ],
-  'module:ol/tilegrid': [
-    'module:ol/extent/Corner~Corner',
-  ],
+  'module:ol/control': ['module:ol/control/util~DefaultsOptions'],
+  'module:ol/geom/LinearRing': ['module:ol/geom/GeometryLayout~GeometryLayout'],
+  'module:ol/geom/LineString': ['module:ol/geom/GeometryLayout~GeometryLayout'],
+  'module:ol/geom/MultiLineString': ['module:ol/geom/GeometryLayout~GeometryLayout'],
+  'module:ol/geom/MultiPolygon': ['module:ol/geom/GeometryLayout~GeometryLayout'],
+  'module:ol/geom/Polygon': ['module:ol/geom/GeometryLayout~GeometryLayout'],
+  'module:ol/proj': ['module:ol/proj/Units~Units'],
+  'module:ol/source/Cluster': ['module:ol/geom/Point~Point'],
+  'module:ol/tilegrid': ['module:ol/extent/Corner~Corner'],
 };
 
 /** @type {Object<string, string[]>} */
@@ -549,7 +538,10 @@ const PROCESSORS = {
       let augmentName = registerImport(_module, augment);
       augmentName = augment.split('~')[1] || augment.split('/').pop();
       if (augment in GENERIC_TYPES)
-        augmentName += `<${GENERIC_TYPES[augment]}>`;
+        if (ANY_GENERIC_TYPES.indexOf(augment) != -1)
+          augmentName += '<any>';
+        else
+          augmentName += `<${GENERIC_TYPES[augment]}>`;
       name += ` extends ${augmentName}`;
     }
 
@@ -557,15 +549,15 @@ const PROCESSORS = {
       children.push(`constructor(${getParams(doclet, _module)});`);
 
     data({
-      kind: ['member', 'function'],
+      kind: ['member', 'constant', 'function'],
       inheritdoc: { '!is': true },
       inherited: { '!is': true },
       memberof: doclet.longname
     }).order('access, kind desc').get().forEach(child => {
       // Remove non alphanumeric from member name
       child.name = child.name.replace(/\W/g, '');
-      const kind = child.kind == 'function' ? 'method' : child.kind;
-      children.push(PROCESSORS[kind](child, _module));
+      const processorName = child.kind == 'function' ? 'method' : child.kind == 'constant' ? 'member' : child.kind;
+      children.push(PROCESSORS[processorName](child, _module));
     });
 
     const addFire = (eventType, fireType) => {
@@ -854,7 +846,7 @@ function extractGenericTypes(initial = true) {
     };
 
     const augment = doclet.augments[0];
-    if (augment in GENERIC_TYPES)
+    if (augment in GENERIC_TYPES && ANY_GENERIC_TYPES.indexOf(augment) == -1)
       genericTypes = genericTypes.concat(GENERIC_TYPES[augment].split(/,\s?/));
 
     find({
@@ -964,9 +956,16 @@ exports.publish = (taffyData) => {
    * Extract generic types
    * Repetation is needed because some generic types are added from parameters and members
    */
-  extractGenericTypes();
-  for (let i = 0; i < 3; ++i)
-    extractGenericTypes(false);
+
+  if (declarationConfig.strictGenericTypes) {
+    ANY_GENERIC_TYPES.splice(0);
+    extractGenericTypes();
+    for (let i = 0; i < 3; ++i)
+      extractGenericTypes(false);
+  } else {
+    extractGenericTypes();
+  }
+
 
   /**
    * Update module exports

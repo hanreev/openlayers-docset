@@ -13,18 +13,18 @@ declare module 'ol/renderer/canvas/TileLayer' {
   import { EventsKey } from 'ol/events';
   import Event from 'ol/events/Event';
 
-  export default class CanvasTileLayerRenderer<T> extends IntermediateCanvasRenderer {
-    constructor(tileLayer: TileLayer<T> | VectorTileLayer<T>, opt_noContext?: boolean);
+  export default class CanvasTileLayerRenderer extends IntermediateCanvasRenderer {
+    constructor(tileLayer: TileLayer | VectorTileLayer, opt_noContext?: boolean);
     protected context: CanvasRenderingContext2D;
     protected renderedRevision: number;
     protected renderedTiles: Tile[];
     protected tmpExtent: Extent;
     protected zDirection: number;
     protected getTileImage(tile: Tile): HTMLCanvasElement | HTMLImageElement | HTMLVideoElement;
-    create<T>(mapRenderer: MapRenderer, layer: Layer): CanvasTileLayerRenderer<T>;
+    create(mapRenderer: MapRenderer, layer: Layer): CanvasTileLayerRenderer;
     handles(layer: Layer): boolean;
-    drawTileImage<T>(tile: Tile, frameState: FrameState<T>, layerState: State, x: number, y: number, w: number, h: number, gutter: number, transition: boolean): void;
-    getLayer<T>(): TileLayer<T> | VectorTileLayer<T>;
+    drawTileImage(tile: Tile, frameState: FrameState, layerState: State, x: number, y: number, w: number, h: number, gutter: number, transition: boolean): void;
+    getLayer(): TileLayer | VectorTileLayer;
     getLayer(): Layer;
     getTile(z: number, x: number, y: number, pixelRatio: number, projection: Projection): Tile;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;

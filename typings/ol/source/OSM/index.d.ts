@@ -22,7 +22,7 @@ declare module 'ol/source/OSM' {
     wrapX?: boolean;
   }
 
-  export default class OSM<T> extends XYZ<T> {
+  export default class OSM extends XYZ {
     constructor(opt_options?: Options);
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;

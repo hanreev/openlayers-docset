@@ -30,7 +30,7 @@ declare module 'ol/source/UrlTile' {
     key?: string;
   }
 
-  export default class UrlTile<T> extends TileSource<T> {
+  export default class UrlTile extends TileSource {
     constructor(options: Options);
     protected tileLoadFunction: LoadFunction;
     protected tileUrlFunction: UrlFunction;

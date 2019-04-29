@@ -5,7 +5,7 @@ declare module 'ol/TileCache' {
   import { EventsKey } from 'ol/events';
   import Event from 'ol/events/Event';
 
-  export default class TileCache<T> extends LRUCache<T> {
+  export default class TileCache extends LRUCache<any> {
     constructor(opt_highWaterMark?: number);
     expireCache(usedTiles: { [key: string]: TileRange }): void;
     pruneExceptNewestZ(): void;

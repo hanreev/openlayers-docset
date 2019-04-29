@@ -12,17 +12,17 @@ declare module 'ol/interaction/DragBox' {
 
   export default class DragBox extends PointerInteraction {
     constructor(opt_options?: Options);
-    defaultBoxEndCondition<T>(mapBrowserEvent: MapBrowserEvent<T>, startPixel: Pixel, endPixel: Pixel): boolean;
+    defaultBoxEndCondition(mapBrowserEvent: MapBrowserEvent, startPixel: Pixel, endPixel: Pixel): boolean;
     getGeometry(): Polygon;
-    on<T>(type: 'boxstart', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    once<T>(type: 'boxstart', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    un<T>(type: 'boxstart', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    on<T>(type: 'boxdrag', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    once<T>(type: 'boxdrag', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    un<T>(type: 'boxdrag', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    on<T>(type: 'boxend', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    once<T>(type: 'boxend', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
-    un<T>(type: 'boxend', listener: (evt: DragBoxEvent<T>) => void): EventsKey;
+    on(type: 'boxstart', listener: (evt: DragBoxEvent) => void): EventsKey;
+    once(type: 'boxstart', listener: (evt: DragBoxEvent) => void): EventsKey;
+    un(type: 'boxstart', listener: (evt: DragBoxEvent) => void): EventsKey;
+    on(type: 'boxdrag', listener: (evt: DragBoxEvent) => void): EventsKey;
+    once(type: 'boxdrag', listener: (evt: DragBoxEvent) => void): EventsKey;
+    un(type: 'boxdrag', listener: (evt: DragBoxEvent) => void): EventsKey;
+    on(type: 'boxend', listener: (evt: DragBoxEvent) => void): EventsKey;
+    once(type: 'boxend', listener: (evt: DragBoxEvent) => void): EventsKey;
+    un(type: 'boxend', listener: (evt: DragBoxEvent) => void): EventsKey;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
     un(type: 'change', listener: (evt: Event) => void): EventsKey;
@@ -34,8 +34,10 @@ declare module 'ol/interaction/DragBox' {
     un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
-  export class DragBoxEvent<T> extends Event {
-    constructor(type: string, coordinate: Coordinate, mapBrowserEvent: MapBrowserEvent<T>);
+  export class DragBoxEvent extends Event {
+    constructor(type: string, coordinate: Coordinate, mapBrowserEvent: MapBrowserEvent);
+    coordinate: Coordinate;
+    mapBrowserEvent: MapBrowserEvent;
   }
 
   export enum DragBoxEventType {
@@ -44,14 +46,14 @@ declare module 'ol/interaction/DragBox' {
     BOXEND = 'boxend',
   }
 
-  export type EndCondition = (<T>(param1: MapBrowserEvent<T>, param2: Pixel, param3: Pixel) => boolean);
+  export type EndCondition = ((param1: MapBrowserEvent, param2: Pixel, param3: Pixel) => boolean);
 
   export interface Options {
     className?: string;
     condition?: Condition;
     minArea?: number;
     boxEndCondition?: EndCondition;
-    onBoxEnd: (<T>(param1: MapBrowserEvent<T>) => void);
+    onBoxEnd: ((param1: MapBrowserEvent) => void);
   }
 
 }

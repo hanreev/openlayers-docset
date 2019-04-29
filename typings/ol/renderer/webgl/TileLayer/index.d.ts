@@ -8,9 +8,9 @@ declare module 'ol/renderer/webgl/TileLayer' {
   import { EventsKey } from 'ol/events';
   import Event from 'ol/events/Event';
 
-  export default class WebGLTileLayerRenderer<T> extends WebGLLayerRenderer {
-    constructor(mapRenderer: WebGLMapRenderer, tileLayer: TileLayer<T>);
-    create<T>(mapRenderer: MapRenderer, layer: Layer): WebGLTileLayerRenderer<T>;
+  export default class WebGLTileLayerRenderer extends WebGLLayerRenderer {
+    constructor(mapRenderer: WebGLMapRenderer, tileLayer: TileLayer);
+    create(mapRenderer: MapRenderer, layer: Layer): WebGLTileLayerRenderer;
     handles(layer: Layer): boolean;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;

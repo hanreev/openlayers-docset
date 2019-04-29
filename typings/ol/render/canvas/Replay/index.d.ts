@@ -25,6 +25,8 @@ declare module 'ol/render/canvas/Replay' {
     protected applyPixelRatio(dashArray: number[]): number[];
     protected beginGeometry(geometry: Geometry | RenderFeature, feature: Feature | RenderFeature): void;
     protected getBufferedMaxExtent(): Extent;
+    protected maxExtent: Extent;
+    protected resolution: number;
     applyStroke(state: FillStrokeState): void;
     createFill(state: FillStrokeState, geometry: Geometry | RenderFeature): any[];
     createStroke(state: FillStrokeState): any[];

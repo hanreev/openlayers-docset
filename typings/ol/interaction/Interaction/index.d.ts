@@ -25,7 +25,7 @@ declare module 'ol/interaction/Interaction' {
     constructor(options: InteractionOptions);
     getActive(): boolean;
     getMap(): PluggableMap;
-    handleEvent<T>(mapBrowserEvent: MapBrowserEvent<T>): boolean;
+    handleEvent(mapBrowserEvent: MapBrowserEvent): boolean;
     setActive(active: boolean): void;
     setMap(map: PluggableMap): void;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
@@ -40,7 +40,7 @@ declare module 'ol/interaction/Interaction' {
   }
 
   export interface InteractionOptions {
-    handleEvent: (<T>(param0: MapBrowserEvent<T>) => boolean);
+    handleEvent: ((param0: MapBrowserEvent) => boolean);
   }
 
 }

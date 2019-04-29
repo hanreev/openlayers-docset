@@ -13,14 +13,14 @@ declare module 'ol/renderer/canvas/Layer' {
   export default class CanvasLayerRenderer extends LayerRenderer {
     constructor(layer: Layer);
     protected renderedResolution: number;
-    protected clip<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, extent: Extent): void;
-    protected dispatchRenderEvent<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, opt_transform?: Transform): void;
-    protected getTransform<T>(frameState: FrameState<T>, offsetX: number): Transform;
-    protected postCompose<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, layerState: State, opt_transform?: Transform): void;
-    protected preCompose<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, opt_transform?: Transform): void;
-    composeFrame<T>(frameState: FrameState<T>, layerState: State, context: CanvasRenderingContext2D): void;
-    forEachLayerAtCoordinate<S, T, U>(coordinate: Coordinate, frameState: FrameState<T>, hitTolerance: number, callback: ((param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S): T;
-    prepareFrame<T>(frameState: FrameState<T>, layerState: State): boolean;
+    protected clip(context: CanvasRenderingContext2D, frameState: FrameState, extent: Extent): void;
+    protected dispatchRenderEvent(context: CanvasRenderingContext2D, frameState: FrameState, opt_transform?: Transform): void;
+    protected getTransform(frameState: FrameState, offsetX: number): Transform;
+    protected postCompose(context: CanvasRenderingContext2D, frameState: FrameState, layerState: State, opt_transform?: Transform): void;
+    protected preCompose(context: CanvasRenderingContext2D, frameState: FrameState, opt_transform?: Transform): void;
+    composeFrame(frameState: FrameState, layerState: State, context: CanvasRenderingContext2D): void;
+    forEachLayerAtCoordinate<S, T, U>(coordinate: Coordinate, frameState: FrameState, hitTolerance: number, callback: ((param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S): T;
+    prepareFrame(frameState: FrameState, layerState: State): boolean;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
     un(type: 'change', listener: (evt: Event) => void): EventsKey;

@@ -38,7 +38,7 @@ declare module 'ol/source/WMTS' {
     transition?: number;
   }
 
-  export default class WMTS<T> extends TileImage<T> {
+  export default class WMTS extends TileImage {
     constructor(options: Options);
     getDimensions(): any;
     getFormat(): string;

@@ -37,7 +37,7 @@ declare module 'ol/source/TileJSON' {
     transition?: number;
   }
 
-  export default class TileJSON<T> extends TileImage<T> {
+  export default class TileJSON extends TileImage {
     constructor(options: Options);
     protected handleTileJSONError(): void;
     protected handleTileJSONResponse(tileJSON: Config): void;

@@ -4,9 +4,9 @@ declare module 'ol/MapEvent' {
   import PluggableMap from 'ol/PluggableMap';
   import { FrameState } from 'ol/PluggableMap';
 
-  export default class MapEvent<T> extends Event {
-    constructor(type: string, map: PluggableMap, opt_frameState?: FrameState<T>);
-    frameState: FrameState<T>;
+  export default class MapEvent extends Event {
+    constructor(type: string, map: PluggableMap, opt_frameState?: FrameState);
+    frameState: FrameState;
     map: PluggableMap;
   }
 

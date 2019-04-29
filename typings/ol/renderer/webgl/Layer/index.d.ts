@@ -19,14 +19,14 @@ declare module 'ol/renderer/webgl/Layer' {
     protected projectionMatrix: Transform;
     protected texCoordMatrix: Transform;
     protected texture: WebGLTexture;
-    protected bindFramebuffer<T>(frameState: FrameState<T>, framebufferDimension: number): void;
-    composeFrame<T>(frameState: FrameState<T>, layerState: State, context: WebGLContext): void;
-    forEachLayerAtPixel<S, T, U>(pixel: Pixel, frameState: FrameState<T>, callback: ((param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S): T;
+    protected bindFramebuffer(frameState: FrameState, framebufferDimension: number): void;
+    composeFrame(frameState: FrameState, layerState: State, context: WebGLContext): void;
+    forEachLayerAtPixel<S, T, U>(pixel: Pixel, frameState: FrameState, callback: ((param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S): T;
     getProjectionMatrix(): Transform;
     getTexCoordMatrix(): Transform;
     getTexture(): WebGLTexture;
     handleWebGLContextLost(): void;
-    prepareFrame<T>(frameState: FrameState<T>, layerState: State, context: WebGLContext): boolean;
+    prepareFrame(frameState: FrameState, layerState: State, context: WebGLContext): boolean;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
     un(type: 'change', listener: (evt: Event) => void): EventsKey;

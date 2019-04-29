@@ -33,7 +33,7 @@ declare module 'ol/source/XYZ' {
     transition?: number;
   }
 
-  export default class XYZ<T> extends TileImage<T> {
+  export default class XYZ extends TileImage {
     constructor(opt_options?: Options);
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;

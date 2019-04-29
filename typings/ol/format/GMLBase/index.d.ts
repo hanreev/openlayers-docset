@@ -1,6 +1,7 @@
 declare module 'ol/format/GMLBase' {
 
   import XMLFeature from 'ol/format/XMLFeature';
+  import { Parser } from 'ol/xml';
   import Feature from 'ol/Feature';
   import Geometry from 'ol/geom/Geometry';
   import LinearRing from 'ol/geom/LinearRing';
@@ -17,6 +18,10 @@ declare module 'ol/format/GMLBase' {
     protected featureType: string[] | string;
     protected schemaLocation: string;
     protected srsName: string;
+    protected FLAT_LINEAR_RINGS_PARSERS: { [key: string]: { [key: string]: Parser } };
+    protected GEOMETRY_FLAT_COORDINATES_PARSERS: { [key: string]: { [key: string]: Parser } };
+    protected GEOMETRY_PARSERS: { [key: string]: { [key: string]: Parser } };
+    protected RING_PARSERS: { [key: string]: { [key: string]: Parser } };
     readFeatureElement(node: Element, objectStack: any[]): Feature;
     readFeatureElementInternal(node: Element, objectStack: any[], asFeature: boolean): Feature | any;
     readFeaturesInternal(node: Element, objectStack: any[]): Feature[];

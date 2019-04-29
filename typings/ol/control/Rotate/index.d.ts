@@ -6,7 +6,7 @@ declare module 'ol/control/Rotate' {
   import Event from 'ol/events/Event';
   import { ObjectEvent } from 'ol/Object';
 
-  export function render<T>(mapEvent: MapEvent<T>): void;
+  export function render(mapEvent: MapEvent): void;
 
   export interface Options {
     className?: string;
@@ -14,7 +14,7 @@ declare module 'ol/control/Rotate' {
     tipLabel?: string;
     duration?: number;
     autoHide?: boolean;
-    render?: (<T>(param0: MapEvent<T>) => void);
+    render?: ((param0: MapEvent) => void);
     resetNorth?: (() => void);
     target?: HTMLElement | string;
   }

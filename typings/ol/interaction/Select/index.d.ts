@@ -37,9 +37,9 @@ declare module 'ol/interaction/Select' {
     getLayer(feature: FeatureLike): VectorLayer;
     getOverlay(): VectorLayer;
     setHitTolerance(hitTolerance: number): void;
-    on<T>(type: 'select', listener: (evt: SelectEvent<T>) => void): EventsKey;
-    once<T>(type: 'select', listener: (evt: SelectEvent<T>) => void): EventsKey;
-    un<T>(type: 'select', listener: (evt: SelectEvent<T>) => void): EventsKey;
+    on(type: 'select', listener: (evt: SelectEvent) => void): EventsKey;
+    once(type: 'select', listener: (evt: SelectEvent) => void): EventsKey;
+    un(type: 'select', listener: (evt: SelectEvent) => void): EventsKey;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
     un(type: 'change', listener: (evt: Event) => void): EventsKey;
@@ -51,10 +51,10 @@ declare module 'ol/interaction/Select' {
     un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
-  export class SelectEvent<T> extends Event {
-    constructor(type: SelectEventType, selected: Feature[], deselected: Feature[], mapBrowserEvent: MapBrowserEvent<T>);
+  export class SelectEvent extends Event {
+    constructor(type: SelectEventType, selected: Feature[], deselected: Feature[], mapBrowserEvent: MapBrowserEvent);
     deselected: Feature[];
-    mapBrowserEvent: MapBrowserEvent<T>;
+    mapBrowserEvent: MapBrowserEvent;
     selected: Feature[];
   }
 

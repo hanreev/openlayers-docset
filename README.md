@@ -62,16 +62,34 @@ npm i -D @types/arcgis-rest-api @types/geojson @types/topojson-specification
 yarn add -D @types/arcgis-rest-api @types/geojson @types/topojson-specification
 ```
 
+### Configuring and Building TypeScript declaration files
 
+If you need another version or another configuration, edit configuration at `jsdoc/conf-dts.json`
 
-If you need another version, just follow the above steps then run
+```js
+// file: jsdoc/conf-dts.json
+
+{
+  ...
+  "typescript": {
+    "moduleRoot": "openlayers/src",
+    "declaration": {
+      "mode": "multiple", // "single" will generate all declarations in single index.d.ts file.
+      "strictGenericTypes": false // set to true to extract classes generic type from super class, members and methods.
+    }
+  },
+  ...
+}
+```
+
+then run
 
 ```bash
 # NPM
-npm run build-format-dts
+npm run build-format-dts && npm run lint-dts
 
 # Yarn
-yarn build-format-dts
+yarn build-format-dts && yarn lint-dts
 ```
 
 

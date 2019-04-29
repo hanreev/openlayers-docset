@@ -3,6 +3,7 @@ declare module 'ol/interaction/Translate' {
   import Event from 'ol/events/Event';
   import Collection from 'ol/Collection';
   import Feature from 'ol/Feature';
+  import { Coordinate } from 'ol/coordinate';
   import Layer from 'ol/layer/Layer';
   import PointerInteraction from 'ol/interaction/Pointer';
   import { EventsKey } from 'ol/events';
@@ -11,6 +12,7 @@ declare module 'ol/interaction/Translate' {
   export class TranslateEvent extends Event {
     constructor();
     features: Collection<Feature>;
+    coordinate: Coordinate;
   }
 
   export interface Options {

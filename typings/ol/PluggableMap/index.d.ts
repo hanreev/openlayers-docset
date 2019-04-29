@@ -34,7 +34,7 @@ declare module 'ol/PluggableMap' {
     hitTolerance?: number;
   }
 
-  export interface FrameState<T> {
+  export interface FrameState {
     pixelRatio: number;
     time: number;
     viewState: State;
@@ -49,7 +49,7 @@ declare module 'ol/PluggableMap' {
     postRenderFunctions: PostRenderFunction[];
     size: Size;
     skippedFeatureUids: { [key: string]: boolean };
-    tileQueue: TileQueue<T>;
+    tileQueue: TileQueue;
     usedTiles: { [key: string]: { [key: string]: TileRange } };
     viewHints: number[];
     wantedTiles: { [key: string]: { [key: string]: boolean } };
@@ -111,7 +111,7 @@ declare module 'ol/PluggableMap' {
     getView(): View;
     getViewport(): HTMLElement;
     handleBrowserEvent(browserEvent: Event, opt_type?: string): void;
-    handleMapBrowserEvent<T>(mapBrowserEvent: MapBrowserEvent<T>): void;
+    handleMapBrowserEvent(mapBrowserEvent: MapBrowserEvent): void;
     hasFeatureAtPixel<U>(pixel: Pixel, opt_options?: AtPixelOptions): boolean;
     isRendered(): boolean;
     removeControl(control: Control): Control;
@@ -142,44 +142,44 @@ declare module 'ol/PluggableMap' {
     on(type: 'change:view', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'change:view', listener: (evt: ObjectEvent) => void): EventsKey;
     un(type: 'change:view', listener: (evt: ObjectEvent) => void): EventsKey;
-    on<T>(type: 'click', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    once<T>(type: 'click', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    un<T>(type: 'click', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    on<T>(type: 'dblclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    once<T>(type: 'dblclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    un<T>(type: 'dblclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    on<T>(type: 'moveend', listener: (evt: MapEvent<T>) => void): EventsKey;
-    once<T>(type: 'moveend', listener: (evt: MapEvent<T>) => void): EventsKey;
-    un<T>(type: 'moveend', listener: (evt: MapEvent<T>) => void): EventsKey;
-    on<T>(type: 'movestart', listener: (evt: MapEvent<T>) => void): EventsKey;
-    once<T>(type: 'movestart', listener: (evt: MapEvent<T>) => void): EventsKey;
-    un<T>(type: 'movestart', listener: (evt: MapEvent<T>) => void): EventsKey;
-    on<T>(type: 'pointerdrag', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    once<T>(type: 'pointerdrag', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    un<T>(type: 'pointerdrag', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    on<T>(type: 'pointermove', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    once<T>(type: 'pointermove', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    un<T>(type: 'pointermove', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    on<T>(type: 'postcompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    once<T>(type: 'postcompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    un<T>(type: 'postcompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    on<T>(type: 'postrender', listener: (evt: MapEvent<T>) => void): EventsKey;
-    once<T>(type: 'postrender', listener: (evt: MapEvent<T>) => void): EventsKey;
-    un<T>(type: 'postrender', listener: (evt: MapEvent<T>) => void): EventsKey;
-    on<T>(type: 'precompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    once<T>(type: 'precompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    un<T>(type: 'precompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    on(type: 'click', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    once(type: 'click', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    un(type: 'click', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    on(type: 'dblclick', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    once(type: 'dblclick', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    un(type: 'dblclick', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    on(type: 'moveend', listener: (evt: MapEvent) => void): EventsKey;
+    once(type: 'moveend', listener: (evt: MapEvent) => void): EventsKey;
+    un(type: 'moveend', listener: (evt: MapEvent) => void): EventsKey;
+    on(type: 'movestart', listener: (evt: MapEvent) => void): EventsKey;
+    once(type: 'movestart', listener: (evt: MapEvent) => void): EventsKey;
+    un(type: 'movestart', listener: (evt: MapEvent) => void): EventsKey;
+    on(type: 'pointerdrag', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    once(type: 'pointerdrag', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    un(type: 'pointerdrag', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    on(type: 'pointermove', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    once(type: 'pointermove', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    un(type: 'pointermove', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    on(type: 'postcompose', listener: (evt: RenderEvent) => void): EventsKey;
+    once(type: 'postcompose', listener: (evt: RenderEvent) => void): EventsKey;
+    un(type: 'postcompose', listener: (evt: RenderEvent) => void): EventsKey;
+    on(type: 'postrender', listener: (evt: MapEvent) => void): EventsKey;
+    once(type: 'postrender', listener: (evt: MapEvent) => void): EventsKey;
+    un(type: 'postrender', listener: (evt: MapEvent) => void): EventsKey;
+    on(type: 'precompose', listener: (evt: RenderEvent) => void): EventsKey;
+    once(type: 'precompose', listener: (evt: RenderEvent) => void): EventsKey;
+    un(type: 'precompose', listener: (evt: RenderEvent) => void): EventsKey;
     on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
     un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
-    on<T>(type: 'rendercomplete', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    once<T>(type: 'rendercomplete', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    un<T>(type: 'rendercomplete', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    on<T>(type: 'singleclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    once<T>(type: 'singleclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
-    un<T>(type: 'singleclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    on(type: 'rendercomplete', listener: (evt: RenderEvent) => void): EventsKey;
+    once(type: 'rendercomplete', listener: (evt: RenderEvent) => void): EventsKey;
+    un(type: 'rendercomplete', listener: (evt: RenderEvent) => void): EventsKey;
+    on(type: 'singleclick', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    once(type: 'singleclick', listener: (evt: MapBrowserEvent) => void): EventsKey;
+    un(type: 'singleclick', listener: (evt: MapBrowserEvent) => void): EventsKey;
   }
 
-  export type PostRenderFunction = (<T>(param0: PluggableMap, param1?: FrameState<T>) => boolean);
+  export type PostRenderFunction = ((param0: PluggableMap, param1?: FrameState) => boolean);
 
 }

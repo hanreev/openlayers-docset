@@ -9,7 +9,7 @@ declare module 'ol/source/Source' {
   import Event from 'ol/events/Event';
   import { ObjectEvent } from 'ol/Object';
 
-  export type Attribution = (<T>(param0: FrameState<T>) => string | string[]);
+  export type Attribution = ((param0: FrameState) => string | string[]);
 
   export type AttributionLike = string | string[] | Attribution;
 

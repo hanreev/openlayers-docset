@@ -14,7 +14,7 @@ declare module 'ol/layer/VectorTile' {
   import { ObjectEvent } from 'ol/Object';
   import RenderEvent from 'ol/render/Event';
 
-  export interface Options<T> {
+  export interface Options {
     opacity?: number;
     visible?: boolean;
     extent?: Extent;
@@ -24,7 +24,7 @@ declare module 'ol/layer/VectorTile' {
     renderOrder?: OrderFunction;
     renderBuffer?: number;
     renderMode?: VectorTileRenderType | string;
-    source?: VectorTile<T>;
+    source?: VectorTile;
     map?: PluggableMap;
     declutter?: boolean;
     style?: StyleLike;
@@ -34,11 +34,11 @@ declare module 'ol/layer/VectorTile' {
     useInterimTilesOnError?: boolean;
   }
 
-  export default class VectorTileLayer<T> extends VectorLayer {
-    constructor(opt_options?: Options<T>);
+  export default class VectorTileLayer extends VectorLayer {
+    constructor(opt_options?: Options);
     protected type: LayerType;
     getPreload(): number;
-    getSource<T>(): VectorTile<T>;
+    getSource(): VectorTile;
     getSource(): VectorSource;
     getUseInterimTilesOnError(): boolean;
     setPreload(preload: number): void;
@@ -73,21 +73,21 @@ declare module 'ol/layer/VectorTile' {
     on(type: 'change:zIndex', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'change:zIndex', listener: (evt: ObjectEvent) => void): EventsKey;
     un(type: 'change:zIndex', listener: (evt: ObjectEvent) => void): EventsKey;
-    on<T>(type: 'postcompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    once<T>(type: 'postcompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    un<T>(type: 'postcompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    on<T>(type: 'precompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    once<T>(type: 'precompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    un<T>(type: 'precompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    on(type: 'postcompose', listener: (evt: RenderEvent) => void): EventsKey;
+    once(type: 'postcompose', listener: (evt: RenderEvent) => void): EventsKey;
+    un(type: 'postcompose', listener: (evt: RenderEvent) => void): EventsKey;
+    on(type: 'precompose', listener: (evt: RenderEvent) => void): EventsKey;
+    once(type: 'precompose', listener: (evt: RenderEvent) => void): EventsKey;
+    un(type: 'precompose', listener: (evt: RenderEvent) => void): EventsKey;
     on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
     once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
     un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
-    on<T>(type: 'render', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    once<T>(type: 'render', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    un<T>(type: 'render', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    on<T>(type: 'rendercomplete', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    once<T>(type: 'rendercomplete', listener: (evt: RenderEvent<T>) => void): EventsKey;
-    un<T>(type: 'rendercomplete', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    on(type: 'render', listener: (evt: RenderEvent) => void): EventsKey;
+    once(type: 'render', listener: (evt: RenderEvent) => void): EventsKey;
+    un(type: 'render', listener: (evt: RenderEvent) => void): EventsKey;
+    on(type: 'rendercomplete', listener: (evt: RenderEvent) => void): EventsKey;
+    once(type: 'rendercomplete', listener: (evt: RenderEvent) => void): EventsKey;
+    un(type: 'rendercomplete', listener: (evt: RenderEvent) => void): EventsKey;
   }
 
 }

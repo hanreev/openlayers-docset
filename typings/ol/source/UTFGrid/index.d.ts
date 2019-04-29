@@ -25,7 +25,7 @@ declare module 'ol/source/UTFGrid' {
     url?: string;
   }
 
-  export default class UTFGrid<T> extends TileSource<T> {
+  export default class UTFGrid extends TileSource {
     constructor(options: Options);
     protected handleTileJSONError(): void;
     protected handleTileJSONResponse(tileJSON: Config): void;

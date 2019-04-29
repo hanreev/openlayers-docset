@@ -18,7 +18,7 @@ declare module 'ol/source/Stamen' {
     wrapX?: boolean;
   }
 
-  export default class Stamen<T> extends XYZ<T> {
+  export default class Stamen extends XYZ {
     constructor(options: Options);
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;

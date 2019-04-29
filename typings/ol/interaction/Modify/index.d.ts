@@ -16,22 +16,22 @@ declare module 'ol/interaction/Modify' {
   import SimpleGeometry from 'ol/geom/SimpleGeometry';
   import { Extent } from 'ol/extent';
 
-  export class ModifyEvent<T> extends Event {
+  export class ModifyEvent extends Event {
     constructor();
     features: Collection<Feature>;
-    mapBrowserEvent: MapBrowserEvent<T>;
+    mapBrowserEvent: MapBrowserEvent;
   }
 
   export default class Modify extends PointerInteraction {
     constructor(options: Options);
     getOverlay(): VectorLayer;
     removePoint(): boolean;
-    on<T>(type: 'modifystart', listener: (evt: ModifyEvent<T>) => void): EventsKey;
-    once<T>(type: 'modifystart', listener: (evt: ModifyEvent<T>) => void): EventsKey;
-    un<T>(type: 'modifystart', listener: (evt: ModifyEvent<T>) => void): EventsKey;
-    on<T>(type: 'modifyend', listener: (evt: ModifyEvent<T>) => void): EventsKey;
-    once<T>(type: 'modifyend', listener: (evt: ModifyEvent<T>) => void): EventsKey;
-    un<T>(type: 'modifyend', listener: (evt: ModifyEvent<T>) => void): EventsKey;
+    on(type: 'modifystart', listener: (evt: ModifyEvent) => void): EventsKey;
+    once(type: 'modifystart', listener: (evt: ModifyEvent) => void): EventsKey;
+    un(type: 'modifystart', listener: (evt: ModifyEvent) => void): EventsKey;
+    on(type: 'modifyend', listener: (evt: ModifyEvent) => void): EventsKey;
+    once(type: 'modifyend', listener: (evt: ModifyEvent) => void): EventsKey;
+    un(type: 'modifyend', listener: (evt: ModifyEvent) => void): EventsKey;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;
     un(type: 'change', listener: (evt: Event) => void): EventsKey;

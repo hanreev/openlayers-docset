@@ -7,7 +7,7 @@ declare module 'ol/source/BingMaps' {
   import { TileSourceEvent } from 'ol/source/Tile';
   import { LoadFunction } from 'ol/Tile';
 
-  export default class BingMaps<T> extends TileImage<T> {
+  export default class BingMaps extends TileImage {
     constructor(options: Options);
     getApiKey(): string;
     getImagerySet(): string;

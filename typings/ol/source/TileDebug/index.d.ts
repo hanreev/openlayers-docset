@@ -16,7 +16,7 @@ declare module 'ol/source/TileDebug' {
     wrapX?: boolean;
   }
 
-  export default class TileDebug<T> extends TileSource<T> {
+  export default class TileDebug extends TileSource {
     constructor(options: Options);
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;

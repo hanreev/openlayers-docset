@@ -35,14 +35,14 @@ declare module 'ol/source/Tile' {
     key?: string;
   }
 
-  export default class TileSource<T> extends Source {
+  export default class TileSource extends Source {
     constructor(options: Options);
-    protected tileCache: TileCache<T>;
+    protected tileCache: TileCache;
     protected tileGrid: TileGrid;
     protected tileOptions: Options_1;
     protected tmpSize: Size;
     protected getKey(): string;
-    protected getTileCacheForProjection<T>(projection: Projection): TileCache<T>;
+    protected getTileCacheForProjection(projection: Projection): TileCache;
     protected setKey(key: string): void;
     canExpireCache(): boolean;
     expireCache(projection: Projection, usedTiles: { [key: string]: TileRange }): void;

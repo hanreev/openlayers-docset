@@ -12,11 +12,11 @@ declare module 'ol/interaction/Pointer' {
   export function centroid(pointerEvents: PointerEvent[]): Pixel;
 
   export interface Options {
-    handleDownEvent?: (<T>(param0: MapBrowserPointerEvent<T>) => boolean);
-    handleDragEvent?: (<T>(param0: MapBrowserPointerEvent<T>) => void);
-    handleEvent?: (<T>(param0: MapBrowserEvent<T>) => boolean);
-    handleMoveEvent?: (<T>(param0: MapBrowserPointerEvent<T>) => void);
-    handleUpEvent?: (<T>(param0: MapBrowserPointerEvent<T>) => boolean);
+    handleDownEvent?: ((param0: MapBrowserPointerEvent) => boolean);
+    handleDragEvent?: ((param0: MapBrowserPointerEvent) => void);
+    handleEvent?: ((param0: MapBrowserEvent) => boolean);
+    handleMoveEvent?: ((param0: MapBrowserPointerEvent) => void);
+    handleUpEvent?: ((param0: MapBrowserPointerEvent) => boolean);
     stopDown?: ((param0: boolean) => boolean);
   }
 
@@ -24,10 +24,10 @@ declare module 'ol/interaction/Pointer' {
     constructor(opt_options?: Options);
     protected handlingDownUpSequence: boolean;
     protected targetPointers: PointerEvent[];
-    protected handleDownEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): boolean;
-    protected handleDragEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): void;
-    protected handleMoveEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): void;
-    protected handleUpEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): boolean;
+    protected handleDownEvent(mapBrowserEvent: MapBrowserPointerEvent): boolean;
+    protected handleDragEvent(mapBrowserEvent: MapBrowserPointerEvent): void;
+    protected handleMoveEvent(mapBrowserEvent: MapBrowserPointerEvent): void;
+    protected handleUpEvent(mapBrowserEvent: MapBrowserPointerEvent): boolean;
     stopDown(handled: boolean): boolean;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
     once(type: 'change', listener: (evt: Event) => void): EventsKey;

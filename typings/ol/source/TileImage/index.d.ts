@@ -37,10 +37,10 @@ declare module 'ol/source/TileImage' {
     key?: string;
   }
 
-  export default class TileImage<T> extends UrlTile<T> {
+  export default class TileImage extends UrlTile {
     constructor(options: Options);
     protected crossOrigin: string;
-    protected tileCacheForProjection: { [key: string]: TileCache<T> };
+    protected tileCacheForProjection: { [key: string]: TileCache };
     protected tileClass: ImageTile;
     protected tileGridForProjection: { [key: string]: TileGrid };
     protected getTileInternal(z: number, x: number, y: number, pixelRatio: number, projection: Projection): Tile;

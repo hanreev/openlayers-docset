@@ -6,7 +6,7 @@ declare module 'ol/control/Attribution' {
   import Event from 'ol/events/Event';
   import { ObjectEvent } from 'ol/Object';
 
-  export function render<T>(mapEvent: MapEvent<T>): void;
+  export function render(mapEvent: MapEvent): void;
 
   export default class Attribution extends Control {
     constructor(opt_options?: Options);
@@ -30,7 +30,7 @@ declare module 'ol/control/Attribution' {
     tipLabel?: string;
     label?: string;
     collapseLabel?: string | HTMLElement;
-    render?: (<T>(param0: MapEvent<T>) => void);
+    render?: ((param0: MapEvent) => void);
   }
 
 }

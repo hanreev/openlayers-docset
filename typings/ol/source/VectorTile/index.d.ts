@@ -37,7 +37,7 @@ declare module 'ol/source/VectorTile' {
     wrapX?: boolean;
   }
 
-  export default class VectorTile<T> extends UrlTile<T> {
+  export default class VectorTile extends UrlTile {
     constructor(options: Options);
     protected tileClass: VectorTile_1;
     clear(): void;

@@ -16,7 +16,7 @@ declare module 'ol/renderer/canvas/VectorLayer' {
     constructor(vectorLayer: VectorLayer);
     create(mapRenderer: MapRenderer, layer: Layer): CanvasVectorLayerRenderer;
     handles(layer: Layer): boolean;
-    compose<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, layerState: State): void;
+    compose(context: CanvasRenderingContext2D, frameState: FrameState, layerState: State): void;
     handleFontsChanged_(event: Event): void;
     renderFeature(feature: Feature, resolution: number, pixelRatio: number, styles: Style | Style[], replayGroup: CanvasReplayGroup): boolean;
     on(type: 'change', listener: (evt: Event) => void): EventsKey;
