@@ -22,7 +22,7 @@ declare module 'ol/tilegrid/TileGrid' {
     protected maxZoom: number;
     protected minZoom: number;
     forEachTileCoord(extent: Extent, zoom: number, callback: ((param0: TileCoord) => void)): void;
-    forEachTileCoordParentTileRange<T>(tileCoord: TileCoord, callback: ((this: T, param1: number, param2: TileRange) => boolean), opt_this?: T, opt_tileRange?: TileRange, opt_extent?: Extent): boolean;
+    forEachTileCoordParentTileRange<T>(tileCoord: TileCoord, callback: ((param1: number, param2: TileRange) => boolean), opt_this?: T, opt_tileRange?: TileRange, opt_extent?: Extent): boolean;
     getExtent(): Extent;
     getFullTileRange(z: number): TileRange;
     getMaxZoom(): number;

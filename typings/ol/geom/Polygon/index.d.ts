@@ -7,6 +7,9 @@ declare module 'ol/geom/Polygon' {
   import SimpleGeometry from 'ol/geom/SimpleGeometry';
   import LinearRing from 'ol/geom/LinearRing';
   import Point from 'ol/geom/Point';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
 
   export function circular(center: Coordinate, radius: number, opt_n?: number, opt_sphereRadius?: number): Polygon;
 
@@ -27,6 +30,12 @@ declare module 'ol/geom/Polygon' {
     getLinearRingCount(): number;
     getLinearRings(): LinearRing[];
     getOrientedFlatCoordinates(): number[];
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
 }

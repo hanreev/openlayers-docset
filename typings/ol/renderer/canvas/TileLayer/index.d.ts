@@ -10,6 +10,8 @@ declare module 'ol/renderer/canvas/TileLayer' {
   import { FrameState } from 'ol/PluggableMap';
   import { State } from 'ol/layer/Layer';
   import Projection from 'ol/proj/Projection';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
 
   export default class CanvasTileLayerRenderer<T> extends IntermediateCanvasRenderer {
     constructor(tileLayer: TileLayer<T> | VectorTileLayer<T>, opt_noContext?: boolean);
@@ -25,6 +27,9 @@ declare module 'ol/renderer/canvas/TileLayer' {
     getLayer<T>(): TileLayer<T> | VectorTileLayer<T>;
     getLayer(): Layer;
     getTile(z: number, x: number, y: number, pixelRatio: number, projection: Projection): Tile;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
   }
 
 }

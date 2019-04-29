@@ -13,6 +13,8 @@ declare module 'ol/source/Tile' {
   import Projection from 'ol/proj/Projection';
   import TileRange from 'ol/TileRange';
   import { TileCoord } from 'ol/tilecoord';
+  import { EventsKey } from 'ol/events';
+  import { ObjectEvent } from 'ol/Object';
 
   export class TileSourceEvent extends Event {
     constructor();
@@ -54,6 +56,12 @@ declare module 'ol/source/Tile' {
     getTilePixelRatio(pixelRatio: number): number;
     getTilePixelSize(z: number, pixelRatio: number, projection: Projection): Size;
     useTile(z: number, x: number, y: number, projection: Projection): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
 }

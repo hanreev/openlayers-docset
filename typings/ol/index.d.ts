@@ -30,7 +30,7 @@ declare module 'ol' {
   export { default as WebGLMap } from 'ol/WebGLMap';
   export { VERSION } from 'ol/util';
 
-  export function getUid(obj: Object): string;
+  export function getUid(obj: any): string;
 
   export function inherits(childCtor: (() => void), parentCtor: (() => void)): void;
 

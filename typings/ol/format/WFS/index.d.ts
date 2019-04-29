@@ -42,10 +42,10 @@ declare module 'ol/format/WFS' {
   export default class WFS extends XMLFeature {
     constructor(opt_options?: Options);
     getFeatureType(): string[] | string;
-    readFeatureCollectionMetadata(source: Document | Element | Object | string): FeatureCollectionMetadata;
+    readFeatureCollectionMetadata(source: Document | Element | any | string): FeatureCollectionMetadata;
     readFeatureCollectionMetadataFromDocument(doc: Document): FeatureCollectionMetadata;
     readFeatureCollectionMetadataFromNode(node: Element): FeatureCollectionMetadata;
-    readTransactionResponse(source: Document | Element | Object | string): TransactionResponse;
+    readTransactionResponse(source: Document | Element | any | string): TransactionResponse;
     readTransactionResponseFromDocument(doc: Document): TransactionResponse;
     readTransactionResponseFromNode(node: Element): TransactionResponse;
     setFeatureType(featureType: string[] | string): void;
@@ -78,7 +78,7 @@ declare module 'ol/format/WFS' {
     srsName?: string;
     handle?: string;
     hasZ?: boolean;
-    nativeElements: Object[];
+    nativeElements: any[];
     gmlOptions?: Options_1;
     version?: string;
   }

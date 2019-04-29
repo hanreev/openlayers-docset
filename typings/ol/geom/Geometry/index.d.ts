@@ -6,6 +6,9 @@ declare module 'ol/geom/Geometry' {
   import { Coordinate } from 'ol/coordinate';
   import GeometryType from 'ol/geom/GeometryType';
   import { ProjectionLike } from 'ol/proj';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
 
   export default class Geometry extends BaseObject {
     constructor();
@@ -28,6 +31,12 @@ declare module 'ol/geom/Geometry' {
     simplify(tolerance: number): Geometry;
     transform(source: ProjectionLike, destination: ProjectionLike): Geometry;
     translate(deltaX: number, deltaY: number): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
 }

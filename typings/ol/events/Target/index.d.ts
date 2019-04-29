@@ -9,7 +9,7 @@ declare module 'ol/events/Target' {
   export default class Target extends Disposable {
     constructor();
     addEventListener(type: string, listener: ListenerFunction): void;
-    dispatchEvent(event: Object | Event | string): boolean;
+    dispatchEvent(event: any | Event | string): boolean;
     getListeners(type: string): ListenerFunction[];
     hasListener(opt_type?: string): boolean;
     removeEventListener(type: string, listener: ListenerFunction): void;

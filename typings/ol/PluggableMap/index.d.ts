@@ -1,5 +1,6 @@
 declare module 'ol/PluggableMap' {
 
+  import Layer from 'ol/layer/Layer';
   import { State } from 'ol/View';
   import { Transform } from 'ol/transform';
   import { Extent } from 'ol/extent';
@@ -19,13 +20,17 @@ declare module 'ol/PluggableMap' {
   import MapRenderer from 'ol/renderer/Map';
   import { Pixel } from 'ol/pixel';
   import { FeatureLike } from 'ol/Feature';
-  import Layer from 'ol/layer/Layer';
   import Tile from 'ol/Tile';
   import MapBrowserEvent from 'ol/MapBrowserEvent';
   import Feature from 'ol/Feature';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
+  import MapEvent from 'ol/MapEvent';
+  import RenderEvent from 'ol/render/Event';
 
   export interface AtPixelOptions {
-    layerFilter: (() => void);
+    layerFilter: ((param0: Layer) => boolean);
     hitTolerance?: number;
   }
 
@@ -83,8 +88,8 @@ declare module 'ol/PluggableMap' {
     addLayer(layer: BaseLayer): void;
     addOverlay(overlay: Overlay): void;
     createRenderer(): MapRenderer;
-    forEachFeatureAtPixel<S, T>(pixel: Pixel, callback: ((this: S, param1: FeatureLike, param2: Layer) => T), opt_options?: AtPixelOptions): T;
-    forEachLayerAtPixel<S, T>(pixel: Pixel, callback: ((this: S, param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), opt_options?: AtPixelOptions): T;
+    forEachFeatureAtPixel<S, T>(pixel: Pixel, callback: ((param1: FeatureLike, param2: Layer) => T), opt_options?: AtPixelOptions): T;
+    forEachLayerAtPixel<S, T>(pixel: Pixel, callback: ((param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), opt_options?: AtPixelOptions): T;
     getControls(): Collection<Control>;
     getCoordinateFromPixel(pixel: Pixel): Coordinate;
     getEventCoordinate(event: Event): Coordinate;
@@ -122,6 +127,57 @@ declare module 'ol/PluggableMap' {
     skipFeature(feature: Feature): void;
     unskipFeature(feature: Feature): void;
     updateSize(): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:layerGroup', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:layerGroup', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:layerGroup', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change:size', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:size', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:size', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change:target', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:target', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:target', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change:view', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:view', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:view', listener: (evt: ObjectEvent) => void): EventsKey;
+    on<T>(type: 'click', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    once<T>(type: 'click', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    un<T>(type: 'click', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    on<T>(type: 'dblclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    once<T>(type: 'dblclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    un<T>(type: 'dblclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    on<T>(type: 'moveend', listener: (evt: MapEvent<T>) => void): EventsKey;
+    once<T>(type: 'moveend', listener: (evt: MapEvent<T>) => void): EventsKey;
+    un<T>(type: 'moveend', listener: (evt: MapEvent<T>) => void): EventsKey;
+    on<T>(type: 'movestart', listener: (evt: MapEvent<T>) => void): EventsKey;
+    once<T>(type: 'movestart', listener: (evt: MapEvent<T>) => void): EventsKey;
+    un<T>(type: 'movestart', listener: (evt: MapEvent<T>) => void): EventsKey;
+    on<T>(type: 'pointerdrag', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    once<T>(type: 'pointerdrag', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    un<T>(type: 'pointerdrag', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    on<T>(type: 'pointermove', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    once<T>(type: 'pointermove', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    un<T>(type: 'pointermove', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    on<T>(type: 'postcompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    once<T>(type: 'postcompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    un<T>(type: 'postcompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    on<T>(type: 'postrender', listener: (evt: MapEvent<T>) => void): EventsKey;
+    once<T>(type: 'postrender', listener: (evt: MapEvent<T>) => void): EventsKey;
+    un<T>(type: 'postrender', listener: (evt: MapEvent<T>) => void): EventsKey;
+    on<T>(type: 'precompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    once<T>(type: 'precompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    un<T>(type: 'precompose', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    on<T>(type: 'rendercomplete', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    once<T>(type: 'rendercomplete', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    un<T>(type: 'rendercomplete', listener: (evt: RenderEvent<T>) => void): EventsKey;
+    on<T>(type: 'singleclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    once<T>(type: 'singleclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
+    un<T>(type: 'singleclick', listener: (evt: MapBrowserEvent<T>) => void): EventsKey;
   }
 
   export type PostRenderFunction = (<T>(param0: PluggableMap, param1?: FrameState<T>) => boolean);

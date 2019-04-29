@@ -15,13 +15,13 @@ declare module 'ol/format/Feature' {
     protected dataProjection: Projection;
     protected defaultFeatureProjection: Projection;
     protected adaptOptions(options: WriteOptions | ReadOptions): WriteOptions | ReadOptions;
-    protected getReadOptions(source: Document | Node | Object | string, opt_options?: ReadOptions): ReadOptions;
+    protected getReadOptions(source: Document | Node | any | string, opt_options?: ReadOptions): ReadOptions;
     getLastExtent(): Extent;
     getType(): FormatType;
-    readFeature(source: Document | Node | Object | string, opt_options?: ReadOptions): FeatureLike;
-    readFeatures(source: Document | Node | ArrayBuffer | Object | string, opt_options?: ReadOptions): FeatureLike[];
-    readGeometry(source: Document | Node | Object | string, opt_options?: ReadOptions): Geometry;
-    readProjection(source: Document | Node | Object | string): Projection;
+    readFeature(source: Document | Node | any | string, opt_options?: ReadOptions): FeatureLike;
+    readFeatures(source: Document | Node | ArrayBuffer | any | string, opt_options?: ReadOptions): FeatureLike[];
+    readGeometry(source: Document | Node | any | string, opt_options?: ReadOptions): Geometry;
+    readProjection(source: Document | Node | any | string): Projection;
     writeFeature(feature: Feature, opt_options?: WriteOptions): string;
     writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
     writeGeometry(geometry: Geometry, opt_options?: WriteOptions): string;

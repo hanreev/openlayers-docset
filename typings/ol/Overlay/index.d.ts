@@ -8,6 +8,8 @@ declare module 'ol/Overlay' {
   import { Extent } from 'ol/extent';
   import { Pixel } from 'ol/pixel';
   import PluggableMap from 'ol/PluggableMap';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
 
   export interface Options {
     id?: number | string;
@@ -33,7 +35,7 @@ declare module 'ol/Overlay' {
     protected insertFirst: boolean;
     protected mapPostrenderListenerKey: EventsKey;
     protected options: Options;
-    protected rendered: Object;
+    protected rendered: any;
     protected stopEvent: boolean;
     protected getRect(element: HTMLElement, size: Size): Extent;
     protected handleElementChanged(): void;
@@ -58,6 +60,27 @@ declare module 'ol/Overlay' {
     setOffset(offset: number[]): void;
     setPosition(position: Coordinate): void;
     setPositioning(positioning: OverlayPositioning): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:element', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:element', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:element', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change:map', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:map', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:map', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change:offset', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:offset', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:offset', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change:position', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:position', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:position', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change:positioning', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:positioning', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:positioning', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
   export interface PanOptions {

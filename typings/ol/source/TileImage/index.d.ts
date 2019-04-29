@@ -11,6 +11,10 @@ declare module 'ol/source/TileImage' {
   import TileCache from 'ol/TileCache';
   import Projection from 'ol/proj/Projection';
   import Tile from 'ol/Tile';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
+  import { TileSourceEvent } from 'ol/source/Tile';
 
   export interface Options {
     attributions?: AttributionLike;
@@ -18,7 +22,7 @@ declare module 'ol/source/TileImage' {
     cacheSize?: number;
     crossOrigin?: string;
     opaque?: boolean;
-    projection: ProjectionLike;
+    projection?: ProjectionLike;
     reprojectionErrorThreshold?: number;
     state?: State;
     tileClass?: ImageTile;
@@ -43,6 +47,21 @@ declare module 'ol/source/TileImage' {
     getGutter(): number;
     setRenderReprojectionEdges(render: boolean): void;
     setTileGridForProjection(projection: ProjectionLike, tilegrid: TileGrid): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'tileloadend', listener: (evt: TileSourceEvent) => void): EventsKey;
+    once(type: 'tileloadend', listener: (evt: TileSourceEvent) => void): EventsKey;
+    un(type: 'tileloadend', listener: (evt: TileSourceEvent) => void): EventsKey;
+    on(type: 'tileloaderror', listener: (evt: TileSourceEvent) => void): EventsKey;
+    once(type: 'tileloaderror', listener: (evt: TileSourceEvent) => void): EventsKey;
+    un(type: 'tileloaderror', listener: (evt: TileSourceEvent) => void): EventsKey;
+    on(type: 'tileloadstart', listener: (evt: TileSourceEvent) => void): EventsKey;
+    once(type: 'tileloadstart', listener: (evt: TileSourceEvent) => void): EventsKey;
+    un(type: 'tileloadstart', listener: (evt: TileSourceEvent) => void): EventsKey;
   }
 
 }

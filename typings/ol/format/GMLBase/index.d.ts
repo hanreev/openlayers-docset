@@ -18,7 +18,7 @@ declare module 'ol/format/GMLBase' {
     protected schemaLocation: string;
     protected srsName: string;
     readFeatureElement(node: Element, objectStack: any[]): Feature;
-    readFeatureElementInternal(node: Element, objectStack: any[], asFeature: boolean): Feature | Object;
+    readFeatureElementInternal(node: Element, objectStack: any[], asFeature: boolean): Feature | any;
     readFeaturesInternal(node: Element, objectStack: any[]): Feature[];
     readGeometryElement(node: Element, objectStack: any[]): Geometry;
     readLinearRing(node: Element, objectStack: any[]): LinearRing;

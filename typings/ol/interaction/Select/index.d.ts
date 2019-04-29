@@ -10,14 +10,16 @@ declare module 'ol/interaction/Select' {
   import Feature from 'ol/Feature';
   import Interaction from 'ol/interaction/Interaction';
   import VectorLayer from 'ol/layer/Vector';
+  import { EventsKey } from 'ol/events';
   import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
 
   export type FilterFunction = ((param0: FeatureLike, param1: Layer) => boolean);
 
   export interface Options {
     addCondition?: Condition;
     condition?: Condition;
-    layers?: Layer[] | (() => void);
+    layers?: Layer[] | ((param0: Layer) => boolean);
     style?: StyleLike;
     removeCondition?: Condition;
     toggleCondition?: Condition;
@@ -35,6 +37,29 @@ declare module 'ol/interaction/Select' {
     getLayer(feature: FeatureLike): VectorLayer;
     getOverlay(): VectorLayer;
     setHitTolerance(hitTolerance: number): void;
+    on<T>(type: 'select', listener: (evt: SelectEvent<T>) => void): EventsKey;
+    once<T>(type: 'select', listener: (evt: SelectEvent<T>) => void): EventsKey;
+    un<T>(type: 'select', listener: (evt: SelectEvent<T>) => void): EventsKey;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+  }
+
+  export class SelectEvent<T> extends Event {
+    constructor(type: SelectEventType, selected: Feature[], deselected: Feature[], mapBrowserEvent: MapBrowserEvent<T>);
+    deselected: Feature[];
+    mapBrowserEvent: MapBrowserEvent<T>;
+    selected: Feature[];
+  }
+
+  export enum SelectEventType {
+    SELECT = 'select',
   }
 
 }

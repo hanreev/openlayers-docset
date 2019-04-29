@@ -2,17 +2,36 @@ declare module 'ol/source/ImageArcGISRest' {
 
   import ImageSource from 'ol/source/Image';
   import { LoadFunction } from 'ol/Image';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ImageSourceEvent } from 'ol/source/Image';
+  import { ObjectEvent } from 'ol/Object';
   import { AttributionLike } from 'ol/source/Source';
   import { ProjectionLike } from 'ol/proj';
 
   export default class ImageArcGISRest extends ImageSource {
     constructor(opt_options?: Options);
     getImageLoadFunction(): LoadFunction;
-    getParams(): Object;
+    getParams(): any;
     getUrl(): string;
     setImageLoadFunction(imageLoadFunction: LoadFunction): void;
     setUrl(url: string): void;
-    updateParams(params: Object): void;
+    updateParams(params: any): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'imageloadend', listener: (evt: ImageSourceEvent) => void): EventsKey;
+    once(type: 'imageloadend', listener: (evt: ImageSourceEvent) => void): EventsKey;
+    un(type: 'imageloadend', listener: (evt: ImageSourceEvent) => void): EventsKey;
+    on(type: 'imageloaderror', listener: (evt: ImageSourceEvent) => void): EventsKey;
+    once(type: 'imageloaderror', listener: (evt: ImageSourceEvent) => void): EventsKey;
+    un(type: 'imageloaderror', listener: (evt: ImageSourceEvent) => void): EventsKey;
+    on(type: 'imageloadstart', listener: (evt: ImageSourceEvent) => void): EventsKey;
+    once(type: 'imageloadstart', listener: (evt: ImageSourceEvent) => void): EventsKey;
+    un(type: 'imageloadstart', listener: (evt: ImageSourceEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
   export interface Options {
@@ -21,7 +40,7 @@ declare module 'ol/source/ImageArcGISRest' {
     hidpi?: boolean;
     imageLoadFunction?: LoadFunction;
     params?: { [key: string]: any };
-    projection: ProjectionLike;
+    projection?: ProjectionLike;
     ratio?: number;
     resolutions?: number[];
     url?: string;

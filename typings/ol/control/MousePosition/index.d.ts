@@ -5,6 +5,9 @@ declare module 'ol/control/MousePosition' {
   import { CoordinateFormat } from 'ol/coordinate';
   import Projection from 'ol/proj/Projection';
   import { ProjectionLike } from 'ol/proj';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
 
   export function render<T>(mapEvent: MapEvent<T>): void;
 
@@ -16,6 +19,18 @@ declare module 'ol/control/MousePosition' {
     getProjection(): Projection;
     setCoordinateFormat(format: CoordinateFormat): void;
     setProjection(projection: ProjectionLike): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:coordinateFormat', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:coordinateFormat', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:coordinateFormat', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change:projection', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:projection', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:projection', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
   export interface Options {

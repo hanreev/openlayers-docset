@@ -10,6 +10,7 @@ declare module 'ol/renderer/canvas/VectorLayer' {
   import Feature from 'ol/Feature';
   import Style from 'ol/style/Style';
   import CanvasReplayGroup from 'ol/render/canvas/ReplayGroup';
+  import { EventsKey } from 'ol/events';
 
   export default class CanvasVectorLayerRenderer extends CanvasLayerRenderer {
     constructor(vectorLayer: VectorLayer);
@@ -18,6 +19,9 @@ declare module 'ol/renderer/canvas/VectorLayer' {
     compose<T>(context: CanvasRenderingContext2D, frameState: FrameState<T>, layerState: State): void;
     handleFontsChanged_(event: Event): void;
     renderFeature(feature: Feature, resolution: number, pixelRatio: number, styles: Style | Style[], replayGroup: CanvasReplayGroup): boolean;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
   }
 
 }

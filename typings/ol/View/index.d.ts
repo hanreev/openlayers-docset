@@ -11,11 +11,14 @@ declare module 'ol/View' {
   import { Pixel } from 'ol/pixel';
   import SimpleGeometry from 'ol/geom/SimpleGeometry';
   import ViewHint from 'ol/ViewHint';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
   import { ProjectionLike } from 'ol/proj';
 
   export function createCenterConstraint(options: ViewOptions): Type;
 
-  export function createResolutionConstraint(options: ViewOptions): Object;
+  export function createResolutionConstraint(options: ViewOptions): any;
 
   export function createRotationConstraint(options: ViewOptions): Type_1;
 
@@ -74,7 +77,7 @@ declare module 'ol/View' {
 
   export default class View extends BaseObject {
     constructor(opt_options?: ViewOptions);
-    animate(var_args: AnimationOptions | (() => void)): void;
+    animate(...var_args: (AnimationOptions | ((param0: boolean) => void))[]): void;
     applyOptions_(options: ViewOptions): void;
     calculateCenterRotate(rotation: number, anchor: Coordinate): Coordinate;
     calculateCenterZoom(resolution: number, anchor: Coordinate): Coordinate;
@@ -116,6 +119,21 @@ declare module 'ol/View' {
     setRotation(rotation: number): void;
     setZoom(zoom: number): void;
     updateAnimations_(): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:center', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:center', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:center', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change:resolution', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:resolution', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:resolution', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change:rotation', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:rotation', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:rotation', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
   export interface ViewOptions {

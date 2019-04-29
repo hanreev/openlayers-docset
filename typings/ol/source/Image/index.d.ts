@@ -6,6 +6,8 @@ declare module 'ol/source/Image' {
   import Projection from 'ol/proj/Projection';
   import ImageBase from 'ol/ImageBase';
   import Event from 'ol/events/Event';
+  import { EventsKey } from 'ol/events';
+  import { ObjectEvent } from 'ol/Object';
   import { AttributionLike } from 'ol/source/Source';
   import { ProjectionLike } from 'ol/proj';
   import State from 'ol/source/State';
@@ -18,11 +20,28 @@ declare module 'ol/source/Image' {
     protected getImageInternal(extent: Extent, resolution: number, pixelRatio: number, projection: Projection): ImageBase;
     protected handleImageChange(event: Event): void;
     getImage(extent: Extent, resolution: number, pixelRatio: number, projection: Projection): ImageBase;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+  }
+
+  export class ImageSourceEvent extends Event {
+    constructor(type: string, image: ImageWrapper);
+    image: ImageWrapper;
+  }
+
+  export enum ImageSourceEventType {
+    IMAGELOADSTART = 'imageloadstart',
+    IMAGELOADEND = 'imageloadend',
+    IMAGELOADERROR = 'imageloaderror',
   }
 
   export interface Options {
     attributions?: AttributionLike;
-    projection: ProjectionLike;
+    projection?: ProjectionLike;
     resolutions?: number[];
     state?: State;
   }

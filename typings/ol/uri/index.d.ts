@@ -1,5 +1,5 @@
 declare module 'ol/uri' {
 
-  export function appendParams(uri: string, params: Object): string;
+  export function appendParams(uri: string, params: any): string;
 
 }

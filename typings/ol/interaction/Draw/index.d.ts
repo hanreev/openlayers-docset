@@ -3,7 +3,9 @@ declare module 'ol/interaction/Draw' {
   import PointerInteraction from 'ol/interaction/Pointer';
   import Feature from 'ol/Feature';
   import VectorLayer from 'ol/layer/Vector';
+  import { EventsKey } from 'ol/events';
   import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
   import SimpleGeometry from 'ol/geom/SimpleGeometry';
   import { StyleFunction } from 'ol/style/Style';
   import GeometryType from 'ol/geom/GeometryType';
@@ -23,6 +25,31 @@ declare module 'ol/interaction/Draw' {
     finishDrawing(): void;
     getOverlay(): VectorLayer;
     removeLastPoint(): void;
+    on(type: 'drawstart', listener: (evt: DrawEvent) => void): EventsKey;
+    once(type: 'drawstart', listener: (evt: DrawEvent) => void): EventsKey;
+    un(type: 'drawstart', listener: (evt: DrawEvent) => void): EventsKey;
+    on(type: 'drawend', listener: (evt: DrawEvent) => void): EventsKey;
+    once(type: 'drawend', listener: (evt: DrawEvent) => void): EventsKey;
+    un(type: 'drawend', listener: (evt: DrawEvent) => void): EventsKey;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+  }
+
+  export class DrawEvent extends Event {
+    constructor(type: DrawEventType, feature: Feature);
+    feature: Feature;
+  }
+
+  export enum DrawEventType {
+    DRAWSTART = 'drawstart',
+    DRAWEND = 'drawend',
   }
 
   export type GeometryFunction = ((param0: SketchCoordType, param1: SimpleGeometry) => SimpleGeometry);

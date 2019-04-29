@@ -2,6 +2,7 @@ declare module 'ol/Object' {
 
   import Event from 'ol/events/Event';
   import Observable from 'ol/Observable';
+  import { EventsKey } from 'ol/events';
 
   export function getChangeEventType(key: string): string;
 
@@ -20,6 +21,12 @@ declare module 'ol/Object' {
     set(key: string, value: any, opt_silent?: boolean): void;
     setProperties(values: { [key: string]: any }, opt_silent?: boolean): void;
     unset(key: string, opt_silent?: boolean): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
 }

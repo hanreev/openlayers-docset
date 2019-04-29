@@ -5,7 +5,7 @@ declare module 'ol/tilegrid/WMTS' {
   import { Size } from 'ol/size';
   import TileGrid from 'ol/tilegrid/TileGrid';
 
-  export function createFromCapabilitiesMatrixSet(matrixSet: Object, opt_extent?: Extent, opt_matrixLimits?: Object[]): WMTSTileGrid;
+  export function createFromCapabilitiesMatrixSet(matrixSet: any, opt_extent?: Extent, opt_matrixLimits?: any[]): WMTSTileGrid;
 
   export interface Options {
     extent?: Extent;

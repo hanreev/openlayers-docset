@@ -5,6 +5,9 @@ declare module 'ol/interaction/Pointer' {
   import MapBrowserPointerEvent from 'ol/MapBrowserPointerEvent';
   import MapBrowserEvent from 'ol/MapBrowserEvent';
   import Interaction from 'ol/interaction/Interaction';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
 
   export function centroid(pointerEvents: PointerEvent[]): Pixel;
 
@@ -26,6 +29,15 @@ declare module 'ol/interaction/Pointer' {
     protected handleMoveEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): void;
     protected handleUpEvent<T>(mapBrowserEvent: MapBrowserPointerEvent<T>): boolean;
     stopDown(handled: boolean): boolean;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
 }

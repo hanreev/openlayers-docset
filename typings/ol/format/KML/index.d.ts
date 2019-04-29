@@ -46,12 +46,12 @@ declare module 'ol/format/KML' {
     readName(source: Document | Element | string): string;
     readNameFromDocument(doc: Document): string;
     readNameFromNode(node: Element): string;
-    readNetworkLinks(source: Document | Element | string): Object[];
-    readNetworkLinksFromDocument(doc: Document): Object[];
-    readNetworkLinksFromNode(node: Element): Object[];
-    readRegion(source: Document | Element | string): Object[];
-    readRegionFromDocument(doc: Document): Object[];
-    readRegionFromNode(node: Element): Object[];
+    readNetworkLinks(source: Document | Element | string): any[];
+    readNetworkLinksFromDocument(doc: Document): any[];
+    readNetworkLinksFromNode(node: Element): any[];
+    readRegion(source: Document | Element | string): any[];
+    readRegionFromDocument(doc: Document): any[];
+    readRegionFromNode(node: Element): any[];
   }
 
   export interface Options {

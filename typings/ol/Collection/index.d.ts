@@ -2,6 +2,8 @@ declare module 'ol/Collection' {
 
   import Event from 'ol/events/Event';
   import BaseObject from 'ol/Object';
+  import { EventsKey } from 'ol/events';
+  import { ObjectEvent } from 'ol/Object';
 
   export class CollectionEvent extends Event {
     constructor();
@@ -22,6 +24,21 @@ declare module 'ol/Collection' {
     remove(elem: T): T;
     removeAt(index: number): T;
     setAt(index: number, elem: T): void;
+    on(type: 'add', listener: (evt: CollectionEvent) => void): EventsKey;
+    once(type: 'add', listener: (evt: CollectionEvent) => void): EventsKey;
+    un(type: 'add', listener: (evt: CollectionEvent) => void): EventsKey;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:length', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:length', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:length', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'remove', listener: (evt: CollectionEvent) => void): EventsKey;
+    once(type: 'remove', listener: (evt: CollectionEvent) => void): EventsKey;
+    un(type: 'remove', listener: (evt: CollectionEvent) => void): EventsKey;
   }
 
   export interface Options {

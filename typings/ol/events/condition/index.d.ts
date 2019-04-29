@@ -12,7 +12,7 @@ declare module 'ol/events/condition' {
 
   export function click<T>(mapBrowserEvent: MapBrowserEvent<T>): boolean;
 
-  export type Condition = (<T>(this: any, param1: MapBrowserEvent<T>) => boolean);
+  export type Condition = (<T>(param1: MapBrowserEvent<T>) => boolean);
 
   export function doubleClick<T>(mapBrowserEvent: MapBrowserEvent<T>): boolean;
 

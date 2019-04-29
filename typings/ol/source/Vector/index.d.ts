@@ -11,6 +11,8 @@ declare module 'ol/source/Vector' {
   import Source from 'ol/source/Source';
   import { Coordinate } from 'ol/coordinate';
   import Projection from 'ol/proj/Projection';
+  import { EventsKey } from 'ol/events';
+  import { ObjectEvent } from 'ol/Object';
 
   export class VectorSourceEvent extends Event {
     constructor();
@@ -59,6 +61,24 @@ declare module 'ol/source/Vector' {
     removeFeature(feature: Feature): void;
     removeLoadedExtent(extent: Extent): void;
     setLoader(loader: FeatureLoader): void;
+    on(type: 'addfeature', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    once(type: 'addfeature', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    un(type: 'addfeature', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'changefeature', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    once(type: 'changefeature', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    un(type: 'changefeature', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    on(type: 'clear', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    once(type: 'clear', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    un(type: 'clear', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'removefeature', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    once(type: 'removefeature', listener: (evt: VectorSourceEvent) => void): EventsKey;
+    un(type: 'removefeature', listener: (evt: VectorSourceEvent) => void): EventsKey;
   }
 
 }

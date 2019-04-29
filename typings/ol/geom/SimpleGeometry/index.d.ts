@@ -4,6 +4,9 @@ declare module 'ol/geom/SimpleGeometry' {
   import { Transform } from 'ol/transform';
   import Geometry from 'ol/geom/Geometry';
   import { Coordinate } from 'ol/coordinate';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
 
   export function getStrideForLayout(layout: GeometryLayout): number;
 
@@ -24,6 +27,12 @@ declare module 'ol/geom/SimpleGeometry' {
     getStride(): number;
     setCoordinates(coordinates: any[], opt_layout?: GeometryLayout): void;
     setFlatCoordinates(layout: GeometryLayout, flatCoordinates: number[]): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
 }

@@ -2,6 +2,7 @@ declare module 'ol/Observable' {
 
   import { EventsKey } from 'ol/events';
   import Target from 'ol/events/Target';
+  import Event from 'ol/events/Event';
 
   export function unByKey(key: EventsKey | EventsKey[]): void;
 
@@ -12,6 +13,9 @@ declare module 'ol/Observable' {
     on(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
     once(type: string | string[], listener: ((param0: any) => void)): EventsKey | EventsKey[];
     un(type: string | string[], listener: ((param0: any) => void)): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
   }
 
 }

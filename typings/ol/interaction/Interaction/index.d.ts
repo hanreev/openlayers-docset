@@ -5,6 +5,9 @@ declare module 'ol/interaction/Interaction' {
   import BaseObject from 'ol/Object';
   import PluggableMap from 'ol/PluggableMap';
   import MapBrowserEvent from 'ol/MapBrowserEvent';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
 
   export function pan(view: View, delta: Coordinate, opt_duration?: number): void;
 
@@ -25,6 +28,15 @@ declare module 'ol/interaction/Interaction' {
     handleEvent<T>(mapBrowserEvent: MapBrowserEvent<T>): boolean;
     setActive(active: boolean): void;
     setMap(map: PluggableMap): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
   export interface InteractionOptions {

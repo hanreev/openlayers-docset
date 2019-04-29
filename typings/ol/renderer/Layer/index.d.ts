@@ -12,6 +12,8 @@ declare module 'ol/renderer/Layer' {
   import { Extent } from 'ol/extent';
   import { Coordinate } from 'ol/coordinate';
   import { FeatureLike } from 'ol/Feature';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
 
   export default class LayerRenderer extends Observable {
     constructor(layer: Layer);
@@ -24,6 +26,9 @@ declare module 'ol/renderer/Layer' {
     forEachFeatureAtCoordinate<T>(coordinate: Coordinate, frameState: FrameState<T>, hitTolerance: number, callback: ((param0: FeatureLike, param1: Layer) => T)): T | void;
     getLayer(): Layer;
     hasFeatureAtCoordinate<T>(coordinate: Coordinate, frameState: FrameState<T>): boolean;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
   }
 
 }

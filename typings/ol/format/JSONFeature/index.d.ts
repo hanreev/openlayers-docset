@@ -10,27 +10,27 @@ declare module 'ol/format/JSONFeature' {
 
   export default class JSONFeature extends FeatureFormat {
     constructor();
-    protected readFeatureFromObject(object: Object, opt_options?: ReadOptions): Feature;
-    protected readFeaturesFromObject(object: Object, opt_options?: ReadOptions): Feature[];
-    protected readGeometryFromObject(object: Object, opt_options?: ReadOptions): Geometry;
-    protected readProjectionFromObject(object: Object): Projection;
-    readFeature(source: ArrayBuffer | Document | Node | Object | string, opt_options?: ReadOptions): Feature;
-    readFeature(source: Document | Node | Object | string, opt_options?: ReadOptions): FeatureLike;
-    readFeatures(source: ArrayBuffer | Document | Node | Object | string, opt_options?: ReadOptions): Feature[];
-    readFeatures(source: Document | Node | ArrayBuffer | Object | string, opt_options?: ReadOptions): FeatureLike[];
-    readGeometry(source: ArrayBuffer | Document | Node | Object | string, opt_options?: ReadOptions): Geometry;
-    readGeometry(source: Document | Node | Object | string, opt_options?: ReadOptions): Geometry;
-    readProjection(source: ArrayBuffer | Document | Node | Object | string): Projection;
-    readProjection(source: Document | Node | Object | string): Projection;
+    protected readFeatureFromObject(object: any, opt_options?: ReadOptions): Feature;
+    protected readFeaturesFromObject(object: any, opt_options?: ReadOptions): Feature[];
+    protected readGeometryFromObject(object: any, opt_options?: ReadOptions): Geometry;
+    protected readProjectionFromObject(object: any): Projection;
+    readFeature(source: ArrayBuffer | Document | Node | any | string, opt_options?: ReadOptions): Feature;
+    readFeature(source: Document | Node | any | string, opt_options?: ReadOptions): FeatureLike;
+    readFeatures(source: ArrayBuffer | Document | Node | any | string, opt_options?: ReadOptions): Feature[];
+    readFeatures(source: Document | Node | ArrayBuffer | any | string, opt_options?: ReadOptions): FeatureLike[];
+    readGeometry(source: ArrayBuffer | Document | Node | any | string, opt_options?: ReadOptions): Geometry;
+    readGeometry(source: Document | Node | any | string, opt_options?: ReadOptions): Geometry;
+    readProjection(source: ArrayBuffer | Document | Node | any | string): Projection;
+    readProjection(source: Document | Node | any | string): Projection;
     writeFeature(feature: Feature, opt_options?: WriteOptions): string;
     writeFeature(feature: Feature, opt_options?: WriteOptions): string;
-    writeFeatureObject(feature: Feature, opt_options?: WriteOptions): Object;
+    writeFeatureObject(feature: Feature, opt_options?: WriteOptions): any;
     writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
     writeFeatures(features: Feature[], opt_options?: WriteOptions): string;
-    writeFeaturesObject(features: Feature[], opt_options?: WriteOptions): Object;
+    writeFeaturesObject(features: Feature[], opt_options?: WriteOptions): any;
     writeGeometry(geometry: Geometry, opt_options?: WriteOptions): string;
     writeGeometry(geometry: Geometry, opt_options?: WriteOptions): string;
-    writeGeometryObject(geometry: Geometry, opt_options?: WriteOptions): Object;
+    writeGeometryObject(geometry: Geometry, opt_options?: WriteOptions): any;
   }
 
 }

@@ -72,7 +72,7 @@ function extractFunctionDefinition(doclet, comment, isReturn = false) {
   comment = comment || doclet.comment;
   comment = comment.replace(/^ *\*\/?( +)?/gm, '');
 
-  const regex = isReturn ? /@return {(function.+?)}/gs : /{(function.+?)}\s+\[?(\w+)\]?/gs;
+  const regex = isReturn ? /@return {(?:.+\|\s?)?(function.+?)}/gs : /{(?:.+\|\s?)?(function.+?)}\s+\[?(\w+)\]?/gs;
   let match;
 
   doclet.type.names = doclet.type.names.map(type => {

@@ -314,7 +314,7 @@ function stringifyType(parsedType, _module) {
   if (typeStr && typeStr.startsWith('module:')) {
     if (_module)
       typeStr = registerImport(_module, typeStr);
-    typeStr = typeStr.split('~')[1] || typeStr.split('/').pop();
+    typeStr = typeStr.split('~')[1] || typeStr.split('.')[1] || typeStr.split('/').pop();
   }
 
   if (parsedType.type == 'TypeApplication') {
@@ -364,6 +364,8 @@ function stringifyType(parsedType, _module) {
 
   if (typeStr == 'Array')
     typeStr = 'any[]';
+  else if (typeStr == 'Object')
+    typeStr = 'any';
 
   return typeStr;
 }
@@ -412,14 +414,12 @@ function parseFunctionType(type, _module) {
   if (match) {
     params = match[1].split(/,\s?/).map((p, i) => {
       let name = `param${i}`;
-      if (p.startsWith('this:')) {
-        name = 'this';
-        p = p.replace(/^this:\s?/, '');
-      }
+      if (p.startsWith('this:'))
+        return;
       if (p.match(/^\?.+$/))
         name += '?';
       return `${name}: ` + (p.split(/\s?\|\s?/).map(parse).filter(t => t != 'undefined').join(' | ') || 'any');
-    }).join(', ');
+    }).filter(p => !!p).join(', ');
 
     if (match[3])
       returnType = match[3].split(/\s?\|\s?/).map(parse).filter(t => t != 'undefined').join(' | ') || 'void';
@@ -496,9 +496,19 @@ function getParams(doclet, _module) {
   return doclet.params.filter(param => param.name.indexOf('.') == -1)
     .map(param => {
       let name = param.name;
+      let paramType = getType(param, _module);
+
       if (param.optional && !param.defaultValue)
         name += '?';
-      const paramStr = `${name}: ${getType(param, _module)}`;
+
+      if (param.variable) {
+        name = '...' + name;
+        if (paramType.indexOf('|') != -1)
+          paramType = `(${paramType})`;
+        paramType += '[]';
+      }
+
+      const paramStr = `${name}: ${paramType}`;
       return param.defaultValue ? `${paramStr} = ${param.defaultValue}` : paramStr;
     }).join(', ');
 }
@@ -526,6 +536,7 @@ function declaration(doclet, decl, _module) {
 }
 
 const PROCESSORS = {
+  /** @type {DocletParser} */
   class: (doclet, _module) => {
     const children = [];
     let name = doclet.name;
@@ -557,20 +568,74 @@ const PROCESSORS = {
       children.push(PROCESSORS[kind](child, _module));
     });
 
+    const addFire = (eventType, fireType) => {
+      if (fireType.startsWith('ol'))
+        fireType = 'module:' + fireType;
+      const genericType = GENERIC_TYPES[fireType];
+      fireType = getType({ type: { names: [fireType || 'undefined'] } }, _module);
+      ['on', 'once', 'un'].forEach(fireMethod => {
+        if (genericType)
+          fireMethod += `<${genericType}>`;
+        children.push(`${fireMethod}(type: '${eventType}', listener: (evt: ${fireType}) => void): EventsKey;`);
+      });
+    };
+
+    if (doclet.fires) {
+      registerImport(_module, 'module:ol/events~EventsKey');
+      doclet.fires.forEach(fire => {
+        let eventType;
+        let fireType;
+        const match = fire.match(/^(.*?)([#~.])?event:(.+?)$/);
+        if (match) {
+          fireType = match[1];
+          eventType = match[3];
+          switch (match[2]) {
+            case '.':
+            case '~':
+              try {
+                const fireTypeDoclet = data({ name: eventType, memberof: fireType }).first();
+                const eventTypeDoclet = data({ name: eventType + 'Type', memberof: fireType }).first();
+                eventTypeDoclet.properties.forEach(prop => {
+                  addFire(prop.defaultvalue, fireTypeDoclet.longname);
+                });
+              } catch (error) {
+                logger.error('Fires process failed --', doclet.longname, fire);
+                return;
+              }
+              break;
+
+            default:
+              addFire(eventType, fireType, _module);
+              break;
+          }
+        } else {
+          logger.error('Fires process failed --', doclet.longname, fire);
+        }
+      });
+    }
+
     const decl = `class ${name} {\n${children.join('\n')}\n}`;
     return declaration(doclet, decl, _module);
   },
 
+  /** @type {DocletParser} */
   member: (doclet, _module) => {
     const prefix = doclet.access ? `${doclet.access} ` : '';
     return prefix + `${doclet.name}: ${getType(doclet, _module)};`;
   },
 
+  /** @type {DocletParser} */
   constant: (doclet, _module) => {
     const decl = `const ${doclet.name}: ${getType(doclet, _module)};`;
     return declaration(doclet, decl, _module);
   },
 
+  /**
+   * @param {Doclet} doclet
+   * @param {Doclet} _module
+   * @param {boolean} lookupOverrides
+   * @returns {string}
+   */
   method: (doclet, _module, lookupOverrides = true) => {
     const prefix = doclet.scope == 'instance' && doclet.access ? `${doclet.access} ` : '';
     let name = doclet.name;
@@ -591,6 +656,7 @@ const PROCESSORS = {
     return decl;
   },
 
+  /** @type {DocletParser} */
   function: (doclet, _module) => {
     // FIXME: Patch module:ol/obj.getValues
     if (doclet.longname == 'module:ol/obj.getValues')
@@ -603,6 +669,7 @@ const PROCESSORS = {
     return declaration(doclet, decl, _module);
   },
 
+  /** @type {DocletParser} */
   typedef: (doclet, _module) => {
     let decl;
     const children = [];
@@ -618,7 +685,7 @@ const PROCESSORS = {
 
         addedProps.push(name);
 
-        if (prop.optional)
+        if (prop.optional || (doclet.name == 'Options' && prop.name == 'projection'))
           name += '?';
 
         children.push(`${name}: ${getType(prop, _module)};`);
@@ -859,55 +926,6 @@ function extractGenericTypes(initial = true) {
   });
 }
 
-function generateTestFile() {
-  let testContent = '';
-  let usedImportNames = [];
-
-  const getAvailableImportName = name => {
-    let counter = 1;
-    let availableImportName = name;
-    while (usedImportNames.indexOf(availableImportName) != -1) {
-      availableImportName = `${name}_${counter}`;
-      counter++;
-    }
-    usedImportNames.push(availableImportName);
-    return availableImportName;
-  };
-
-  find({ kind: 'module' }).forEach(_module => {
-    const _exports = MODULE_EXPORTS[_module.name];
-    let availableImportName;
-
-    if (_exports.default) {
-      availableImportName = getAvailableImportName(_module.name.split('/').pop());
-      testContent += `import ${availableImportName} from '${_module.name}';\n`;
-    }
-
-    let mergedExports = _exports.exports.map(name => {
-      availableImportName = getAvailableImportName(name);
-      if (name == availableImportName)
-        return name;
-      return `${name} as ${availableImportName}`;
-    });
-
-    _exports.reExports.forEach(reExport => {
-      const match = reExport.match(/^export\s{\s?(.+?)\s?}.+$/);
-      match[1].split(/,\s?/).forEach(n => {
-        const splits = n.split(' as ');
-        n = splits.length == 1 ? n : splits[1];
-        availableImportName = getAvailableImportName(n);
-        mergedExports.push(n == availableImportName ? n : `${n} as ${availableImportName}`);
-      });
-    });
-
-    if (mergedExports.length)
-      testContent += `import { ${mergedExports.join(', ')} } from '${_module.name}';\n`;
-  });
-
-  if (testContent)
-    fs.writeFileSync(path.resolve('declaration-test.ts'), testContent);
-}
-
 exports.publish = (taffyData) => {
   data = taffyData;
   data = helper.prune(data);
@@ -990,8 +1008,4 @@ exports.publish = (taffyData) => {
      */
     members.modules.forEach(doclet => generateDeclaration(doclet));
   }
-
-  // Emit test file
-  if (declarationConfig.emitTestFile)
-    generateTestFile();
 };

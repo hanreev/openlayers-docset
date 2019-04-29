@@ -8,6 +8,9 @@ declare module 'ol/source/UrlTile' {
   import { UrlFunction } from 'ol/Tile';
   import TileSource from 'ol/source/Tile';
   import Event from 'ol/events/Event';
+  import { EventsKey } from 'ol/events';
+  import { TileSourceEvent } from 'ol/source/Tile';
+  import { ObjectEvent } from 'ol/Object';
 
   export interface Options {
     attributions?: AttributionLike;
@@ -40,6 +43,21 @@ declare module 'ol/source/UrlTile' {
     setTileUrlFunction(tileUrlFunction: UrlFunction, key?: string): void;
     setUrl(url: string): void;
     setUrls(urls: string[]): void;
+    on(type: 'tileloadstart', listener: (evt: TileSourceEvent) => void): EventsKey;
+    once(type: 'tileloadstart', listener: (evt: TileSourceEvent) => void): EventsKey;
+    un(type: 'tileloadstart', listener: (evt: TileSourceEvent) => void): EventsKey;
+    on(type: 'tileloadend', listener: (evt: TileSourceEvent) => void): EventsKey;
+    once(type: 'tileloadend', listener: (evt: TileSourceEvent) => void): EventsKey;
+    un(type: 'tileloadend', listener: (evt: TileSourceEvent) => void): EventsKey;
+    on(type: 'tileloaderror', listener: (evt: TileSourceEvent) => void): EventsKey;
+    once(type: 'tileloaderror', listener: (evt: TileSourceEvent) => void): EventsKey;
+    un(type: 'tileloaderror', listener: (evt: TileSourceEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
   }
 
 }

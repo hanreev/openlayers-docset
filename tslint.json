@@ -7,15 +7,12 @@
       true,
       "check-space"
     ],
-    "curly": [
-      true,
-      "as-needed"
-    ],
+    "curly": false,
     "deprecation": {
       "severity": "warn"
     },
     "eofline": true,
-    "forin": true,
+    "forin": false,
     "import-spacing": true,
     "indent": [
       true,
@@ -89,10 +86,7 @@
       true,
       "always"
     ],
-    "triple-equals": [
-      true,
-      "allow-null-check"
-    ],
+    "triple-equals": false,
     "typedef-whitespace": [
       true,
       {

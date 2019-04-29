@@ -21,7 +21,7 @@ declare module 'ol/format/filter' {
   import Or from 'ol/format/filter/Or';
   import Within from 'ol/format/filter/Within';
 
-  export function and(conditions: Filter): And;
+  export function and(...conditions: Filter[]): And;
 
   export function bbox(geometryName: string, extent: Extent, opt_srsName?: string): Bbox;
 
@@ -51,7 +51,7 @@ declare module 'ol/format/filter' {
 
   export function notEqualTo(propertyName: string, expression: string | number, opt_matchCase?: boolean): NotEqualTo;
 
-  export function or(conditions: Filter): Or;
+  export function or(...conditions: Filter[]): Or;
 
   export function within(geometryName: string, geometry: Geometry, opt_srsName?: string): Within;
 

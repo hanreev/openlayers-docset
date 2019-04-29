@@ -5,6 +5,9 @@ declare module 'ol/Feature' {
   import BaseObject from 'ol/Object';
   import Geometry from 'ol/geom/Geometry';
   import { StyleLike } from 'ol/style/Style';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
   import RenderFeature from 'ol/render/Feature';
 
   export function createStyleFunction(obj: StyleFunction | Style[] | Style): StyleFunction;
@@ -21,6 +24,15 @@ declare module 'ol/Feature' {
     setGeometryName(name: string): void;
     setId(id: number | string): void;
     setStyle(style: StyleLike): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:geometry', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:geometry', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:geometry', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
   export type FeatureClass = Feature | RenderFeature;

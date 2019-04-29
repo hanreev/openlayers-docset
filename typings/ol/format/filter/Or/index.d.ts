@@ -4,7 +4,7 @@ declare module 'ol/format/filter/Or' {
   import Filter from 'ol/format/filter/Filter';
 
   export default class Or extends LogicalNary {
-    constructor(conditions: Filter);
+    constructor(...conditions: Filter[]);
   }
 
 }

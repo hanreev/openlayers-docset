@@ -39,8 +39,8 @@ declare module 'ol/render/canvas/Replay' {
     replayImage_(context: CanvasRenderingContext2D, x: number, y: number, image: HTMLImageElement | HTMLCanvasElement | HTMLVideoElement, anchorX: number, anchorY: number, declutterGroup: DeclutterGroup, height: number, opacity: number, originX: number, originY: number, rotation: number, scale: number, snapToPixel: boolean, width: number, padding: number[], fillInstruction: any[], strokeInstruction: any[]): void;
     replayTextBackground_(context: CanvasRenderingContext2D, p1: Coordinate, p2: Coordinate, p3: Coordinate, p4: Coordinate, fillInstruction: any[], strokeInstruction: any[]): void;
     reverseHitDetectionInstructions(): void;
-    updateFillStyle(state: FillStrokeState, createFill: ((this: CanvasReplay, param1: FillStrokeState, param2: Geometry | RenderFeature) => any[]), geometry: Geometry | RenderFeature): void;
-    updateStrokeStyle(state: FillStrokeState, applyStroke: ((this: CanvasReplay, param1: FillStrokeState) => void)): void;
+    updateFillStyle(state: FillStrokeState, createFill: ((param1: FillStrokeState, param2: Geometry | RenderFeature) => any[]), geometry: Geometry | RenderFeature): void;
+    updateStrokeStyle(state: FillStrokeState, applyStroke: ((param1: FillStrokeState) => void)): void;
   }
 
 }

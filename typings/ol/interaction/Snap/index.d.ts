@@ -9,6 +9,9 @@ declare module 'ol/interaction/Snap' {
   import { Pixel } from 'ol/pixel';
   import PointerInteraction from 'ol/interaction/Pointer';
   import PluggableMap from 'ol/PluggableMap';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
+  import { ObjectEvent } from 'ol/Object';
 
   export interface Options {
     features?: Collection<Feature>;
@@ -34,6 +37,15 @@ declare module 'ol/interaction/Snap' {
     addFeature(feature: Feature, opt_listen?: boolean): void;
     removeFeature(feature: Feature, opt_unlisten?: boolean): void;
     snapTo(pixel: Pixel, pixelCoordinate: Coordinate, map: PluggableMap): Result;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
+    on(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'change:active', listener: (evt: ObjectEvent) => void): EventsKey;
+    on(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    once(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
+    un(type: 'propertychange', listener: (evt: ObjectEvent) => void): EventsKey;
   }
 
 }

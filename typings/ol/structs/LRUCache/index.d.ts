@@ -1,11 +1,13 @@
 declare module 'ol/structs/LRUCache' {
 
   import Target from 'ol/events/Target';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
 
   export interface Entry {
     key_: string;
-    newer: Object;
-    older: Object;
+    newer: any;
+    older: any;
     value_: any;
   }
 
@@ -14,7 +16,7 @@ declare module 'ol/structs/LRUCache' {
     canExpireCache(): boolean;
     clear(): void;
     containsKey(key: string): boolean;
-    forEach<S>(f: (<T>(this: S, param1: T, param2: string, param3: LRUCache<T>) => void), opt_this?: S): void;
+    forEach<S>(f: (<T>(param1: T, param2: string, param3: LRUCache<T>) => void), opt_this?: S): void;
     get(key: string): T;
     getCount(): number;
     getKeys(): string[];
@@ -28,6 +30,9 @@ declare module 'ol/structs/LRUCache' {
     replace(key: string, value: T): void;
     set(key: string, value: T): void;
     setSize(size: number): void;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
   }
 
 }

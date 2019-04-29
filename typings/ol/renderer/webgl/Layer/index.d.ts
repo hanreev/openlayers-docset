@@ -8,6 +8,8 @@ declare module 'ol/renderer/webgl/Layer' {
   import { State } from 'ol/layer/Layer';
   import WebGLContext from 'ol/webgl/Context';
   import { Pixel } from 'ol/pixel';
+  import { EventsKey } from 'ol/events';
+  import Event from 'ol/events/Event';
 
   export default class WebGLLayerRenderer extends LayerRenderer {
     constructor(mapRenderer: WebGLMapRenderer, layer: Layer);
@@ -19,12 +21,15 @@ declare module 'ol/renderer/webgl/Layer' {
     protected texture: WebGLTexture;
     protected bindFramebuffer<T>(frameState: FrameState<T>, framebufferDimension: number): void;
     composeFrame<T>(frameState: FrameState<T>, layerState: State, context: WebGLContext): void;
-    forEachLayerAtPixel<S, T, U>(pixel: Pixel, frameState: FrameState<T>, callback: ((this: S, param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S): T;
+    forEachLayerAtPixel<S, T, U>(pixel: Pixel, frameState: FrameState<T>, callback: ((param1: Layer, param2: Uint8ClampedArray | Uint8Array) => T), thisArg: S): T;
     getProjectionMatrix(): Transform;
     getTexCoordMatrix(): Transform;
     getTexture(): WebGLTexture;
     handleWebGLContextLost(): void;
     prepareFrame<T>(frameState: FrameState<T>, layerState: State, context: WebGLContext): boolean;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
   }
 
 }

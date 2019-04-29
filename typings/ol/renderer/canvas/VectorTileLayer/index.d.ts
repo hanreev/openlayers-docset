@@ -8,6 +8,7 @@ declare module 'ol/renderer/canvas/VectorTileLayer' {
   import { FeatureLike } from 'ol/Feature';
   import Style from 'ol/style/Style';
   import CanvasReplayGroup from 'ol/render/canvas/ReplayGroup';
+  import { EventsKey } from 'ol/events';
 
   export default class CanvasVectorTileLayerRenderer<T> extends CanvasTileLayerRenderer<T> {
     constructor(layer: VectorTileLayer<T>);
@@ -15,6 +16,9 @@ declare module 'ol/renderer/canvas/VectorTileLayer' {
     handles(layer: Layer): boolean;
     handleFontsChanged_(event: Event): void;
     renderFeature(feature: FeatureLike, squaredTolerance: number, styles: Style | Style[], replayGroup: CanvasReplayGroup): boolean;
+    on(type: 'change', listener: (evt: Event) => void): EventsKey;
+    once(type: 'change', listener: (evt: Event) => void): EventsKey;
+    un(type: 'change', listener: (evt: Event) => void): EventsKey;
   }
 
 }
