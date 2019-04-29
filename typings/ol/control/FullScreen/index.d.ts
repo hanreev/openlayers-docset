@@ -20,8 +20,8 @@ declare module 'ol/control/FullScreen' {
 
   export interface Options {
     className?: string;
-    label?: string | Text;
-    labelActive?: string | Text;
+    label?: string | Text | HTMLElement;
+    labelActive?: string | Text | HTMLElement;
     tipLabel?: string;
     keys?: boolean;
     target?: HTMLElement | string;

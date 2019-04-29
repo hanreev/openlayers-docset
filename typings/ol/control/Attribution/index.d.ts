@@ -31,7 +31,7 @@ declare module 'ol/control/Attribution' {
     collapsible?: boolean;
     collapsed?: boolean;
     tipLabel?: string;
-    label?: string;
+    label?: string | HTMLElement;
     collapseLabel?: string | HTMLElement;
     render?: ((param0: MapEvent) => void);
   }

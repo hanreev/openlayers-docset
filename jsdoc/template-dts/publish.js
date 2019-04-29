@@ -169,6 +169,21 @@ const TYPE_PATCHES = {
 };
 
 /** @type {Object<string, string[]>} */
+const PARAM_TYPE_PATCHES = {
+  'module:ol/layer/Tile~TileLayer': ['opt_options', 'module:ol/layer/Tile~Options'],
+  'module:ol/layer/VectorTile~VectorTileLayer': ['opt_options', 'module:ol/layer/VectorTile~Options'],
+};
+
+/** @type {Object<string, Object<string, string[]>} */
+const PROPERTY_TYPE_PATCHES = {
+  'module:ol/control/Attribution~Options': { label: ['string', 'HTMLElement'] },
+  'module:ol/control/FullScreen~Options': {
+    label: ['string', 'Text', 'HTMLElement'],
+    labelActive: ['string', 'Text', 'HTMLElement'],
+  },
+};
+
+/** @type {Object<string, string[]>} */
 const IMPORT_PATCHES = {
   'module:ol/control': ['module:ol/control/util~DefaultsOptions'],
   'module:ol/geom/LinearRing': ['module:ol/geom/GeometryLayout~GeometryLayout'],
@@ -571,10 +586,13 @@ const PROCESSORS = {
     const addFire = (eventType, fireType) => {
       if (fireType.startsWith('ol'))
         fireType = 'module:' + fireType;
+
       let genericType = GENERIC_TYPES[fireType];
       if (genericType && genericType == GENERIC_TYPES[doclet.longname])
         genericType = null;
+
       fireType = getType({ type: { names: [fireType || 'undefined'] } }, _module);
+
       ['on', 'once', 'un'].forEach(fireMethod => {
         const returnType = fireMethod == 'un' ? 'void' : 'EventsKey';
         if (genericType)
@@ -587,13 +605,14 @@ const PROCESSORS = {
       registerImport(_module, 'module:ol/events~EventsKey');
 
       // Add default observable methods
-      find({
-        name: ['on', 'once', 'un'],
-        kind: 'function',
-        memberof: 'module:ol/Observable~Observable'
-      }).forEach(method => {
-        children.push(PROCESSORS.method(method, _module));
-      });
+      if (doclet.longname != 'module:ol/Observable~Observable')
+        find({
+          name: ['on', 'once', 'un'],
+          kind: 'function',
+          memberof: 'module:ol/Observable~Observable'
+        }).forEach(method => {
+          children.push(PROCESSORS.method(method, _module));
+        });
 
       // Add per event observsable method
       doclet.fires.forEach(fire => {
@@ -931,26 +950,30 @@ exports.publish = (taffyData) => {
    */
   for (const longname in TYPE_PATCHES) {
     const doclet = data({ longname }).first();
-    if (!doclet)
-      continue;
+    if (!doclet) continue;
     doclet.type = { names: [TYPE_PATCHES[longname]] };
   }
 
-  const paramTypePatches = {
-    'module:ol/layer/Tile~TileLayer': ['opt_options', 'module:ol/layer/Tile~Options'],
-    'module:ol/layer/VectorTile~VectorTileLayer': ['opt_options', 'module:ol/layer/VectorTile~Options'],
-  };
-
-  for (const longname in paramTypePatches) {
+  for (const longname in PARAM_TYPE_PATCHES) {
     const doclet = data({ longname }).first();
-    const paramName = paramTypePatches[longname].shift();
+    const paramName = PARAM_TYPE_PATCHES[longname].shift();
 
     if (doclet && doclet.params)
       doclet.params = doclet.params.map(param => {
         if (param.name == paramName)
-          param.type.names = paramTypePatches[longname];
+          param.type.names = PARAM_TYPE_PATCHES[longname];
         return param;
       });
+  }
+
+  for (const longname in PROPERTY_TYPE_PATCHES) {
+    const doclet = data({ longname }).first();
+    if (!doclet) continue;
+    doclet.properties = doclet.properties.map(prop => {
+      if (prop.name in PROPERTY_TYPE_PATCHES[longname])
+        prop.type.names = PROPERTY_TYPE_PATCHES[longname][prop.name];
+      return prop;
+    });
   }
 
   /**
