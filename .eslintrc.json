@@ -15,11 +15,7 @@
   },
   "rules": {
     "no-console": "off",
-    "curly": [
-      "error",
-      "multi",
-      "consistent"
-    ],
+    "curly": ["error", "multi", "consistent"],
     "indent": [
       "error",
       2,
@@ -27,17 +23,8 @@
         "SwitchCase": 1
       }
     ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "quotes": [
-      "error",
-      "single"
-    ],
-    "semi": [
-      "error",
-      "always"
-    ]
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"]
   }
 }

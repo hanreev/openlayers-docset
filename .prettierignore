@@ -1,0 +1,16 @@
+/openlayers/src/**/*
+*.md
+*.tmpl
+*.plist
+*.txt
+*.map
+
+*.jpg
+*.jpeg
+*.png
+*.svg
+*.eot
+*.ttf
+*.otf
+*.woff
+*.woff2

@@ -10,10 +10,9 @@ exports.defineTags = dictionary => {
     onTagged: doclet => {
       includeTypes(doclet);
       doclet.stability = 'stable';
-    }
+    },
   });
 };
-
 
 /*
  * Based on @api annotations, and assuming that items with no @api annotation
@@ -39,21 +38,17 @@ function includeAugments(doclet) {
       if (cls) {
         includeAugments(cls);
         if (cls.fires) {
-          if (!doclet.fires)
-            doclet.fires = [];
+          if (!doclet.fires) doclet.fires = [];
 
           cls.fires.forEach(f => {
-            if (doclet.fires.indexOf(f) == -1)
-              doclet.fires.push(f);
+            if (doclet.fires.indexOf(f) == -1) doclet.fires.push(f);
           });
         }
         if (cls.observables) {
-          if (!doclet.observables)
-            doclet.observables = [];
+          if (!doclet.observables) doclet.observables = [];
 
           cls.observables.forEach(f => {
-            if (doclet.observables.indexOf(f) == -1)
-              doclet.observables.push(f);
+            if (doclet.observables.indexOf(f) == -1) doclet.observables.push(f);
           });
         }
         cls._hideConstructor = true;
@@ -74,21 +69,16 @@ function extractTypes(item) {
 }
 
 function includeTypes(doclet) {
-  if (doclet.params)
-    doclet.params.forEach(extractTypes);
+  if (doclet.params) doclet.params.forEach(extractTypes);
 
-  if (doclet.returns)
-    doclet.returns.forEach(extractTypes);
+  if (doclet.returns) doclet.returns.forEach(extractTypes);
 
-  if (doclet.properties)
-    doclet.properties.forEach(extractTypes);
+  if (doclet.properties) doclet.properties.forEach(extractTypes);
 
-  if (doclet.type && doclet.meta.code.type == 'MemberExpression')
-    extractTypes(doclet);
+  if (doclet.type && doclet.meta.code.type == 'MemberExpression') extractTypes(doclet);
 }
 
 exports.handlers = {
-
   newDoclet: e => {
     const doclet = e.doclet;
     if (doclet.stability) {
@@ -98,10 +88,8 @@ exports.handlers = {
 
     if (doclet.kind == 'class') {
       modules[doclet.longname.split(/[~.]/).shift()] = true;
-      if (!(doclet.longname in classes))
-        classes[doclet.longname] = doclet;
-      else if ('augments' in doclet)
-        classes[doclet.longname].augments = doclet.augments;
+      if (!(doclet.longname in classes)) classes[doclet.longname] = doclet;
+      else if ('augments' in doclet) classes[doclet.longname].augments = doclet.augments;
     }
 
     if (doclet.name === doclet.longname && !doclet.memberof)
@@ -120,14 +108,11 @@ exports.handlers = {
       const doclet = doclets[i];
 
       if (doclet.stability) {
-        if (doclet.kind == 'class')
-          includeAugments(doclet);
+        if (doclet.kind == 'class') includeAugments(doclet);
 
-        if (doclet.fires)
-          doclet.fires.sort((a, b) => a.split(/#?event:/)[1] < b.split(/#?event:/)[1] ? -1 : 1);
+        if (doclet.fires) doclet.fires.sort((a, b) => (a.split(/#?event:/)[1] < b.split(/#?event:/)[1] ? -1 : 1));
 
-        if (doclet.observables)
-          doclet.observables.sort((a, b) => a.name < b.name ? -1 : 1);
+        if (doclet.observables) doclet.observables.sort((a, b) => (a.name < b.name ? -1 : 1));
         // Always document namespaces and items with stability annotation
         continue;
       }
@@ -136,8 +121,7 @@ exports.handlers = {
         // Document all modules that are referenced by the API
         continue;
 
-      if (doclet.isEnum || doclet.kind == 'typedef')
-        continue;
+      if (doclet.isEnum || doclet.kind == 'typedef') continue;
 
       if (doclet.kind == 'class' && api.some(hasApiMembers, doclet)) {
         // Mark undocumented classes with documented members as unexported.
@@ -145,11 +129,14 @@ exports.handlers = {
         // constructor from the docs.
         doclet._hideConstructor = true;
         includeAugments(doclet);
-      } else if (doclet.undocumented !== false && !doclet._hideConstructor && !(doclet.kind == 'typedef' && doclet.longname in types)) {
+      } else if (
+        doclet.undocumented !== false &&
+        !doclet._hideConstructor &&
+        !(doclet.kind == 'typedef' && doclet.longname in types)
+      ) {
         // Remove all other undocumented symbols
         doclet.undocumented = true;
       }
     }
-  }
-
+  },
 };

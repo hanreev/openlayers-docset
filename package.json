@@ -9,11 +9,22 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "jsdoc jsdoc/index.md -c jsdoc/conf.json -P openlayers/package.json -d OpenLayers.docset"
+    "build": "jsdoc openlayers/config/jsdoc/api/index.md -c jsdoc/conf.json -P openlayers/package.json -d OpenLayers.docset",
+    "archive": "tar --exclude='.DS_Store' -cvzf OpenLayers.tgz OpenLayers.docset"
   },
   "dependencies": {
     "jsdoc": "3.6.3",
     "jsdoc-plugin-typescript": "^2.0.4",
     "sqlite3": "^4.1.0"
+  },
+  "devDependencies": {
+    "husky": "^3.0.9",
+    "prettier": "^1.18.2",
+    "pretty-quick": "^2.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }

@@ -2,14 +2,12 @@ const events = {};
 const classes = {};
 
 exports.handlers = {
-
   newDoclet: e => {
     const doclet = e.doclet;
     let cls;
     if (doclet.kind == 'event') {
       cls = doclet.longname.split('#')[0];
-      if (!(cls in events))
-        events[cls] = [];
+      if (!(cls in events)) events[cls] = [];
 
       events[cls].push(doclet.longname);
     } else if (doclet.kind == 'class' && !(doclet.longname in classes)) {
@@ -27,14 +25,11 @@ exports.handlers = {
           fires = [];
           for (j = 0, jj = doclet.fires.length; j < jj; ++j) {
             event = doclet.fires[j].replace('event:', '');
-            if (events[event])
-              fires.push.apply(fires, events[event]);
-            else if (doclet.fires[j] !== 'event:ObjectEvent')
-              fires.push(doclet.fires[j]);
+            if (events[event]) fires.push.apply(fires, events[event]);
+            else if (doclet.fires[j] !== 'event:ObjectEvent') fires.push(doclet.fires[j]);
           }
           doclet.fires = fires;
         }
     }
-  }
-
+  },
 };
