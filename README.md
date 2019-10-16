@@ -43,9 +43,9 @@ OpenLayers Docset
 
 
 
-## TypeScript declaration
+## TypeScript definition
 
-Check out Openlayers 5 [TypeScript Declaration repository](https://github.com/hanreev/types-ol)
+Check out Openlayers [TypeScript Definition repository](https://github.com/hanreev/types-ol)
 
 
 
