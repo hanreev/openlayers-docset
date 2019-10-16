@@ -176,17 +176,6 @@ function generateSourceFiles(sourceFiles) {
   });
 }
 
-/**
- * Look for classes or functions with the same name as modules (which indicates that the module
- * exports only that class or function), then attach the classes or functions to the `module`
- * property of the appropriate module doclets. The name of each class or function is also updated
- * for display purposes. This function mutates the original arrays.
- *
- * @private
- * @param {Array<module:jsdoc/doclet.Doclet>} doclets - The array of classes and functions to
- * check.
- * @param {Array<module:jsdoc/doclet.Doclet>} modules - The array of module doclets to search.
- */
 function attachModuleSymbols(doclets, modules) {
   const symbols = {};
 
@@ -377,6 +366,7 @@ exports.publish = (taffyData, opts, tutorials) => {
   conf['default'] = conf['default'] || {};
 
   const templatePath = opts.template;
+  console.log(templatePath);
   view = new template.Template(templatePath + '/tmpl');
 
   // claim some special filenames in advance, so the All-Powerful Overseer of Filename Uniqueness
@@ -466,10 +456,7 @@ exports.publish = (taffyData, opts, tutorials) => {
 
       extraStaticFiles.forEach(fileName => {
         // @ts-ignore
-        const sourcePath = fs.statSync(filePath).isDirectory()
-          ? filePath
-          : // @ts-ignore
-            path.dirname(filePath);
+        const sourcePath = fs.statSync(filePath).isDirectory() ? filePath : path.dirname(filePath);
         const toDir = fs.toDir(fileName.replace(sourcePath, outdir));
         fs.mkPath(toDir);
         fs.copyFileSync(fileName, toDir);

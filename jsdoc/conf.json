@@ -12,13 +12,13 @@
     "include": ["openlayers/src/ol"]
   },
   "plugins": [
-    "jsdoc/plugins/markdown",
+    "openlayers/config/jsdoc/api/plugins/markdown",
     "jsdoc-plugin-typescript",
-    "jsdoc/plugins/inline-options",
-    "jsdoc/plugins/inheritdoc",
-    "jsdoc/plugins/events",
-    "jsdoc/plugins/observable",
-    "jsdoc/plugins/api"
+    "openlayers/config/jsdoc/api/plugins/inline-options",
+    "openlayers/config/jsdoc/api/plugins/inheritdoc",
+    "openlayers/config/jsdoc/api/plugins/events",
+    "openlayers/config/jsdoc/api/plugins/observable",
+    "openlayers/config/jsdoc/api/plugins/api"
   ],
   "typescript": {
     "moduleRoot": "openlayers/src"
