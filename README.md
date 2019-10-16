@@ -16,7 +16,7 @@ OpenLayers Docset
   ```
 - Clone [openlayers repository](https://github.com/openlayers/openlayers)
   ```bash
-  git submodule update --init
+  git clone https://github.com/openlayers/openlayers.git
   ```
   > ***Note:***  
   > Instead of cloning whole repository, you may download the desired release from [OpenLayers release page](https://github.com/openlayers/openlayers/releases) and extract it into `openlayers` folder
@@ -26,7 +26,7 @@ OpenLayers Docset
   npm i
 
   # Using Yarn
-  yarn install
+  yarn
   ```
 - Generate docset
   ```bash
