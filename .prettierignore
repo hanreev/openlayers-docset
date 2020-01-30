@@ -1,4 +1,6 @@
 /openlayers/src/**/*
+/jsdoc/template/static/**/*
+/jsdoc/template/less/**/*
 *.md
 *.tmpl
 *.plist
