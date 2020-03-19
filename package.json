@@ -18,7 +18,8 @@
     "sqlite3": "^4.1.0"
   },
   "devDependencies": {
-    "husky": "^4.2.1",
+    "husky": "^4.2.3",
+    "marked": "^0.8.1",
     "prettier": "^1.18.2",
     "pretty-quick": "^2.0.0"
   },
