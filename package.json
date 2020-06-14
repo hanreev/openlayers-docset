@@ -9,8 +9,9 @@
   },
   "license": "MIT",
   "scripts": {
+    "archive": "tar --exclude='.DS_Store' -cvzf OpenLayers.tgz OpenLayers.docset",
     "build": "jsdoc openlayers/config/jsdoc/api/index.md -c jsdoc/conf.json -P openlayers/package.json -d OpenLayers.docset",
-    "archive": "tar --exclude='.DS_Store' -cvzf OpenLayers.tgz OpenLayers.docset"
+    "pack": "node build.js --archive"
   },
   "dependencies": {
     "jsdoc": "3.6.3",
@@ -18,9 +19,10 @@
     "sqlite3": "^4.1.0"
   },
   "devDependencies": {
+    "fs-extra": "^9.0.1",
     "husky": "^4.2.3",
-    "marked": "^0.8.1",
-    "prettier": "^1.18.2",
+    "marked": "^1.1.0",
+    "prettier": "^2.0.5",
     "pretty-quick": "^2.0.0"
   },
   "husky": {

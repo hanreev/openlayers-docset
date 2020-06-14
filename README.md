@@ -38,6 +38,13 @@ OpenLayers Docset
   ```
 - Archive docset
   ```bash
+  # Using NPM
+  npm run archive
+
+  # Using Yarn
+  yarn archive
+
+  # Or execute manually
   tar --exclude='.DS_Store' -cvzf OpenLayers.tgz OpenLayers.docset
   ```
 
