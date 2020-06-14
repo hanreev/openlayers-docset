@@ -2,7 +2,6 @@
 var data = obj;
 var self = this;
 var typeSignature = '';
-var entryType = data.isEnum ? 'Enum' : data.kind == 'typedef' ? 'Type' : 'Property';
 
 if (data.type && data.type.names) {
     data.type.names.forEach(function (name) {
@@ -12,7 +11,6 @@ if (data.type && data.type.names) {
 ?>
 <dt class="<?js= (data.stability && data.stability !== 'stable') ? 'unstable' : '' ?>">
     <div class="nameContainer">
-        <a class="dashAnchor" name="//apple_ref/<?js= entryType + '/' + self.encodeUriComponent(name) ?>"></a>
         <div class="anchor" id="<?js= id ?>">
         </div>
         <h4 class="name">

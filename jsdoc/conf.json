@@ -18,7 +18,7 @@
     "openlayers/config/jsdoc/api/plugins/inheritdoc",
     "openlayers/config/jsdoc/api/plugins/events",
     "openlayers/config/jsdoc/api/plugins/observable",
-    "openlayers/config/jsdoc/api/plugins/api"
+    "jsdoc/plugins/api"
   ],
   "typescript": {
     "moduleRoot": "openlayers/src"

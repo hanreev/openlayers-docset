@@ -1,10 +1,10 @@
-/*global env: true */
+/* global env */
 
 const hasOwnProp = Object.prototype.hasOwnProperty;
 
 // Work around an issue with hasOwnProperty in JSDoc's templateHelper.js.
 //TODO Fix in JSDoc.
-Object.prototype.hasOwnProperty = function(property) {
+Object.prototype.hasOwnProperty = function (property) {
   return property in this;
 };
 
@@ -156,7 +156,7 @@ function generate(title, docs, filename, resolveLinks) {
 }
 
 function generateSourceFiles(sourceFiles) {
-  Object.keys(sourceFiles).forEach(function(file) {
+  Object.keys(sourceFiles).forEach(function (file) {
     let source;
     // links are keyed to the shortened path in each doclet's `meta.filename` property
     const sourceOutfile = helper.getUniqueFilename(sourceFiles[file].shortened);
@@ -211,7 +211,7 @@ function buildNav(members) {
   const merged = members.modules.concat(members.classes);
   merged.sort((a, b) => (a.longname > b.longname ? 1 : a.longname < b.longname ? -1 : 0));
 
-  _.each(merged, function(v) {
+  _.each(merged, function (v) {
     // exclude interfaces from sidebar
     if (v.interface !== true) {
       if (v.kind == 'module')
@@ -446,9 +446,9 @@ exports.publish = (taffyData, opts, tutorials) => {
   if (conf['default'].staticFiles) {
     staticFilePaths = conf['default'].staticFiles.paths || [];
     // @ts-ignore
-    staticFileFilter = new (require('jsdoc/lib/jsdoc/src/filter')).Filter(conf['default'].staticFiles);
+    staticFileFilter = new (require('jsdoc/lib/jsdoc/src/filter').Filter)(conf['default'].staticFiles);
     // @ts-ignore
-    staticFileScanner = new (require('jsdoc/lib/jsdoc/src/scanner')).Scanner();
+    staticFileScanner = new (require('jsdoc/lib/jsdoc/src/scanner').Scanner)();
 
     staticFilePaths.forEach(filePath => {
       const extraStaticFiles = staticFileScanner.scan([filePath], 10, staticFileFilter);
@@ -532,7 +532,7 @@ exports.publish = (taffyData, opts, tutorials) => {
         left: 'module:',
       },
     }),
-    members.modules,
+    members.modules
   );
 
   // only output pretty-printed source files if requested; do this before generating any other
@@ -547,7 +547,7 @@ exports.publish = (taffyData, opts, tutorials) => {
           kind: 'globalobj',
         },
       ],
-      globalUrl,
+      globalUrl
     );
 
   // index page displays information from package.json and lists files
@@ -564,7 +564,7 @@ exports.publish = (taffyData, opts, tutorials) => {
         longname: opts.mainpagetitle ? opts.mainpagetitle : 'Main Page',
       },
     ].concat(files),
-    indexUrl,
+    indexUrl
   );
 
   // set up the lists that we'll use to generate pages
