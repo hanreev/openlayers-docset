@@ -7,7 +7,7 @@
     <key>CFBundleName</key>
     <string>OpenLayers</string>
     <key>DocSetPlatformFamily</key>
-    <string>openlayers</string>
+    <string>ol</string>
     <key>isDashDocset</key>
     <true/>
     <key>isJavaScriptEnabled</key>

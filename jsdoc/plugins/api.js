@@ -124,11 +124,8 @@ exports.handlers = {
       api[doclet.longname.split('#')[0]] = true;
     }
     if (doclet.kind == 'class')
-      if (!(doclet.longname in classes)) {
-        classes[doclet.longname] = doclet;
-      } else if ('augments' in doclet) {
-        classes[doclet.longname].augments = doclet.augments;
-      }
+      if (!(doclet.longname in classes)) classes[doclet.longname] = doclet;
+      else if ('augments' in doclet) classes[doclet.longname].augments = doclet.augments;
 
     if (doclet.name === doclet.longname && !doclet.memberof)
       // Make sure anonymous default exports are documented

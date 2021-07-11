@@ -1,6 +1,6 @@
 {
   "name": "openlayers-docset",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "OpenLayers docset generator",
   "author": "Rifa'i M. Hanif <hanreev@gmail.com>",
   "repository": {
@@ -10,24 +10,19 @@
   "license": "MIT",
   "scripts": {
     "archive": "tar --exclude='.DS_Store' -cvzf OpenLayers.tgz OpenLayers.docset",
-    "build": "jsdoc openlayers/config/jsdoc/api/index.md -c jsdoc/conf.json -P openlayers/package.json -d OpenLayers.docset",
-    "pack": "node build.js --archive"
+    "build": "jsdoc jsdoc/index.md -c jsdoc/conf.json -P openlayers/package.json -d OpenLayers.docset",
+    "build-archive": "node build.js --archive"
   },
   "dependencies": {
-    "jsdoc": "3.6.3",
-    "jsdoc-plugin-typescript": "^2.0.5",
-    "sqlite3": "^4.1.0"
+    "jsdoc": "3.6.7",
+    "jsdoc-plugin-typescript": "^2.0.6",
+    "sqlite3": "^5.0.2"
   },
   "devDependencies": {
-    "fs-extra": "^9.0.1",
-    "husky": "^4.2.3",
-    "marked": "^1.1.0",
-    "prettier": "^2.0.5",
-    "pretty-quick": "^2.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "pretty-quick --staged"
-    }
+    "fs-extra": "^10.0.0",
+    "husky": "^7.0.1",
+    "marked": "^2.1.3",
+    "prettier": "^2.3.2",
+    "pretty-quick": "^3.1.1"
   }
 }

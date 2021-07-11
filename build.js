@@ -4,7 +4,7 @@ const childProcess = require('child_process');
 
 const BASE_DIR = process.cwd();
 const olDir = path.join(BASE_DIR, 'openlayers');
-const olBranch = 'v6.3.1';
+const olBranch = 'v6.5.0';
 
 function execSync(command) {
   childProcess.execSync(command, { stdio: 'inherit' });

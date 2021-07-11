@@ -94,7 +94,7 @@ function addSignatureReturns(f) {
 
   if (returnTypes.length)
     f.signature +=
-      '<span class="glyphicon glyphicon-circle-arrow-right"></span><span class="type-signature returnType">' +
+      '<span class="fa fa-arrow-circle-right"></span><span class="type-signature returnType">' +
       (returnTypes.length ? '{' + returnTypes.join('|') + '}' : '') +
       '</span>';
 }
