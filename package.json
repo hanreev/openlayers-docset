@@ -16,7 +16,7 @@
   "dependencies": {
     "jsdoc": "3.6.7",
     "jsdoc-plugin-typescript": "^2.0.6",
-    "sqlite3": "^5.0.2"
+    "sqlite3": "^5.0.3"
   },
   "devDependencies": {
     "fs-extra": "^10.0.0",
